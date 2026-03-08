@@ -1,0 +1,49 @@
+nav{
+    --latime-buton: 100px;
+    --inaltime-buton: 50px;
+    background-color: var(--culoare-contur);
+}
+
+ul.menu{
+    display: flex;
+    position: relative;
+;
+}
+
+ul.menu ul{
+    display: none;
+}
+
+ul.menu, ul.menu ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.menu li{
+    display:inline-block;
+    padding: 10px;
+    background-color: var(--color-background);
+    border: 1px solid var(--culoare-contur);
+    width: var(--latime-buton);
+    height: var(--inaltime-buton);
+    text-align: center;
+    line-height: var(--inaltime-buton);
+    color: black;
+    transition: all 1s linear;
+}
+@keyframes  animate_submeniu{
+    0%{
+        opacity: 0;
+        transform: scale(0, 0);
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+ui.menu li:hover{
+    background-color: var(--color-background);
+    color: rgb(255, 255, 255    );
+
+}
