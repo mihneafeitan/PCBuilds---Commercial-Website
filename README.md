@@ -1,6 +1,5 @@
 # PCBuilds--Commercial-Website
-
-# Informatii generale
+Informatii generale:
 	Scopul site-ului “PCBuilds” este acela de a comercializa componente electronice folosite in asamblarea calculatoarelor de tip desktop. Site-ul va avea mai multe functionalitati, printre care criterii de  filtrare a produselor, functie de comparatie intre mai multe produse. Pagina principala va contine mai multe sectiuni, cum ar fi “Acasa”, “Despre noi”, “Contact”, “Favorite” si “Cos de cumparaturi”.
   
 Utilizatorul poate naviga in mai multe tab-uri, unde va putea selecta tipul de produse dorite, cum ar fi “Procesoare”, “RAM”, “Placi de baza”, etc, le va putea sorta in functie de preferinte si le va putea baga in cos. 
