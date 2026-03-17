@@ -7,9 +7,12 @@
     <meta name="keywords" content="piese pc, componente calculator, procesor, placi video, gaming">
     <meta name="description" content="Magazin online PCBuilds. Oferim cele mai bune piese PC si componente calculator pentru orice buget.">
     <meta name="msapplication-TileColor" content="#2b5797">
-    
-    <link rel="icon" type="image/png" sizes="32x32" href="resurse/ico/fan.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="resurse/ico/fan.png">
+
+    <link rel="icon" type="image/png" href="resurse/imagini/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="resurse/imagini/favicon.svg" />
+    <link rel="shortcut icon" href="resurse/imagini/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="resurse/imagini/apple-touch-icon.png" />
+    <link rel="manifest" href="resurse/imagini/site.webmanifest" />
 </head>
 <body id="top">
     <header>
@@ -17,14 +20,15 @@
             <h1>PCBuilds</h1>
             <p>Magazin online cu piese pentru calculatoare</p>
         </hgroup>
-        
+
         <nav>
             <ul>
-                <li>Acasa
+                <!-- C Acasă are acum tag <a> -->
+                <li><a href="index.html">Acasă</a>
                     <ul>
                         <li><a href="#despre">Despre Noi</a></li>
-                        <li><a href="#evenimente">Evenimente & Promotii</a></li>
-                        <li><a href="#media">Media & Prezentari</a></li>
+                        <li><a href="#evenimente">Evenimente &amp; Promotii</a></li>
+                        <li><a href="#media">Media &amp; Prezentari</a></li>
                     </ul>
                 </li>
                 <li><a href="#oferte">Produse si Oferte</a></li>
@@ -36,35 +40,41 @@
     <main>
         <section id="despre">
             <h2>Despre Magazinul Nostru</h2>
-            
+
             <p>
                 Aici vei gasi <b>piese pc</b> pentru viitorul tau setup! Fie ca esti pasionat de <b>gaming</b> sau doresti performanta maxima, magazinul nostru de <b>componente calculator</b> are tot ce iti trebuie.
+                La noi gasesti cele mai bune <b>placi video</b> si <b>procesoare</b> la preturi competitive.
             </p>
-            
+
             <p><strong>Atentie! Stocurile pentru noul procesor sunt extrem de limitate! Livrarea poate intarzia.</strong></p>
 
             <blockquote>
                 <p>"Un sistem echilibrat este cheia unei experiente fluide in orice aplicatie."</p>
             </blockquote>
-            
+
             <dl>
                 <dt><dfn>Overclocking</dfn></dt>
                 <dd>Procesul de fortare a unei componente pentru a functiona la o viteza superioara celei din fabrica, adesea aplicat pe <i>hardware</i> dedicat.</dd>
-                
+
                 <dt><abbr title="Random Access Memory">RAM</abbr></dt>
-                <dd>Memoria cu acces aleator necesara pentru functionarea rapida a sistemului. Fara aceasta, <i>procesorul</i> nu poate comunica</dd>
+                <dd>Memoria cu acces aleator necesara pentru functionarea rapida a sistemului. Fara aceasta, <i>CPU-ul</i> nu poate accesa datele rapid.</dd>
             </dl>
 
+            <!-- Structura evenimentelor — <b> conține numele evenimentului, nu data -->
             <article id="evenimente">
                 <h3>Evenimente Urmatoare</h3>
                 <ol>
                     <li>
-                        <b>10 Aprilie ora 12:00</b> - <time datetime="2026-04-10T12:00">Lansare Placi Video</time> - 
-                        Prezentam noile generatii si oferim coduri de reducere participantilor.
+                        <time datetime="2026-04-10T12:00">10 Aprilie ora 12:00</time> -
+                        <b>Lansare Placi Video</b> - Prezentam noile generatii si oferim coduri de reducere participantilor.
                     </li>
                     <li>
-                        <b>15 Aprilie ora 14:00</b> - <time datetime="2026-04-15T14:00">Tombola de Gaming</time> - 
-                        Vom extrage castigatorul unui kit de componente CPU+Placa de baza+Memorie RAM.
+                        <time datetime="2026-04-15T14:00">15 Aprilie ora 14:00</time> -
+                        <b>Tombola de Gaming</b> - Vom extrage castigatorul unui kit de componente CPU+Placa de baza+Memorie RAM.
+                    </li>
+                    <li>
+                        <time datetime="2026-05-01T10:00">1 Mai ora 10:00</time> -
+                        <b>Workshop Asamblare PC</b> - Invata sa iti asambezi propriul calculator cu ajutorul specialistilor nostri.
                     </li>
                 </ol>
             </article>
@@ -72,12 +82,13 @@
 
         <section id="media">
             <h2>Media si Linkuri Utile</h2>
-            
+
+            <!-- 3 surse diferite de imagini pentru mobil / tableta / desktop -->
             <figure>
                 <picture>
-                    <source media="(min-width: 1024px)" srcset="resurse/imagini/pc_albastru.png">
-                    <source media="(min-width: 768px)" srcset="resurse/imagini/pc_albastru.png">
-                    <img src="resurse/imagini/pc_albastru.png" alt="Un setup de calculator complet" title="Setup High-End Gaming Albastru" width="300">
+                    <source media="(min-width: 1024px)" srcset="resurse/imagini/pc_albastru_large.png">
+                    <source media="(min-width: 768px)" srcset="resurse/imagini/pc_albastru_medium.png">
+                    <img src="resurse/imagini/pc_albastru_small.png" alt="Un setup de calculator complet" title="Setup High-End Gaming Albastru" width="300">
                 </picture>
                 <figcaption>Exemplu de setup complet asamblat cu piese din magazinul nostru.</figcaption>
             </figure>
@@ -103,8 +114,8 @@
             <div id="zona-video">
                 <p>Urmareste ghidurile noastre video:</p>
                 <div>
-                    <a href="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" target="player_video">Cum sa construiesti un PC</a> | 
-                    <a href="https://www.youtube.com/embed/8hyWXJe_wts?si=iuKRannVL_tSwW0M" target="player_video">Alegerea placii video</a> | 
+                    <a href="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" target="player_video">Cum sa construiesti un PC</a> |
+                    <a href="https://www.youtube.com/embed/8hyWXJe_wts?si=iuKRannVL_tSwW0M" target="player_video">Alegerea placii video</a> |
                     <a href="https://www.youtube.com/embed/gcy-Q99gvw8?si=rxWPnbSwbB1PSYCC" target="player_video">Ghidul actual (Procesoare)</a>
                 </div>
                 <br>
@@ -127,7 +138,7 @@
                 <tbody>
                     <tr>
                         <td>Procesor</td>
-                        <td>    Intel Core i7</td>
+                        <td>Intel Core i7</td>
                         <td>1500</td>
                         <td>15 bucati</td>
                     </tr>
@@ -138,7 +149,7 @@
                         <td>5 bucati</td>
                     </tr>
                     <tr>
-                        <td rowspan="2">Stocare </td>
+                        <td rowspan="2">Stocare</td>
                         <td>SSD Samsung 1TB</td>
                         <td>450</td>
                         <td>50 bucati</td>
@@ -154,7 +165,7 @@
                         <td>2300</td>
                         <td>12 bucati</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td>Placa de baza</td>
                         <td>Gigabyte Z790 Elite AX</td>
                         <td>1200</td>
@@ -168,34 +179,48 @@
                     </tr>
                 </tfoot>
             </table>
-            
-            <p>Gradul de ocupare al depozitului nostru (Optim este gol - valoare mica): 
+
+            <p>Gradul de ocupare al depozitului nostru (Optim este gol - valoare mica):
                 <meter min="0" max="100" low="30" high="80" optimum="10" value="25">25%</meter>
             </p>
-            <p>Volumul solicitarilor la suport tehnic azi (Critic - valoare mare): 
+            <p>Volumul solicitarilor la suport tehnic azi (Critic - valoare mare):
                 <meter min="0" max="100" low="20" high="70" optimum="10" value="85">85%</meter>
             </p>
         </section>
 
         <section id="suport">
             <h2>Intrebari Frecvente (FAQ)</h2>
+
             <details>
                 <summary>Oferiti serviciu de asamblare?</summary>
                 <p>Da, pentru orice comanda ce contine toate <b>piesele pc</b> necesare unui sistem complet, oferim asamblare in valoare de 300 de lei.</p>
             </details>
+
             <details>
                 <summary>Care este politica de retur?</summary>
                 <p>Ai la dispozitie 14 zile calendaristice pentru a returna orice <b>componenta de calculator</b> sigilata.</p>
+            </details>
+
+            <!-- Al treilea <details> adăugat — cerința spune "mai multe zone" -->
+            <details>
+                <summary>Cum pot verifica compatibilitatea componentelor?</summary>
+                <p>Pe site-ul nostru ai la dispozitie un ghid de compatibilitate. In plus, echipa noastra de suport iti poate verifica configuratia inainte de comanda, gratuit.</p>
             </details>
         </section>
     </main>
 
     <footer>
+        <!-- Adresa fictivă separată pe mai multe rânduri cu <br> -->
         <address>
-            Ne poti contacta la telefon: <a href="tel:+40722888999">0722 888 999</a><br>
-            Sediu central: <a href="https://maps.app.goo.gl/iCRfahUUJzGGzdrd6" target="_blank">PCBUILDS <br>Bucuresti, Romania</a><br>
+            <br>Ne poti contacta la telefon: <a href="tel:+40722888999">0722 888 999</a><br>
+            Sediu central:
+            <a href="https://maps.app.goo.gl/iCRfahUUJzGGzdrd6" target="_blank">
+                Strada Academiei,  Nr. 14,
+                Sector 1,<br>
+                Bucuresti, Romania
+            </a><br><br>
             Scrie-ne pe email la: <a href="mailto:contact@pcbuilds.ro">contact@pcbuilds.ro</a><br>
-            <a href="https://wa.me/0722888999" target="_blank">Vorbeste cu noi pe WhatsApp</a>
+            <a href="https://wa.me/40722888999" target="_blank">Vorbeste cu noi pe WhatsApp</a>
         </address>
 
         <p><a href="#top">Mergi la inceputul paginii</a></p>
