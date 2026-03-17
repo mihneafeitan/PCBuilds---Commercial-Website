@@ -2,12 +2,12 @@
    1. SCHEMA CROMATICa & VARIABILE
   */
 :root {
-    --primary-color: #2b5797;       /* Albastrul din meta tag-ul tau */
-    --secondary-color: #1a365d;     
+    --primary-color: #2b6f97;       /* Albastrul din meta tag*/
+    --secondary-color: #ffffff;     
     --accent-color: #e67e22;        
-    --bg-color-main: #f0f4f8;       
-    --bg-color-alt: #ffffff;        
-    --text-color: #333333;          
+    --bg-color-main: #1e1e50;       
+    --bg-color-alt: #0101029a;        
+    --text-color: #ffffff;          
     
     /* Culori pentru bordurile tabelului */
     --tabel-c1: #3498db;            
@@ -216,7 +216,7 @@ tbody tr:hover td {
 
 .tab-links a {
     padding: 10px 20px;
-    background-color: #e0e0e0;
+    background-color: #1e1e50;
     color: var(--text-color);
     text-decoration: none;
     border-radius: 12px 12px 0 0;
@@ -311,9 +311,9 @@ tbody tr:hover td {
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--secondary-color);
-    color: white;
+    color: rgb(8, 0, 78);
     padding: 6px 10px;
-    border-radius: 5px;
+    border-radius: 3px;
     font-size: 0.8rem;
     white-space: nowrap;
     opacity: 0;
