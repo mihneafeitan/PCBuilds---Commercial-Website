@@ -1,71 +1,327 @@
-body{
-    --culoare-fundal : pink;
-    --culoare-background: darksalmon;
-    --margine-pagina: 100px;
-    --culoare-contur:black; 
-
-    background-color: var(--culoare-background);
-}
-
-
-p{
-    border: 1px solid var(--culoare-background)
-}
-
-main{
-    margin-left: var(--margine-pagina);
-    margin-right: var(--margine-pagina);
-}
-
-#grid-pagina{
-    display: grid;
-    grid-template-columns: 2fr 1fr 2fr;
-    grid-template-areas: "welcome welcome welcome"
-                         "promotii promotii anunturi"
-                         "fig1 orar orar"
-                         "fig2 orar orar"
-                         "fig3 orar orar"
-                         "produse produse produse"
-                         "index-intrebari index-intrebari index-intrebari"
-                         ;
+/*  
+   1. SCHEMA CROMATICa & VARIABILE
+  */
+:root {
+    --primary-color: #2b5797;       /* Albastrul din meta tag-ul tau */
+    --secondary-color: #1a365d;     
+    --accent-color: #e67e22;        
+    --bg-color-main: #f0f4f8;       
+    --bg-color-alt: #ffffff;        
+    --text-color: #333333;          
     
-}
-#grid-pagina > *{
-    border: 1px solid var(--culoare-contur);
-}
- 
-#welcome{
-    grid-area: welcome;
-}
-#promotii{
-    grid-area: promotii;
-}
-#anunturi{
-    grid-area: anunturi;
-}
-#orar{
-    grid-area: orar;
-}
- 
-#fig1{
-    grid-area: fig1;
-}
-#fig2{
-    grid-area: fig2;
-}
-#fig3{
-    grid-area: fig3;
-}
-#produse{
-    grid-area: produse;
-}
-#index-intrebari{
-    grid-area: index-intrebari;
+    /* Culori pentru bordurile tabelului */
+    --tabel-c1: #3498db;            
+    --tabel-c2: #9b59b6;            
+
+    /* Variabile pentru spatieri (Design Rudimentar) */
+    --page-padding: 6vw;
+    --grid-gap: 20px;
+    --zone-padding: 1.5rem;
 }
 
-/* media query -> css pentru max-width de 1200px */
-@media screen and (max-width:1200px){
-    body{
-        --margine-pagina: 80px;
+/*  
+   2. STILURI GLOBALE & RESPONSIVE TYPOGRAPHY
+  */
+html {
+    font-size: 18px; /* Pe ecran mare fontul este mai mare */
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-color-main);
+    scroll-behavior: smooth;
+    transition: font-size 0.3s ease; 
+}
+
+body {
+    margin: 0;
+    padding: 0 var(--page-padding); 
+    overflow-x: hidden; 
+}
+
+/* Setari de baza pentru media pe ecran MARE */
+img, video, iframe {
+    width: 100%; 
+    min-width: 150px;
+    max-width: 400px; /* Previne imaginile sa explodeze pe tot ecranul */
+    height: auto;
+}
+
+/* Exceptie pentru YouTube - vrem sa ocupe tot containerul lui */
+.iframe-wrapper iframe {
+    max-width: 100%; 
+}
+
+/*  
+   3. MEDIA QUERIES (Ajustari pentru ecrane mai mici)
+  */
+/* Ecran Mediu (Tablete) */
+@media (max-width: 1024px) {
+    :root {
+        --page-padding: 3vw;
+        --grid-gap: 15px;
     }
+    html { font-size: 16px; } /* Descreste putin pe mediu */
+
+    .grid-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "z1 z1"
+            "z2 z8"
+            "z5 z6"
+            "z4 z3"
+            "z7 z7";
+    }
+
+    /* Elementele media devin mai mici odata cu ecranul */
+    img, video, iframe { max-width: 350px; }
+    .iframe-wrapper iframe { max-width: 100%; }
+}
+
+/* Ecran Mic (Telefoane) */
+@media (max-width: 768px) {
+    :root {
+        --page-padding: 1vw;
+        --grid-gap: 10px;
+    }
+    html { font-size: 14px; } /* Descreste pe ecran mic */
+    
+    /* Dezactivarea animatiilor pe ecran mic (Cerinta proful) */
+    * { animation: none !important; }
+
+    .grid-container {
+        display: flex; /* Transforma gridul intr-o singura coloana */
+        flex-direction: column;
+    }
+
+    /* Pe telefon lasam pozele sa ocupe toata latimea disponibila */
+    img, video, iframe { max-width: 100%; }
+}
+
+
+/*  
+   4. IZOLARE VIZUALa & STILIZARE NAVIGARE
+  */
+header, footer, .grid-area {
+    background-color: var(--bg-color-alt);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: var(--zone-padding);
+}
+
+header { margin-top: 1rem; margin-bottom: var(--grid-gap); }
+footer { margin-top: var(--grid-gap); margin-bottom: 1rem; text-align: center; }
+
+/* Aspect curat pentru Meniul de Navigare */
+nav ul {
+    list-style-type: none; /* Ascunde punctele de lista */
+    padding: 0;
+    margin: 15px 0 0 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+nav a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+nav a:hover {
+    color: var(--accent-color);
+}
+nav ul ul {
+    display: none; /* Ascundem sub-meniul vizual pentru claritate in etapa 2 */
+}
+
+/*  
+   5. LAYOUT RESPONSIVE (CSS Grid - Definitii)
+  */
+.grid-container {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-areas:
+        "z1 z1 z1 z1"
+        "z2 z2 z8 z8"
+        "z5 z6 z8 z8"
+        "z4 z3 z7 z7";
+}
+
+.zona1 { grid-area: z1; }
+.zona2 { grid-area: z2; }
+.zona3 { grid-area: z3; }
+.zona4 { grid-area: z4; }
+.zona5 { grid-area: z5; }
+.zona6 { grid-area: z6; }
+.zona7 { grid-area: z7; }
+.zona8 { grid-area: z8; }
+
+/*  
+   6. STILIZARE TABEL
+  */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Scroll orizontal pe containter pentru mobil */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    caption-side: bottom;
+    margin-top: 1rem;
+}
+
+caption { padding-top: 10px; font-style: italic; color: var(--secondary-color); }
+
+th, td {
+    padding: 0.8rem;
+    text-align: center;
+}
+
+/* Bordere alternate intre coloane */
+th:not(:last-child), td:not(:last-child) { border-right: 2px solid; }
+
+th:nth-child(odd):not(:last-child), td:nth-child(odd):not(:last-child) {
+    border-right-color: var(--tabel-c1);
+}
+th:nth-child(even):not(:last-child), td:nth-child(even):not(:last-child) {
+    border-right-color: var(--tabel-c2);
+}
+
+/* Grosimea thead / tfoot mai mare */
+thead th { border-bottom: 3px solid var(--primary-color); }
+tfoot th, tfoot td { border-top: 3px solid var(--primary-color); }
+
+/* Efect hover shadow */
+tbody tr { transition: background-color 0.5s ease; }
+tbody td { transition: box-shadow 0.5s ease, color 0.5s ease; }
+
+tbody tr:hover td {
+    box-shadow: inset 0 100px 100px var(--accent-color); /* Suprapus perfect pe rand */
+    color: white;
+}
+
+/*  
+   7. STILIZARE TABURI (FLEXBOX)
+  */
+.stilizare-taburi { 
+    margin-top: 2rem; 
+    max-width: 600px; /* Trage chenarul la stanga  si il aliniaza frumos */
+}
+
+.tab-links {
+    display: flex; /* OBLIGATORIU FLEXBOX */
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tab-links a {
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    border: 2px solid var(--primary-color);
+    border-bottom: none;
+    transition: all 0.3s ease;
+}
+
+.tab-links a:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.iframe-wrapper {
+    border: 2px solid var(--primary-color);
+    padding: 15px; 
+    background: var(--bg-color-alt);
+    border-radius: 0 12px 12px 12px;
+}
+
+.iframe-wrapper iframe {
+    width: 100%; 
+    aspect-ratio: 16 / 9; /* Pastreaza perfect proportia de videoclip YouTube */
+    height: auto; 
+    border: none;
+    display: block; 
+}
+
+/*  
+   8. LINK TOP (ROMBUL CU TRIUNGHI ROTUNJIT)
+  */
+#link-top {
+    position: fixed !important; 
+    bottom: 30px !important; 
+    right: 30px !important;  
+    width: 60px;
+    height: 60px;
+    z-index: 9999; 
+    text-decoration: none;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    opacity: 0.6; 
+    transition: all 0.4s ease;
+}
+
+/* Rombul din spate */
+#link-top::before {
+    content: "";
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    border: 3px solid var(--primary-color);
+    background-color: transparent;
+    transform: rotate(45deg); 
+    border-radius: 8px; 
+    transition: all 0.4s ease;
+    z-index: -1;
+}
+
+/* Triunghiul/Conul */
+.triangle {
+    width: 0; 
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 18px solid var(--primary-color); 
+    border-radius: 50%; /* Efectul de con rotunjit */
+    margin-bottom: 4px;
+    transition: all 0.4s ease;
+}
+
+/* Efecte la Hover */
+#link-top:hover {
+    opacity: 1;
+}
+#link-top:hover::before {
+    background-color: var(--primary-color);
+}
+#link-top:hover .triangle {
+    border-bottom-color: white;
+}
+
+/* Tooltip (Textul de deasupra) */
+#link-top::after {
+    content: "Sus in pagina";
+    position: absolute;
+    bottom: 110%; /* Il pune fix deasupra butonului */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+#link-top:hover::after {
+    opacity: 1;
+    visibility: visible;
 }

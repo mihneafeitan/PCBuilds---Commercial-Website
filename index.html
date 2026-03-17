@@ -13,11 +13,17 @@
     <link rel="shortcut icon" href="resurse/imagini/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="resurse/imagini/apple-touch-icon.png" />
     <link rel="manifest" href="resurse/imagini/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="resurse/css/general.css">
+    
 </head>
 <body id="top">
     <header>
         <hgroup>
-            <h1>PCBuilds</h1>
+            <h1><i class="fa-solid fa-microchip"></i> PCBuilds</h1>
             <p>Magazin online cu piese pentru calculatoare</p>
         </hgroup>
 
@@ -37,149 +43,117 @@
         </nav>
     </header>
 
-    <main>
-        <section id="despre">
+    <main class="grid-container">
+        
+        <section id="despre" class="grid-area zona1">
             <h2>Despre Magazinul Nostru</h2>
-
             <p>
                 Aici vei gasi <b>piese pc</b> pentru viitorul tau setup! Fie ca esti pasionat de <b>gaming</b> sau doresti performanta maxima, magazinul nostru de <b>componente calculator</b> are tot ce iti trebuie.
                 La noi gasesti cele mai bune <b>placi video</b> si <b>procesoare</b> la preturi competitive.
             </p>
-
             <p><strong>Atentie! Stocurile pentru noul procesor sunt extrem de limitate! Livrarea poate intarzia.</strong></p>
-
             <blockquote>
                 <p>"Un sistem echilibrat este cheia unei experiente fluide in orice aplicatie."</p>
             </blockquote>
-
             <dl>
                 <dt><dfn>Overclocking</dfn></dt>
                 <dd>Procesul de fortare a unei componente pentru a functiona la o viteza superioara celei din fabrica, adesea aplicat pe <i>hardware</i> dedicat.</dd>
-
                 <dt><abbr title="Random Access Memory">RAM</abbr></dt>
-                <dd>Memoria cu acces aleator necesara pentru functionarea rapida a sistemului. Fara aceasta, <i>CPU-ul</i> nu poate accesa datele rapid.</dd>
+                <dd>Memoria cu acces aleator necesara pentru functionarea rapida a sistemului. Fara aceasta, <i>CPU-ul </i> nu poate accesa datele rapid.</dd>
             </dl>
-
-            <!-- Structura evenimentelor — <b> conține numele evenimentului, nu data -->
-            <article id="evenimente">
-                <h3>Evenimente Urmatoare</h3>
-                <ol>
-                    <li>
-                        <time datetime="2026-04-10T12:00">10 Aprilie ora 12:00</time> -
-                        <b>Lansare Placi Video</b> - Prezentam noile generatii si oferim coduri de reducere participantilor.
-                    </li>
-                    <li>
-                        <time datetime="2026-04-15T14:00">15 Aprilie ora 14:00</time> -
-                        <b>Tombola de Gaming</b> - Vom extrage castigatorul unui kit de componente CPU+Placa de baza+Memorie RAM.
-                    </li>
-                    <li>
-                        <time datetime="2026-05-01T10:00">1 Mai ora 10:00</time> -
-                        <b>Workshop Asamblare PC</b> - Invata sa iti asambezi propriul calculator cu ajutorul specialistilor nostri.
-                    </li>
-                </ol>
-            </article>
         </section>
 
-        <section id="media">
-            <h2>Media si Linkuri Utile</h2>
-
-            <!-- 3 surse diferite de imagini pentru mobil / tableta / desktop -->
-            <figure>
-                <picture>
-                    <source media="(min-width: 1024px)" srcset="resurse/imagini/pc_albastru_large.png">
-                    <source media="(min-width: 768px)" srcset="resurse/imagini/pc_albastru_medium.png">
-                    <img src="resurse/imagini/pc_albastru_small.png" alt="Un setup de calculator complet" title="Setup High-End Gaming Albastru" width="300">
-                </picture>
-                <figcaption>Exemplu de setup complet asamblat cu piese din magazinul nostru.</figcaption>
-            </figure>
-
-            <div id="colectie-linkuri">
-                <p>
-                    Citeste mai multe pe <a href="https://www.tomshardware.com/" target="_blank">Toms Hardware</a>.
-                </p>
-                <p>
-                    Afla mai multe despre calculatoare: <a href="https://en.wikipedia.org/wiki/Computer_hardware#Von_Neumann_architecture">https://en.wikipedia.org/wiki/Computer_<wbr>hardware#Von_<wbr>Neumann_<wbr>architecture</a>
-                </p>
-                <p>
-                    Apasa pe thumbnail pentru imaginea completa: <br>
-                    <a href="resurse/imagini/pc_alb.jpg" target="_self">
-                        <img src="resurse/imagini/pc_alb.jpg" alt="Miniatura setup" width="100">
-                    </a>
-                </p>
-                <p>
-                    <a href="resurse/imagini/pc_first.jpg" download="primul_pc.png">Primul PC asamblat de noi</a>
-                </p>
-            </div>
-
-            <div id="zona-video">
-                <p>Urmareste ghidurile noastre video:</p>
-                <div>
-                    <a href="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" target="player_video">Cum sa construiesti un PC</a> |
-                    <a href="https://www.youtube.com/embed/8hyWXJe_wts?si=iuKRannVL_tSwW0M" target="player_video">Alegerea placii video</a> |
-                    <a href="https://www.youtube.com/embed/gcy-Q99gvw8?si=rxWPnbSwbB1PSYCC" target="player_video">Ghidul actual (Procesoare)</a>
-                </div>
-                <br>
-                <iframe name="player_video" src="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" width="560" height="315" title="YouTube video player" allowfullscreen></iframe>
-            </div>
-        </section>
-
-        <section id="oferte">
+        <section id="oferte-tabel" class="grid-area zona2">
             <h2>Cele mai vandute produse (Stocuri)</h2>
-            <table>
-                <caption>Raport cu stocurile si preturile celor mai populare componente</caption>
-                <thead>
-                    <tr>
-                        <th>Categorie</th>
-                        <th>Produs</th>
-                        <th>Pret (RON)</th>
-                        <th>Cantitate disponibila</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Procesor</td>
-                        <td>Intel Core i7</td>
-                        <td>1500</td>
-                        <td>15 bucati</td>
-                    </tr>
-                    <tr>
-                        <td>Placa Video</td>
-                        <td>NVIDIA RTX 4070</td>
-                        <td>3200</td>
-                        <td>5 bucati</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">Stocare</td>
-                        <td>SSD Samsung 1TB</td>
-                        <td>450</td>
-                        <td>50 bucati</td>
-                    </tr>
-                    <tr>
-                        <td>HDD WD 2TB</td>
-                        <td>300</td>
-                        <td>20 bucati</td>
-                    </tr>
-                    <tr>
-                        <td>Memorie</td>
-                        <td>Kit Corsair 32GB RAM DDR5</td>
-                        <td>2300</td>
-                        <td>12 bucati</td>
-                    </tr>
-                    <tr>
-                        <td>Placa de baza</td>
-                        <td>Gigabyte Z790 Elite AX</td>
-                        <td>1200</td>
-                        <td>5 bucati</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="3">Total categorii de top afisate:</th>
-                        <td>4</td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="table-container">
+                <table>
+                    <caption>Raport cu stocurile si preturile celor mai populare componente</caption>
+                    <thead>
+                        <tr>
+                            <th>Categorie</th>
+                            <th>Produs</th>
+                            <th>Pret (RON)</th>
+                            <th>Cantitate disponibila</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Procesor</td>
+                            <td>Intel Core i7</td>
+                            <td>1500</td>
+                            <td>15 bucati</td>
+                        </tr>
+                        <tr>
+                            <td>Placa Video</td>
+                            <td>NVIDIA RTX 4070</td>
+                            <td>3200</td>
+                            <td>5 bucati</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">Stocare</td>
+                            <td>SSD Samsung 1TB</td>
+                            <td>450</td>
+                            <td>50 bucati</td>
+                        </tr>
+                        <tr>
+                            <td>HDD WD 2TB</td>
+                            <td>300</td>
+                            <td>20 bucati</td>
+                        </tr>
+                        <tr>
+                            <td>Memorie</td>
+                            <td>Kit Corsair 32GB RAM DDR5</td>
+                            <td>2300</td>
+                            <td>12 bucati</td>
+                        </tr>
+                        <tr>
+                            <td>Placa de baza</td>
+                            <td>Gigabyte Z790 Elite AX</td>
+                            <td>1200</td>
+                            <td>5 bucati</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3">Total categorii de top afisate:</th>
+                            <td>4</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
 
+        <article id="evenimente" class="grid-area zona3">
+            <h3>Evenimente Urmatoare</h3>
+            <ol>
+                <li>
+                    <time datetime="2026-04-10T12:00">10 Aprilie ora 12:00</time> -
+                    <b>Lansare Placi Video</b> - Prezentam noile generatii si oferim coduri de reducere participantilor.
+                </li>
+                <li>
+                    <time datetime="2026-04-15T14:00">15 Aprilie ora 14:00</time> -
+                    <b>Tombola de Gaming</b> - Vom extrage castigatorul unui kit de componente CPU+Placa de baza+Memorie RAM.
+                </li>
+                <li>
+                    <time datetime="2026-05-01T10:00">1 Mai ora 10:00</time> -
+                    <b>Workshop Asamblare PC</b> - Invata sa iti asambezi propriul calculator cu ajutorul specialistilor nostri.
+                </li>
+            </ol>
+        </article>
+
+        <section class="grid-area zona4">
+            <h3>Anunțuri Importante</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam erat volutpat. Phasellus ut ex in erat lobortis dictum.</p>
+        </section>
+
+        <section class="grid-area zona5">
+            <h3>Utilizatori Online</h3>
+            <p>Conectați în acest moment: <strong>42</strong></p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        </section>
+
+        <section id="statistici" class="grid-area zona6">
+            <h3>Statistici Server/Depozit</h3>
             <p>Gradul de ocupare al depozitului nostru (Optim este gol - valoare mica):
                 <meter min="0" max="100" low="30" high="80" optimum="10" value="25">25%</meter>
             </p>
@@ -188,24 +162,61 @@
             </p>
         </section>
 
-        <section id="suport">
-            <h2>Intrebari Frecvente (FAQ)</h2>
+        <section class="grid-area zona7">
+            <h3>Status Server <i class="fa-solid fa-server fa-pulse" style="color: var(--accent-color);"></i></h3>
+            <p>Lorem ipsum dolor sit amet. Serverul rulează la o capacitate optimă de 99.9% uptime.</p>
+        </section>
 
+        <section id="diverse" class="grid-area zona8">
+            <h2>Media, Linkuri și Suport</h2>
+
+            <figure>
+                <picture>
+                    <source media="(min-width: 1024px)" srcset="resurse/imagini/pc_albastru.png">
+                    <source media="(min-width: 768px)" srcset="resurse/imagini/pc_albastru.png">
+                    <img src="resurse/imagini/pc_albastru.png" alt="Un setup de calculator complet" title="Setup High-End Gaming " width="300">
+                </picture>
+                <figcaption>Exemplu de setup complet asamblat cu piese din magazinul nostru.</figcaption>
+            </figure>
+
+            <div id="colectie-linkuri">
+                <p>Citeste mai multe pe <a href="https://www.tomshardware.com/" target="_blank">Toms Hardware</a>.</p>
+                <p>Afla mai multe despre calculatoare: <a href="https://en.wikipedia.org/wiki/Computer_hardware#Von_Neumann_architecture">https://en.wikipedia.org/wiki/Computer_<wbr>hardware#Von_<wbr>Neumann_<wbr>architecture</a></p>
+                <p>Apasa pe thumbnail pentru imaginea completa: <br>
+                    <a href="resurse/imagini/pc_alb.jpg" target="_self">
+                        <img src="resurse/imagini/pc_alb.jpg" alt="Miniatura setup" width="100">
+                    </a>
+                </p>
+                <p><a href="resurse/imagini/pc_first.jpg" download="primul_pc.png">Primul PC asamblat de noi</a></p>
+            </div>
+
+            <div id="zona-video" class="stilizare-taburi">
+                <h3>Urmareste ghidurile noastre video:</h3>
+                <nav class="tab-links">
+                    <a href="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" target="player_video">Cum sa construiesti un PC</a>
+                    <a href="https://www.youtube.com/embed/8hyWXJe_wts?si=iuKRannVL_tSwW0M" target="player_video">Alegerea placii video</a>
+                    <a href="https://www.youtube.com/embed/gcy-Q99gvw8?si=rxWPnbSwbB1PSYCC" target="player_video">Ghidul actual (PC-uri)</a>
+                </nav>
+                <div class="iframe-wrapper">
+                    <iframe name="player_video" src="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" width="560" height="315" title="YouTube video player" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <br>
+            <h3>Intrebari Frecvente (FAQ)</h3>
             <details>
                 <summary>Oferiti serviciu de asamblare?</summary>
                 <p>Da, pentru orice comanda ce contine toate <b>piesele pc</b> necesare unui sistem complet, oferim asamblare in valoare de 300 de lei.</p>
             </details>
-
             <details>
                 <summary>Care este politica de retur?</summary>
                 <p>Ai la dispozitie 14 zile calendaristice pentru a returna orice <b>componenta de calculator</b> sigilata.</p>
             </details>
-
-            <!-- Al treilea <details> adăugat — cerința spune "mai multe zone" -->
             <details>
                 <summary>Cum pot verifica compatibilitatea componentelor?</summary>
                 <p>Pe site-ul nostru ai la dispozitie un ghid de compatibilitate. In plus, echipa noastra de suport iti poate verifica configuratia inainte de comanda, gratuit.</p>
             </details>
+
         </section>
     </main>
 
@@ -223,7 +234,7 @@
             <a href="https://wa.me/40722888999" target="_blank">Vorbeste cu noi pe WhatsApp</a>
         </address>
 
-        <p><a href="#top">Mergi la inceputul paginii</a></p>
+        
 
         <p>
             <small>
@@ -231,5 +242,8 @@
             </small>
         </p>
     </footer>
+    <a href="#top" id="link-top">
+        <div class="triangle"></div>
+    </a>
 </body>
 </html>
