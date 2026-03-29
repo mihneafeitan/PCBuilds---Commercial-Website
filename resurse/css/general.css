@@ -1,29 +1,27 @@
-/*  
-   1. SCHEMA CROMATICa & VARIABILE
-  */
+/* 
+   1. SCHEMA CROMATICA & VARIABILE
+*/
 :root {
-    --primary-color: #2b6f97;       /* Albastrul din meta tag*/
+    --primary-color: #2b6f97;       
     --secondary-color: #ffffff;     
     --accent-color: #e67e22;        
     --bg-color-main: #1e1e50;       
     --bg-color-alt: #0101029a;        
     --text-color: #ffffff;          
     
-    /* Culori pentru bordurile tabelului */
     --tabel-c1: #3498db;            
     --tabel-c2: #9b59b6;            
 
-    /* Variabile pentru spatieri (Design Rudimentar) */
     --page-padding: 6vw;
     --grid-gap: 20px;
     --zone-padding: 1.5rem;
 }
 
-/*  
+/* 
    2. STILURI GLOBALE & RESPONSIVE TYPOGRAPHY
-  */
+*/
 html {
-    font-size: 18px; /* Pe ecran mare fontul este mai mare */
+    font-size: 18px; 
     font-family: 'Roboto', sans-serif;
     color: var(--text-color);
     background-color: var(--bg-color-main);
@@ -37,69 +35,18 @@ body {
     overflow-x: hidden; 
 }
 
-/* Setari de baza pentru media pe ecran MARE */
-img, video, iframe {
+img, video, iframe, embed, object {
     width: 100%; 
     min-width: 150px;
-    max-width: 400px; /* Previne imaginile sa explodeze pe tot ecranul */
+    max-width: 400px; 
     height: auto;
 }
 
-/* Exceptie pentru YouTube - vrem sa ocupe tot containerul lui */
-.iframe-wrapper iframe {
-    max-width: 100%; 
-}
+.iframe-wrapper iframe { max-width: 100%; }
 
-/*  
-   3. MEDIA QUERIES (Ajustari pentru ecrane mai mici)
-  */
-/* Ecran Mediu (Tablete) */
-@media (max-width: 1024px) {
-    :root {
-        --page-padding: 3vw;
-        --grid-gap: 15px;
-    }
-    html { font-size: 16px; } /* Descreste putin pe mediu */
-
-    .grid-container {
-        grid-template-columns: 1fr 1fr;
-        grid-template-areas:
-            "z1 z1"
-            "z2 z8"
-            "z5 z6"
-            "z4 z3"
-            "z7 z7";
-    }
-
-    /* Elementele media devin mai mici odata cu ecranul */
-    img, video, iframe { max-width: 350px; }
-    .iframe-wrapper iframe { max-width: 100%; }
-}
-
-/* Ecran Mic (Telefoane) */
-@media (max-width: 768px) {
-    :root {
-        --page-padding: 1vw;
-        --grid-gap: 10px;
-    }
-    html { font-size: 14px; } /* Descreste pe ecran mic */
-    
-    /* Dezactivarea animatiilor pe ecran mic (Cerinta proful) */
-    * { animation: none !important; }
-
-    .grid-container {
-        display: flex; /* Transforma gridul intr-o singura coloana */
-        flex-direction: column;
-    }
-
-    /* Pe telefon lasam pozele sa ocupe toata latimea disponibila */
-    img, video, iframe { max-width: 100%; }
-}
-
-
-/*  
-   4. IZOLARE VIZUALa & STILIZARE NAVIGARE
-  */
+/* 
+   3. IZOLARE VIZUALA
+*/
 header, footer, .grid-area {
     background-color: var(--bg-color-alt);
     border: 1px solid rgba(0,0,0,0.1);
@@ -107,43 +54,142 @@ header, footer, .grid-area {
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     padding: var(--zone-padding);
 }
-
 header { margin-top: 1rem; margin-bottom: var(--grid-gap); }
-footer { margin-top: var(--grid-gap); margin-bottom: 1rem; text-align: center; }
+footer { margin-top: var(--grid-gap); margin-bottom: 1rem; text-align: center; position: relative; padding-bottom: 3.5rem; }
 
-/* Aspect curat pentru Meniul de Navigare */
-nav ul {
-    list-style-type: none; /* Ascunde punctele de lista */
-    padding: 0;
-    margin: 15px 0 0 0;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-nav a {
-    text-decoration: none;
-    color: var(--primary-color);
+.footer-contact {
+    display: block;
+    text-align: center;
+    margin: 0 0 0.8rem 0;
+    color: var(--secondary-color);
     font-weight: bold;
-    transition: color 0.3s;
-}
-nav a:hover {
-    color: var(--accent-color);
-}
-nav ul ul {
-    display: none; /* Ascundem sub-meniul vizual pentru claritate in etapa 2 */
+    font-size: 1.5rem;
 }
 
-/*  
-   5. LAYOUT RESPONSIVE (CSS Grid - Definitii)
-  */
+/* 
+    ETAPA 3: STILIZARE MENIU DERULANT DESKTOP
+*/
+/* Etapa 3 - Meniu derulant (desktop) */
+#main-nav {
+    position: relative;
+    background: var(--bg-color-alt);
+    border-radius: 8px;
+    margin-top: 15px;
+    z-index: 1000;
+}
+#menu-toggle { display: none; } /* Ascuns pe toate ecranele */
+
+.meniu-principal {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    list-style: none;
+    gap: 20px;
+    margin: 0; padding: 0;
+}
+
+.nav-item { position: relative; }
+
+.nav-item > a {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 15px 20px;
+    display: block;
+    font-weight: bold;
+    position: relative;
+    overflow: hidden; /* Necesar pt gradient glisant */
+}
+.nav-item > a i { margin-right: 5px; }
+
+/* Cerinta a: Bara gradient care se plimba facand vizibila a doua culoare */
+.nav-item > a::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 200%; /* Latime dubla */
+    height: 4px;
+    background: linear-gradient(to right, transparent 35%, var(--accent-color) 50%);
+    background-size: 150% 100%;
+    background-position: left bottom; /* Incepe ascuns */
+    transition: background-position 0.5s ease;
+}
+.nav-item > a:hover::after {
+    background-position: right bottom; /* Se plimba dreapta, aratand culoarea a doua */
+}
+
+/* Cerinta b: Scalarea submeniului (scaleY de la centru sus) */
+.submenu {
+    position: absolute;
+    top: 100%; left: 0;
+    background: var(--secondary-color);
+    min-width: 220px;
+    list-style: none;
+    padding: 0; margin: 0;
+    transform-origin: top center;
+    transform: scaleY(0);
+    transition: transform 0.3s ease-in-out;
+    z-index: 100;
+}
+.submenu:before { /* Etapa 3 - Submeniu */ content: ""; }
+.nav-item:hover .submenu {
+    transform: scaleY(1);
+}
+
+/* Cerinta c: Hover optiuni submeniu schimba bg si color */
+.submenu li a {
+    display: block;
+    padding: 12px 15px;
+    background-color: transparent;
+    color: var(--bg-color-main);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+.submenu li a:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* ETAPA 3 BONUS: Icon Hamburger Pozitionat Absolut */
+/* Etapa 3 - Hamburger menu */
+#hamburger-menu {
+    width: 40px; height: 30px;
+    position: relative;
+    display: none; /* Ascuns pe desktop */
+    cursor: pointer;
+    margin: 15px;
+}
+#hamburger-menu span {
+    position: absolute;
+    left: 0;
+    height: 4px; width: 100%;
+    background: var(--accent-color);
+    border-radius: 4px;
+    opacity: 0; /* Invizibil initial */
+}
+#hamburger-menu span:nth-child(1) { top: 0px; }
+#hamburger-menu span:nth-child(2) { top: 12px; }
+#hamburger-menu span:nth-child(3) { top: 24px; }
+
+/* Animatia barelor (3 proprietati schimbate: opacitate, transformare geometrica, culoare) */
+/* Etapa 3 - Animatie bare hamburger */
+@keyframes intrareBare {
+    0% { opacity: 0; transform: scale(0) rotate(90deg); background-color: white; }
+    50% { opacity: 0.5; transform: scale(1.2) rotate(-10deg); background-color: var(--primary-color); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); background-color: var(--accent-color); }
+}
+
+/* 
+   5. LAYOUT RESPONSIVE (CSS Grid)
+*/
 .grid-container {
     display: grid;
     gap: var(--grid-gap);
     grid-template-areas:
-        "z1 z1 z1 z1"
-        "z2 z2 z8 z8"
-        "z5 z6 z8 z8"
-        "z4 z3 z7 z7";
+       "z1 z1 z1 z1 z1"
+        "z2 z2 z8 z8 z8"
+        "z5 z6 z8 z8 z8"
+        "z4 z4 z3 z3 z7"
 }
 
 .zona1 { grid-area: z1; }
@@ -155,173 +201,248 @@ nav ul ul {
 .zona7 { grid-area: z7; }
 .zona8 { grid-area: z8; }
 
-/*  
+/* ====================================================
    6. STILIZARE TABEL
-  */
-.table-container {
-    width: 100%;
-    overflow-x: auto; /* Scroll orizontal pe containter pentru mobil */
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    caption-side: bottom;
-    margin-top: 1rem;
-}
-
+==================================================== */
+.table-container { width: 100%; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; caption-side: bottom; margin-top: 1rem; }
 caption { padding-top: 10px; font-style: italic; color: var(--secondary-color); }
-
-th, td {
-    padding: 0.8rem;
-    text-align: center;
-}
-
-/* Bordere alternate intre coloane */
+th, td { padding: 0.8rem; text-align: center; }
 th:not(:last-child), td:not(:last-child) { border-right: 2px solid; }
-
-th:nth-child(odd):not(:last-child), td:nth-child(odd):not(:last-child) {
-    border-right-color: var(--tabel-c1);
-}
-th:nth-child(even):not(:last-child), td:nth-child(even):not(:last-child) {
-    border-right-color: var(--tabel-c2);
-}
-
-/* Grosimea thead / tfoot mai mare */
+th:nth-child(odd):not(:last-child), td:nth-child(odd):not(:last-child) { border-right-color: var(--tabel-c1); }
+th:nth-child(even):not(:last-child), td:nth-child(even):not(:last-child) { border-right-color: var(--tabel-c2); }
 thead th { border-bottom: 3px solid var(--primary-color); }
 tfoot th, tfoot td { border-top: 3px solid var(--primary-color); }
-
-/* Efect hover shadow */
 tbody tr { transition: background-color 0.5s ease; }
 tbody td { transition: box-shadow 0.5s ease, color 0.5s ease; }
+tbody tr:hover td { box-shadow: inset 0 100px 100px var(--accent-color); color: white; }
 
-tbody tr:hover td {
-    box-shadow: inset 0 100px 100px var(--accent-color); /* Suprapus perfect pe rand */
-    color: white;
-}
-
-/*  
+/* ====================================================
    7. STILIZARE TABURI (FLEXBOX)
-  */
-.stilizare-taburi { 
-    margin-top: 2rem; 
-    max-width: 600px; /* Trage chenarul la stanga  si il aliniaza frumos */
-}
-
-.tab-links {
-    display: flex; /* OBLIGATORIU FLEXBOX */
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.tab-links a {
-    padding: 10px 20px;
-    background-color: #1e1e50;
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 12px 12px 0 0;
-    font-weight: bold;
-    border: 2px solid var(--primary-color);
-    border-bottom: none;
-    transition: all 0.3s ease;
-}
-
-.tab-links a:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
+==================================================== */
+.stilizare-taburi { margin-top: 2rem; max-width: 600px; }
 
 .iframe-wrapper {
     border: 2px solid var(--primary-color);
     padding: 15px; 
     background: var(--bg-color-alt);
-    border-radius: 0 12px 12px 12px;
+    border-radius: 12px; /* Colturi rotunjite uniform */
 }
-
 .iframe-wrapper iframe {
-    width: 100%; 
-    aspect-ratio: 16 / 9; /* Pastreaza perfect proportia de videoclip YouTube */
-    height: auto; 
-    border: none;
-    display: block; 
+    width: 100%; aspect-ratio: 16 / 9; height: auto; border: none; display: block; 
 }
 
-/*  
-   8. LINK TOP (ROMBUL CU TRIUNGHI ROTUNJIT)
-  */
-#link-top {
-    position: fixed !important; 
-    bottom: 30px !important; 
-    right: 30px !important;  
-    width: 60px;
-    height: 60px;
-    z-index: 9999; 
+/* Aici este modificarea pentru butoanele video (mai mici, aliniate dreapta) */
+.tab-links { 
+    display: flex; gap: 8px; flex-wrap: wrap; 
+    justify-content: flex-end; /* Trage butoanele in dreapta */
+    margin-top: 12px; 
+}
+.tab-links a {
+    padding: 6px 12px; /* Spatiu mai mic in interior */
+    font-size: 0.85rem; /* Text mai mic */
+    background-color: #1e1e50;
+    color: var(--text-color);
     text-decoration: none;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    opacity: 0.6; 
-    transition: all 0.4s ease;
+    border-radius: 6px; /* Colturi rotunjite standard */
+    font-weight: bold;
+    border: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
 }
+.tab-links a:hover { background-color: var(--primary-color); color: white; }
 
-/* Rombul din spate */
+/* 
+   8. LINK TOP (ROMBUL)
+*/
+#link-top {
+    position: fixed !important; bottom: 30px !important; right: 30px !important;  
+    width: 60px; height: 60px; z-index: 9999; text-decoration: none;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0.6; transition: all 0.4s ease;
+}
 #link-top::before {
-    content: "";
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    border: 3px solid var(--primary-color);
-    background-color: transparent;
-    transform: rotate(45deg); 
-    border-radius: 8px; 
-    transition: all 0.4s ease;
-    z-index: -1;
+    content: ""; position: absolute; width: 45px; height: 45px;
+    border: 3px solid var(--primary-color); background-color: transparent;
+    transform: rotate(45deg); border-radius: 8px; transition: all 0.4s ease; z-index: -1;
 }
-
-/* Triunghiul/Conul */
 .triangle {
-    width: 0; 
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 18px solid var(--primary-color); 
-    border-radius: 50%; /* Efectul de con rotunjit */
-    margin-bottom: 4px;
-    transition: all 0.4s ease;
+    width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent;
+    border-bottom: 18px solid var(--primary-color); border-radius: 50%; margin-bottom: 4px; transition: all 0.4s ease;
 }
-
-/* Efecte la Hover */
-#link-top:hover {
-    opacity: 1;
-}
-#link-top:hover::before {
-    background-color: var(--primary-color);
-}
-#link-top:hover .triangle {
-    border-bottom-color: white;
-}
-
-/* Tooltip (Textul de deasupra) */
+#link-top:hover { opacity: 1; }
+#link-top:hover::before { background-color: var(--primary-color); }
+#link-top:hover .triangle { border-bottom-color: white; }
 #link-top::after {
-    content: "Sus in pagina";
-    position: absolute;
-    bottom: 110%; /* Il pune fix deasupra butonului */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--secondary-color);
-    color: rgb(8, 0, 78);
-    padding: 6px 10px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s;
+    content: "Sus in pagina"; position: absolute; bottom: 110%; left: 50%;
+    transform: translateX(-50%); background-color: var(--secondary-color); color: rgb(8, 0, 78);
+    padding: 6px 10px; border-radius: 3px; font-size: 0.8rem; white-space: nowrap;
+    opacity: 0; visibility: hidden; transition: 0.3s;
+}
+#link-top:hover::after { opacity: 1; visibility: visible; }
+
+/* 
+   ETAPA 2 BONUS: MathML 
+*/
+.formula-putere {
+    display: block; font-size: 1.8rem; background-color: #0a0a2a;
+    padding: 1rem; border-radius: 8px; text-align: center; border: 2px dashed var(--accent-color);
+}
+.formula-putere mi { color: #3498db; font-weight: bold; font-style: italic; }
+.formula-putere mo { color: var(--accent-color); padding: 0 0.2rem; }
+.formula-putere mn { color: #2ecc71; font-size: 2rem; }
+
+/* 
+   MEDIA QUERIES - RESPONSIVE & MENIU
+ */
+/* Ecran Mediu (Tablete) */
+@media (max-width: 1024px) {
+    :root { --page-padding: 3vw; --grid-gap: 15px; }
+    html { font-size: 16px; } 
+    .grid-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "z1 z1" "z2 z8" "z5 z6" "z4 z3" "z7 z7";
+    }
+    img, video, iframe, embed { max-width: 350px; }
+    .iframe-wrapper iframe { max-width: 100%; }
+
+    /* ETAPA 3 Mediu: Text ascuns, raman doar iconitele FontAwesome */
+    .nav-item > a { padding: 15px; }
+    .nav-text { display: none; }
+    .nav-item > a i { margin-right: 0; font-size: 1.2rem; }
 }
 
-#link-top:hover::after {
-    opacity: 1;
-    visibility: visible;
+/* Ecran Mic (Telefoane) */
+@media (max-width: 768px) {
+    :root { --page-padding: 1vw; --grid-gap: 10px; }
+    html { font-size: 14px; } 
+    
+    /* Ascundem restul animatiilor dar pastram meniul/hamburgerul functional */
+    body * { animation-duration: 0.01ms; }
+    #hamburger-menu, #hamburger-menu span { animation-duration: 0.6s !important; }
+
+    .grid-container { display: flex; flex-direction: column; }
+    img, video, iframe, embed { max-width: 100%; }
+
+    /* ETAPA 3 Mic: Meniu Hamburger Vizibil */
+    #hamburger-menu { display: block; }
+    
+    /* ETAPA 3 BONUS: Animatie bare hamburger (decalata) */
+    #hamburger-menu span:nth-child(1) { animation: intrareBare 0.6s forwards !important; animation-delay: 0s !important; }
+    #hamburger-menu span:nth-child(2) { animation: intrareBare 0.6s forwards !important; animation-delay: 0.2s !important; }
+    #hamburger-menu span:nth-child(3) { animation: intrareBare 0.6s forwards !important; animation-delay: 0.4s !important; }
+
+    /* Meniul devine coloana si initial e ascuns */
+    .meniu-principal {
+        flex-direction: column;
+        display: none; 
+        width: 100%;
+        position: absolute; top: 100%; left: 0;
+        background-color: var(--bg-color-main);
+    }
+    
+    .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .nav-item > a { text-align: left; }
+    .nav-text { display: inline; } /* Readucem textul vizibil langa iconite */
+    .nav-item > a i { margin-right: 10px; }
+    
+    /* Dezactivam bara glisanta de pe desktop la hover */
+    .nav-item > a::after { display: none; }
+    .nav-item > a:hover { background-color: var(--primary-color); color: white; }
+    
+    /* ETAPA 3 Mic: Submeniul apare cu animatie rotatie 3D si opacitate */
+    .submenu {
+        position: relative; /* Impinge restul meniului in jos */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: rotateX(-90deg); /* Rotatie invizibila */
+        transform-origin: top;
+        transition: transform 0.5s ease, opacity 0.5s ease, max-height 0.5s ease;
+    }
+    .nav-item:hover .submenu {
+        max-height: 500px;
+        opacity: 1;
+        transform: rotateX(0deg); /* Rotatie catre forma vizibila */
+    }
+    
+    /* Checkbox Hack - Deschide meniul la click pe hamburger */
+    #menu-toggle:checked ~ .meniu-principal { display: flex; }
+}
+
+/* 
+   ETAPA 3: CSS PRINTARE (@media print)
+*/
+@media print {
+    /* 1. Banner pe prima pagina */
+    #print-banner {
+        display: block;
+        position: absolute;
+        top: 0; left: 10%;
+        width: 80%;
+        text-align: center;
+        border: 2px dotted black;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    /* 2. Ascundere media, nav, butoane */
+    img, video, iframe, embed, object, #link-top, nav, #zona-video, .stilizare-taburi {
+        display: none !important;
+    }
+
+    /* 3. Grid devine block (sa nu fie taiate celulele) */
+    .grid-container, .grid-area {
+        display: block !important;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+
+    /* 4. Link-uri resetate la negru normal */
+    a {
+        color: black !important;
+        text-decoration: none !important;
+    }
+
+    /* 5. Setari Heading (Prima pagina, centrat) */
+    hgroup {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh; /* Centrare verticala aproximativa pe A4 */
+        page-break-after: always; /* Page break imediat dupa */
+    }
+    hgroup p, hgroup i { display: none; } /* Ascundem subtextul */
+    h1 {
+        font-size: 45px; /* 18px * 2.5 = 45px */
+        text-decoration: underline;
+        color: black;
+    }
+
+    /* Page break inainte de footer */
+    footer { page-break-before: always; }
+
+    /* 6. Watermark repetitiv (Nume) */
+    body::after {
+        content: "Hristache Mihnea";
+        position: fixed; 
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px; height: 2cm;
+        border: 3px double gray;
+        opacity: 0.65;
+        font-size: 14px;
+        text-align: center;
+        line-height: 2cm;
+        z-index: -100;
+        color: rgb(0, 0, 0);
+    }
+
+    /* 7. Margini alternative carte */
+    @page :left {
+        margin: 2cm 0.5cm 2cm 2.5cm;
+    }
+    @page :right {
+        margin: 2cm 2.5cm 2cm 0.5cm;
+    }
 }

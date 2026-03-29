@@ -17,28 +17,62 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="resurse/css/general.css">
     
+    <link rel="stylesheet" href="resurse/css/reset.css">
+    <link rel="stylesheet" href="resurse/css/general.css">
 </head>
 <body id="top">
     <header>
         <hgroup>
             <h1><i class="fa-solid fa-microchip"></i> PCBuilds</h1>
-            <p>Magazin online cu piese pentru calculatoare</p>
+            <p>Magazin online cu piese pentru calculatoare.</p>
         </hgroup>
 
-        <nav>
-            <ul>
-                <!-- C Acasă are acum tag <a> -->
-                <li><a href="index.html">Acasă</a>
-                    <ul>
-                        <li><a href="#despre">Despre Noi</a></li>
-                        <li><a href="#evenimente">Evenimente &amp; Promotii</a></li>
-                        <li><a href="#media">Media &amp; Prezentari</a></li>
+        <nav id="main-nav">
+            <input type="checkbox" id="menu-toggle">
+            
+            <label for="menu-toggle" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <ul class="meniu-principal">
+                <li class="nav-item">
+                    <a href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span class="nav-text">Acasă</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#despre">
+                        <i class="fa-solid fa-info-circle"></i>
+                        <span class="nav-text">Despre Noi</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#oferte-tabel">
+                        <i class="fa-solid fa-box-open"></i>
+                        <span class="nav-text">Produse</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="componente.html">Componente</a></li>
+                        <li><a href="calculatoare.html">Calculatoare</a></li>
                     </ul>
                 </li>
-                <li><a href="#oferte">Produse si Oferte</a></li>
-                <li><a href="#suport">Suport (FAQ)</a></li>
+
+                <li class="nav-item">
+                    <a href="#diverse">
+                        <i class="fa-solid fa-book"></i>
+                        <span class="nav-text">Ghid</span>
+                    </a>
+                    <ul class="submenu">
+                        <li><a href="#suport">Suport</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>
@@ -61,6 +95,33 @@
                 <dt><abbr title="Random Access Memory">RAM</abbr></dt>
                 <dd>Memoria cu acces aleator necesara pentru functionarea rapida a sistemului. Fara aceasta, <i>CPU-ul </i> nu poate accesa datele rapid.</dd>
             </dl>
+
+            <br>
+            <h3>Calcul Putere Sursă </h3>
+            <p>Pentru a alege corect o sursă, calculăm puterea totală consumată de piese și adăugăm o marjă de 20%:</p>
+            <math xmlns="http://www.w3.org/1998/Math/MathML" class="formula-putere">
+                <mrow>
+                    <msub><mi>P</mi><mi>total</mi></msub>
+                    <mo>=</mo>
+                    <mrow>
+                        <mo>(</mo>
+                        <munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover>
+                        <msub><mi>P</mi><mi>i</mi></msub>
+                        <mo>)</mo>
+                    </mrow>
+                    <mo>×</mo>
+                    <mn>1.2</mn>
+                </mrow>
+            </math>
+
+            <br><br>
+            <h3>Harta Interactivă a Plăcii de Bază</h3>
+            <p>Apasă pe socket-ul procesorului (zona pătrată) pentru a fi redirecționat.</p>
+            <img src="resurse/imagini/placa_de_baza.jpg" alt="Placa de baza" usemap="#mb-map" width="600" height="400">
+            <map name="mb-map">
+                <area shape="rect" coords="100,50,250,200" href="#oferte-tabel" alt="Procesoare" title="Vezi oferte Procesoare">
+                <area shape="circle" coords="400,300,30" href="#diverse" alt="Reset BIOS" title="Cum resetezi bateria">
+            </map>
         </section>
 
         <section id="oferte-tabel" class="grid-area zona2">
@@ -168,13 +229,14 @@
         </section>
 
         <section id="diverse" class="grid-area zona8">
+            <a id="suport"></a>
             <h2>Media, Linkuri și Suport</h2>
 
             <figure>
                 <picture>
                     <source media="(min-width: 1024px)" srcset="resurse/imagini/pc_albastru.png">
                     <source media="(min-width: 768px)" srcset="resurse/imagini/pc_albastru.png">
-                    <img src="resurse/imagini/pc_albastru.png" alt="Un setup de calculator complet" title="Setup High-End Gaming " width="300">
+                    <img src="resurse/imagini/pc_albastru.png" alt="Un setup de calculator complet" title="Setup High-End Gaming" width="300">
                 </picture>
                 <figcaption>Exemplu de setup complet asamblat cu piese din magazinul nostru.</figcaption>
             </figure>
@@ -192,17 +254,31 @@
 
             <div id="zona-video" class="stilizare-taburi">
                 <h3>Urmareste ghidurile noastre video:</h3>
+                
+                <div class="iframe-wrapper">
+                    <iframe name="player_video" src="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" width="560" height="315" title="YouTube video player" allowfullscreen></iframe>
+                </div>
+                
                 <nav class="tab-links">
                     <a href="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" target="player_video">Cum sa construiesti un PC</a>
                     <a href="https://www.youtube.com/embed/8hyWXJe_wts?si=iuKRannVL_tSwW0M" target="player_video">Alegerea placii video</a>
                     <a href="https://www.youtube.com/embed/gcy-Q99gvw8?si=rxWPnbSwbB1PSYCC" target="player_video">Ghidul actual (PC-uri)</a>
                 </nav>
-                <div class="iframe-wrapper">
-                    <iframe name="player_video" src="https://www.youtube.com/embed/6Ty0mxAfeUQ?si=kPxmoK2hNGhCNPu4" width="560" height="315" title="YouTube video player" allowfullscreen></iframe>
-                </div>
             </div>
 
             <br>
+            <h3>Seria Completă de Ghiduri (Playlist)</h3>
+            <p>Acest playlist rulează automat și o ia de la capăt când se termină.</p>
+            <iframe 
+                width="560" 
+                height="315" 
+                src="https://www.youtube.com/embed/6Ty0mxAfeUQ?autoplay=1&loop=1&playlist=8hyWXJe_wts,gcy-Q99gvw8" 
+                title="Tutoriale PC Playlist" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+            </iframe>
+
+            <br><br>
             <h3>Intrebari Frecvente (FAQ)</h3>
             <details>
                 <summary>Oferiti serviciu de asamblare?</summary>
@@ -217,31 +293,37 @@
                 <p>Pe site-ul nostru ai la dispozitie un ghid de compatibilitate. In plus, echipa noastra de suport iti poate verifica configuratia inainte de comanda, gratuit.</p>
             </details>
 
+            <br>
+            <h3>Ghid de Instalare Detaliat</h3>
+            <p>Consultați documentul de mai jos pentru informații suplimentare:</p>
+            <embed src="resurse/ghid.pdf" type="application/pdf" width="100%" height="400px" />
+
         </section>
     </main>
 
     <footer>
-        <!-- Adresa fictivă separată pe mai multe rânduri cu <br> -->
+        <p id="print-banner" style="display:none;">Acesta este un proiect școlar!</p>
         <address>
-            <br>Ne poti contacta la telefon: <a href="tel:+40722888999">0722 888 999</a><br>
-            Sediu central:
-            <a href="https://maps.app.goo.gl/iCRfahUUJzGGzdrd6" target="_blank">
-                Strada Academiei,  Nr. 14,
-                Sector 1,<br>
-                Bucuresti, Romania
-            </a><br><br>
+            <div id="contact" class="footer-contact">Contact</div>
+
+            Ne poti contacta la telefon: <a href="tel:+40722888999">0722 888 999</a><br>
+            Sediu central: Strada Academiei, Nr. 14, Sector 1, Bucuresti, Romania<br><br>
+
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.843336717112!2d26.0980556!3d44.4355556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDI2JzA4LjAiTiAyNsKwMDUnNTMuMCJF!5e0!3m2!1sro!2sro!4v1600000000000!5m2!1sro!2sro" width="300" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+            <br>
             Scrie-ne pe email la: <a href="mailto:contact@pcbuilds.ro">contact@pcbuilds.ro</a><br>
             <a href="https://wa.me/40722888999" target="_blank">Vorbeste cu noi pe WhatsApp</a>
         </address>
 
-        
-
         <p>
             <small>
-                Copyright &copy; <time datetime="2026-03-15">15 martie 2026</time> Hristache Mihnea.
+                Copyright © <time datetime="2026-03-15">15 martie 2026</time> Hristache Mihnea.
             </small>
         </p>
+
     </footer>
+
     <a href="#top" id="link-top">
         <div class="triangle"></div>
     </a>
