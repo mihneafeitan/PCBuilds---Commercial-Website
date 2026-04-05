@@ -1,5 +1,4 @@
-/* 
-   1. SCHEMA CROMATICA & VARIABILE
+/* 1. SCHEMA CROMATICA & VARIABILE
 */
 :root {
     --primary-color: #2b6f97;       
@@ -17,8 +16,7 @@
     --zone-padding: 1.5rem;
 }
 
-/* 
-   2. STILURI GLOBALE & RESPONSIVE TYPOGRAPHY
+/* 2. STILURI GLOBALE & RESPONSIVE TYPOGRAPHY
 */
 html {
     font-size: 18px; 
@@ -44,8 +42,7 @@ img, video, iframe, embed, object {
 
 .iframe-wrapper iframe { max-width: 100%; }
 
-/* 
-   3. IZOLARE VIZUALA
+/* 3. IZOLARE VIZUALA
 */
 header, footer, .grid-area {
     background-color: var(--bg-color-alt);
@@ -66,8 +63,7 @@ footer { margin-top: var(--grid-gap); margin-bottom: 1rem; text-align: center; p
     font-size: 1.5rem;
 }
 
-/* 
-    ETAPA 3: STILIZARE MENIU DERULANT DESKTOP
+/* ETAPA 3: STILIZARE MENIU DERULANT DESKTOP
 */
 /* Etapa 3 - Meniu derulant (desktop) */
 #main-nav {
@@ -179,8 +175,7 @@ footer { margin-top: var(--grid-gap); margin-bottom: 1rem; text-align: center; p
     100% { opacity: 1; transform: scale(1) rotate(0deg); background-color: var(--accent-color); }
 }
 
-/* 
-   5. LAYOUT RESPONSIVE (CSS Grid)
+/* 5. LAYOUT RESPONSIVE (CSS Grid)
 */
 .grid-container {
     display: grid;
@@ -251,8 +246,7 @@ tbody tr:hover td { box-shadow: inset 0 100px 100px var(--accent-color); color: 
 }
 .tab-links a:hover { background-color: var(--primary-color); color: white; }
 
-/* 
-   8. LINK TOP (ROMBUL)
+/* 8. LINK TOP (ROMBUL)
 */
 #link-top {
     position: fixed !important; bottom: 30px !important; right: 30px !important;  
@@ -280,8 +274,7 @@ tbody tr:hover td { box-shadow: inset 0 100px 100px var(--accent-color); color: 
 }
 #link-top:hover::after { opacity: 1; visibility: visible; }
 
-/* 
-   ETAPA 2 BONUS: MathML 
+/* ETAPA 2 BONUS: MathML 
 */
 .formula-putere {
     display: block; font-size: 1.8rem; background-color: #0a0a2a;
@@ -291,8 +284,7 @@ tbody tr:hover td { box-shadow: inset 0 100px 100px var(--accent-color); color: 
 .formula-putere mo { color: var(--accent-color); padding: 0 0.2rem; }
 .formula-putere mn { color: #2ecc71; font-size: 2rem; }
 
-/* 
-   MEDIA QUERIES - RESPONSIVE & MENIU
+/* MEDIA QUERIES - RESPONSIVE & MENIU
  */
 /* Ecran Mediu (Tablete) */
 @media (max-width: 1024px) {
@@ -369,8 +361,7 @@ tbody tr:hover td { box-shadow: inset 0 100px 100px var(--accent-color); color: 
     #menu-toggle:checked ~ .meniu-principal { display: flex; }
 }
 
-/* 
-   ETAPA 3: CSS PRINTARE (@media print)
+/* ETAPA 3: CSS PRINTARE (@media print)
 */
 @media print {
     /* 1. Banner pe prima pagina */
@@ -445,4 +436,94 @@ tbody tr:hover td { box-shadow: inset 0 100px 100px var(--accent-color); color: 
     @page :right {
         margin: 2cm 2.5cm 2cm 0.5cm;
     }
+}
+
+/* ====================================================
+   ETAPA 4: STILIZARE LINKURI EXTERNE 
+==================================================== */
+/* 1. Culoarea pentru linkurile externe (movul din poză) */
+main a[href^="http"], 
+main a[href^="http"]:visited {
+    color: #b19cd9; 
+    text-decoration: underline;
+}
+
+/* 2. Adăugarea simbolului ⮳ înainte de text */
+main a[href^="http"]::before {
+    content: "⮳ ";
+    font-size: 1.5em; 
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+/* 3. La aducerea cursorului, DOAR simbolul își schimbă culoarea */
+main a[href^="http"]:hover::before {
+    color: var(--accent-color); 
+}
+
+
+/* 
+   ETAPA 4: PATA DE CULOARE RADIALĂ 
+
+/* Selectăm linkurile interne din main ȘI linkurile din footer */
+main a:not([href^="http"]),
+footer a {
+    text-decoration: underline; /* Linia rămâne activată ca în video */
+    
+    /* SECRETUL: 10px sus, 12px stânga/dreapta, și 0 JOS! */
+    /* Astfel fundalul nu are unde să crească sub cuvânt */
+    padding: 10px 12px 0px 12px; 
+    border-radius: 10px 10px 0 0; /* Rotunjim doar colțurile de sus pentru norișor, jos rămâne plat pe linie */
+    
+    display: inline-block;
+    position: relative;
+    
+    /* Gradient radial fix conform cerinței (marginile se pierd) */
+    background-image: radial-gradient(ellipse, var(--accent-color) 0%, var(--accent-color) 40%, transparent 80%, transparent 100%);
+    
+    /* Poziționat centrat și dimensiune 0 inițial */
+    background-position: center;
+    background-size: 0% 0%; 
+    background-repeat: no-repeat;
+    
+    /* Tranziția cerută care îl face să crească */
+    transition: background-size 1.5s ease, color 1.5s ease;
+}
+
+/* Culorile textului în stare normală */
+main a:not([href^="http"]) {
+    color: #ffffff; 
+}
+footer a {
+    color: #dbae34; /* Auriul tău din footer */
+}
+
+/* La hover, imaginea crește la 100%, dar din cauza padding-ului de 0 jos, va urca doar deasupra! */
+main a:not([href^="http"]):hover,
+footer a:hover {
+    background-size: 80% 80%;
+    color: #ffffff; /* Textul rămâne alb */
+    text-decoration: underline; /* Linia de subliniere rămâne la locul ei la hover */
+}
+
+/* ====================================================
+   ETAPA 4: STILIZARE FOOTER STRUCTURE
+==================================================== */
+footer address {
+    font-style: normal;
+    line-height: 1.8;
+}
+
+/* Centram Harta */
+footer iframe {
+    display: block;
+    margin: 15px auto; 
+    border-radius: 8px;
+}
+
+/* Textul cu copyright centrat */
+footer p small {
+    display: block;
+    margin-top: 15px;
+    font-size: 0.9rem;
 }

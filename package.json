@@ -1,0 +1,39 @@
+{
+  "name": "pcbuilds---commercial-website",
+  "version": "1.0.0",
+  "description": "made by Hristache Mihnea-Ștefan, commercial website selling pc parts and pc builds",
+  "keywords": [
+    "pc",
+    "pcbuilds",
+    "intel",
+    "amd",
+    "nvidia",
+    "samsung",
+    "ram",
+    "ssd",
+    "hdd",
+    "cpu",
+    "gpu",
+    "aio",
+    "fan"
+  ],
+  "homepage": "https://github.com/mihneafeitan/PCBuilds---Commercial-Website#readme",
+  "bugs": {
+    "url": "https://github.com/mihneafeitan/PCBuilds---Commercial-Website/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mihneafeitan/PCBuilds---Commercial-Website.git"
+  },
+  "license": "ISC",
+  "author": "Hristache Mihnea-Ștefan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  }
+}

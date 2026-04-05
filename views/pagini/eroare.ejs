@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Eroare - <%= titlu %></title>
+    <%- include('../fragmente/head') %>
+</head>
+<body id="top">
+    <%- include('../fragmente/header') %>
+
+    <main style="text-align:center; padding: 50px;">
+        <h1 style="color:var(--accent-color); font-size:3rem;"><%= titlu %></h1>
+        <p style="font-size:1.5rem; margin: 20px 0;"><%= text %></p>
+        <img src="<%= imagine %>" alt="Eroare" style="max-width: 400px; border-radius:10px;">
+        <br><br>
+        <a href="/" style="font-size:1.2rem; text-decoration:underline;">Înapoi la pagina principală</a>
+    </main>
+
+    <%- include('../fragmente/footer') %>
+</body>
+</html>
