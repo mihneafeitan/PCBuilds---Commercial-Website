@@ -45,7 +45,7 @@ function initErori() {
             let keys = [...block.matchAll(/"([^"]+)"\s*:/g)].map(m => m[1]);
             let duplicates = keys.filter((item, index) => keys.indexOf(item) !== index);
             if (duplicates.length > 0) {
-                console.error(`Eroare JSON (Bonus F): Proprietatea [${duplicates[0]}] este specificată de mai multe ori într-un obiect!`);
+                console.error(`Eroare JSON : Proprietatea [${duplicates[0]}] este specificată de mai multe ori într-un obiect!`);
             }
         }
     }
@@ -83,9 +83,9 @@ function initErori() {
                 // Bonus G: Există mai multe erori cu același identificator
 
                 if (ids.includes(err.identificator)) {
-                    let eroareFaraId = Object.assign({}, err);
+                    let eroareFaragId = Object.assign({}, err);
                     delete eroareFaraId.identificator; // Se șterge ID-ul pentru afișare
-                    console.error(`Eroare JSON (Bonus G): ID duplicat găsit (${err.identificator}). Proprietăți:`, eroareFaraId);
+                    console.error(`Eroare JSON : ID duplicat găsit (${err.identificator}). Proprietăți:`, eroareFaraId);
                 }
                 ids.push(err.identificator);
 
@@ -95,7 +95,7 @@ function initErori() {
                 if (err.imagine && json.cale_baza) {
                     let imgPath = path.join(caleBazaPath, err.imagine);
                     if (!fs.existsSync(imgPath)) {
-                        console.error(`Eroare (Bonus E): Imaginea [${err.imagine}] asociată erorii ${err.identificator} nu există pe disc!`);
+                        console.error(`Eroare : Imaginea [${err.imagine}] asociată erorii ${err.identificator} nu există pe disc!`);
                     }
                     // Setăm calea absolută web pentru EJS
                     err.imagine = "/" + json.cale_baza + "/" + err.imagine;
@@ -114,7 +114,11 @@ initErori(); // Rulăm la pornirea serverului
 // Funcție afișare erori pe ecran
 function afisareEroare(res, identificator, titlu, text, imagine) {
     let err = obGlobal.obErori ? obGlobal.obErori.info_erori.find(e => e.identificator === identificator) : null;
-    let defaultErr = obGlobal.obErori ? obGlobal.obErori.eroare_default : { titlu: "Eroare", text: "Eroare generala", imagine: "" };
+    let defaultErr = obGlobal.obErori ? obGlobal.obErori.eroare_default : { 
+        titlu: "Eroare", 
+        text: "Eroare generala", 
+        imagine: "" 
+    };
 
     let vTitlu = titlu || (err ? err.titlu : defaultErr.titlu);
     let vText = text || (err ? err.text : defaultErr.text);
@@ -124,7 +128,10 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
         res.status(identificator);
     }
 
-    res.render('pagini/eroare', { titlu: vTitlu, text: vText, imagine: vImagine });
+    res.render('pagini/eroare', { 
+        titlu: vTitlu, 
+        text: vText, 
+        imagine: vImagine });
 }
 
 // --- 4. Setări Express și EJS ---
