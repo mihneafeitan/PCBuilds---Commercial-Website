@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const sass = require('sass'); // Pachetul pentru compilare SCSS
 const app = express();
-
+const sharp = require('sharp'); //  Pachetul pentru procesat imagini
 const port = 8081;
 
 // --- 1. (Afișare consolă cerință Node) ---
@@ -15,19 +16,67 @@ const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
 for (let f of vect_foldere) {
     let cale = path.join(__dirname, f);
     if (!fs.existsSync(cale)) {
-        fs.mkdirSync(cale);
+        fs.mkdirSync(cale, { recursive: true });
     }
 }
 
-// --- 3. Obiect Global și Funcția cu TOATE BONUSURILE DE ERORI ---
-global.obGlobal = { obErori: null };
+// --- 3. Obiect Global (Cerinta SCSS) ---
+global.obGlobal = { 
+    obErori: null,
+    folderScss: path.join(__dirname, 'resurse/scss'),
+    folderCss: path.join(__dirname, 'resurse/css')
+};
 
+// --- COMPILARE SCSS ---
+function compileazaScss(caleScss, caleCss) {
+    try {
+        if (!caleCss) {
+            let numeFisier = path.basename(caleScss, '.scss');
+            caleCss = path.join(obGlobal.folderCss, numeFisier + '.css');
+        }
+
+        let caleBackup = path.join(__dirname, 'backup/resurse/css');
+        if (!fs.existsSync(caleBackup)) {
+            fs.mkdirSync(caleBackup, { recursive: true });
+        }
+
+        if (fs.existsSync(caleCss)) {
+            let numeFisierCss = path.basename(caleCss);
+            let timpCurent = new Date().getTime(); 
+            fs.copyFileSync(caleCss, path.join(caleBackup, timpCurent + "_" + numeFisierCss));
+        }
+
+        let rezultat = sass.compile(caleScss);
+        fs.writeFileSync(caleCss, rezultat.css);
+        console.log(`[SCSS] Compilat cu succes: ${path.basename(caleScss)} -> ${path.basename(caleCss)}`);
+
+    } catch (err) {
+        console.error(`[SCSS EROARE] Eșec la compilare/backup pentru ${caleScss}: `, err.message);
+    }
+}
+
+if (fs.existsSync(obGlobal.folderScss)) {
+    let fisiere = fs.readdirSync(obGlobal.folderScss);
+    for (let fisier of fisiere) {
+        if (path.extname(fisier) === '.scss') {
+            compileazaScss(path.join(obGlobal.folderScss, fisier));
+        }
+    }
+}
+
+if (fs.existsSync(obGlobal.folderScss)) {
+    fs.watch(obGlobal.folderScss, (event, filename) => {
+        if (filename && path.extname(filename) === '.scss') {
+            console.log(`[WATCH] Fisier modificat: ${filename}. Incepem recompilarea...`);
+            compileazaScss(path.join(obGlobal.folderScss, filename));
+        }
+    });
+}
+
+// --- INITIALIZARE ERORI (Cu bonusuri) ---
 function initErori() {
     let caleFisier = path.join(__dirname, 'erori.json');
 
-    
-    // Bonus A: Nu există fisierul erori.json -> aplicația se închide
-    
     if (!fs.existsSync(caleFisier)) {
         console.error("Eroare CRITICA (Bonus A): Nu există fișierul erori.json!");
         process.exit();
@@ -35,9 +84,6 @@ function initErori() {
 
     let rawData = fs.readFileSync(caleFisier, 'utf-8');
 
-    
-    // Bonus F: Proprietate specificată de mai multe ori (verificare pe string)
-    
     const blockRegex = /\{[^{}]+\}/g;
     let blocks = rawData.match(blockRegex);
     if (blocks) {
@@ -53,51 +99,35 @@ function initErori() {
     try {
         let json = JSON.parse(rawData);
         
-        
-        // Bonus B: Nu există proprietățile: info_erori, cale_baza, eroare_default
-         
         if (!json.info_erori || !json.cale_baza || !json.eroare_default) {
-            console.error("Eroare JSON (Bonus B): Lipsesc proprietăți esențiale (info_erori, cale_baza, eroare_default)!");
+            console.error("Eroare JSON (Bonus B): Lipsesc proprietăți esențiale!");
         }
 
-        
-        // Bonus C: Pentru eroarea default lipseste titlu, text sau imagine
-        
         if (json.eroare_default && (!json.eroare_default.titlu || !json.eroare_default.text || !json.eroare_default.imagine)) {
-            console.error("Eroare JSON (Bonus C): Eroarea default este incompletă (lipsește titlu, text sau imagine)!");
+            console.error("Eroare JSON (Bonus C): Eroarea default este incompletă!");
         }
 
-        
-        // Bonus D: Folderul specificat în "cale_baza" nu există în sistem
-        
         let caleBazaPath = path.join(__dirname, json.cale_baza || '');
         if (json.cale_baza && !fs.existsSync(caleBazaPath)) {
-            console.error("Eroare (Bonus D): Folderul specificat în cale_baza nu există în sistemul de fișiere!");
+            console.error("Eroare (Bonus D): Folderul specificat în cale_baza nu există!");
         }
 
         let ids = [];
         if (json.info_erori) {
             for (let err of json.info_erori) {
                 
-                
-                // Bonus G: Există mai multe erori cu același identificator
-
                 if (ids.includes(err.identificator)) {
-                    let eroareFaragId = Object.assign({}, err);
-                    delete eroareFaraId.identificator; // Se șterge ID-ul pentru afișare
+                    let eroareFaraId = Object.assign({}, err); // Am corectat typo-ul aici
+                    delete eroareFaraId.identificator; 
                     console.error(`Eroare JSON : ID duplicat găsit (${err.identificator}). Proprietăți:`, eroareFaraId);
                 }
                 ids.push(err.identificator);
 
-
-                // Bonus E: Nu există vreunul dintre fișierele imagine pe disc
-
                 if (err.imagine && json.cale_baza) {
                     let imgPath = path.join(caleBazaPath, err.imagine);
                     if (!fs.existsSync(imgPath)) {
-                        console.error(`Eroare : Imaginea [${err.imagine}] asociată erorii ${err.identificator} nu există pe disc!`);
+                        console.error(`Eroare : Imaginea [${err.imagine}] nu există pe disc!`);
                     }
-                    // Setăm calea absolută web pentru EJS
                     err.imagine = "/" + json.cale_baza + "/" + err.imagine;
                 }
             }
@@ -109,9 +139,8 @@ function initErori() {
     }
 }
 
-initErori(); // Rulăm la pornirea serverului
+initErori(); 
 
-// Funcție afișare erori pe ecran
 function afisareEroare(res, identificator, titlu, text, imagine) {
     let err = obGlobal.obErori ? obGlobal.obErori.info_erori.find(e => e.identificator === identificator) : null;
     let defaultErr = obGlobal.obErori ? obGlobal.obErori.eroare_default : { 
@@ -131,24 +160,94 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     res.render('pagini/eroare', { 
         titlu: vTitlu, 
         text: vText, 
-        imagine: vImagine });
+        imagine: vImagine 
+    });
 }
 
-// --- 4. Setări Express și EJS ---
+// --- SETĂRI EXPRESS ȘI EJS ---
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Respingere fisiere .ejs (folosim Regex, fără ghilimele)
+
+// =======================================================================
+// --- 6. LOGICA PENTRU GALERIE (OBLIGATORIU AICI, ÎNAINTE DE RUTE) ---
+// =======================================================================
+function getAnotimp() {
+    let luna = new Date().getMonth() + 1; // getMonth() returnează 0-11
+    if (luna >= 3 && luna <= 5) return 'primavara';
+    if (luna >= 6 && luna <= 8) return 'vara';
+    if (luna >= 9 && luna <= 11) return 'toamna';
+    return 'iarna';
+}
+
+// Funcția middleware devine 'async' deoarece procesarea imaginilor durează milisecunde
+app.use(async (req, res, next) => {
+    let galeriePath = path.join(__dirname, 'galerie.json');
+    if (fs.existsSync(galeriePath)) {
+        try {
+            let dateGalerie = JSON.parse(fs.readFileSync(galeriePath, 'utf-8'));
+            let anotimpCurent = getAnotimp();
+            
+            // 1. Filtrare după anotimp
+            let imaginiFiltrate = dateGalerie.imagini.filter(img => img.anotimp === anotimpCurent);
+            
+            // 2. Trunchiere la maxim 13 imagini
+            if (imaginiFiltrate.length > 13) {
+                imaginiFiltrate = imaginiFiltrate.slice(0, 13);
+            }
+
+            // 3. SHARP: Creăm imagini mici dacă nu există deja
+            let folderImaginiAbsolut = path.join(__dirname, dateGalerie.cale_galerie);
+            
+            for (let img of imaginiFiltrate) {
+                let numeFisier = img.cale_fisier;
+                // Generăm un nume pentru poza mică (ex: poza1.jpg -> poza1-mic.jpg)
+                let numeFisierMic = numeFisier.replace('.', '-mic.');
+                
+                let caleAbsolutaMare = path.join(folderImaginiAbsolut, numeFisier);
+                let caleAbsolutaMica = path.join(folderImaginiAbsolut, numeFisierMic);
+                
+                // Salvăm numele mic în obiect ca să îl trimitem la EJS
+                img.cale_fisier_mic = numeFisierMic;
+
+                // Dacă există imaginea mare dar NU există aia mică, o tăiem!
+                if (fs.existsSync(caleAbsolutaMare) && !fs.existsSync(caleAbsolutaMica)) {
+                    try {
+                        // Facem resize la lățimea de 300px
+                        await sharp(caleAbsolutaMare).resize(300).toFile(caleAbsolutaMica);
+                        console.log(`[SHARP] Am generat versiunea mică pentru: ${numeFisier}`);
+                    } catch (errSharp) {
+                        console.error("[SHARP EROARE]", errSharp.message);
+                    }
+                }
+            }
+
+            // 4. Trimitem datele către EJS
+            res.locals.imaginiGalerie = imaginiFiltrate;
+            res.locals.caleGalerie = dateGalerie.cale_galerie;
+        } catch (err) {
+            console.error("Eroare la parsarea galerie.json:", err);
+            res.locals.imaginiGalerie = [];
+            res.locals.caleGalerie = "";
+        }
+    } else {
+        res.locals.imaginiGalerie = [];
+        res.locals.caleGalerie = "";
+    }
+    next(); 
+});
+
+
+// --- RUTE ȘI PAGINI ---
+
 app.get(/\.ejs$/, (req, res) => {
     afisareEroare(res, 400);
 });
 
-// Favicon
 app.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(__dirname, 'resurse/imagini/favicon.ico'));
 });
 
-// Interceptare folder resurse gol (Eroare 403)
 app.use('/resurse', (req, res, next) => {
     if (req.url === '/' || req.url === '') {
         return afisareEroare(res, 403);
@@ -157,17 +256,13 @@ app.use('/resurse', (req, res, next) => {
 });
 app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
 
-// --- 5. Rute / Pagini ---
 app.get(['/', '/index', '/home'], (req, res) => {
     res.render('pagini/index', { ip: req.ip });
 });
 
-
-// Ruta Generala - prinde tot restul (folosim Regex, fără ghilimele)
 app.get(/.*/, (req, res) => {
     let pagina = req.path.substring(1); 
     
-    // Dacă e calea goală, trimitem la index
     if (pagina === "") pagina = "index"; 
 
     res.render('pagini/' + pagina, { ip: req.ip }, function(err, html) {
@@ -185,4 +280,3 @@ app.get(/.*/, (req, res) => {
 app.listen(port, () => {
     console.log(`Serverul a pornit pe portul http://localhost:${port}`);
 });
-

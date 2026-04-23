@@ -1,0 +1,26 @@
+<div class="galerie-grid">
+    <% for(let i = 0; i < imaginiGalerie.length; i++) { %>
+        <% 
+            let img = imaginiGalerie[i]; 
+            /* Cerința ALT: Proprietatea alt din json, ALTFEL numele fisierului */
+            let textAlt = img.alt ? img.alt : img.cale_fisier; 
+        %>
+        <figure class="galerie-item">
+            <picture>
+                <source media="(max-width: 800px)" srcset="<%= caleGalerie %>/<%= img.cale_fisier_mic %>">
+                <img src="<%= caleGalerie %>/<%= img.cale_fisier %>" 
+                     alt="<%= textAlt %>" 
+                     title="<%= img.text_descriere %>">
+            </picture>
+            <figcaption>
+                <strong><%= img.titlu %></strong> - <%= img.text_descriere %>
+                
+                <% if(img.autor && img.licenta) { %>
+                    <br><small style="color: var(--accent-color); font-size: 0.75em;">
+                        Autor: <%= img.autor %> | Licență: <%= img.licenta %>
+                    </small>
+                <% } %>
+            </figcaption>
+        </figure>
+    <% } %>
+</div>

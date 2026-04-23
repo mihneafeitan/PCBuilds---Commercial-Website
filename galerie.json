@@ -1,0 +1,90 @@
+{
+    "cale_galerie": "/resurse/imagini",
+    "imagini": [
+        {
+            "cale_fisier": "i7 14700kf.png",
+            "titlu": "Procesor Intel",
+            "text_descriere": "Viteza de top pentru gaming.",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "rtx.png",
+            "titlu": "Placa Video RTX",
+            "text_descriere": "Grafica ray-tracing.",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "corsair.png",
+            "titlu": "Memorie RAM Corsair",
+            "text_descriere": "Multitasking extrem.",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "sursa.png",
+            "titlu": "Sursa Modulara",
+            "text_descriere": "Putere stabila.",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "carcasa_acv.png",
+            "titlu": "Carcasa RGB",
+            "text_descriere": "Flux de aer excelent.",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "aio.jpg",
+            "titlu": "Cooler Procesor",
+            "text_descriere": "Temperaturi scazute.",
+            "anotimp": "iarna"
+        },
+
+        { 
+            "cale_fisier": "ssd.png", 
+            "titlu": "SSD 1TB", 
+            "text_descriere": "Viteza", 
+            "anotimp": "vara" },
+        { 
+            "cale_fisier": "hdd.png", 
+            "titlu": "HDD 2TB", 
+            "text_descriere": "Stocare", 
+            "anotimp": "vara" 
+        },
+        { 
+            "cale_fisier": "placa_de_baza.jpg", 
+            "titlu": "Placa Baza", 
+            "text_descriere": "Conectivitate",
+            "anotimp": "vara" 
+        },
+        { 
+            "cale_fisier": "fanrgb.jpg", 
+            "titlu": "Ventilator", 
+            "text_descriere": "Racire",
+             "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "amd.png",
+            "titlu": "Procesor amd",
+            "text_descriere": "Perfomanta maxima.",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "viper.png",
+            "titlu": "RAM DDR5",
+            "text_descriere": "Viteza rapida",
+            "anotimp": "vara"
+        },
+        {
+            "cale_fisier": "5060.jpg",
+            "titlu": "Placa Video RTX 5060" ,
+            "text_descriere": "Raport Calitate-Pret excelent",
+            "anotimp": "vara"
+            
+        },
+        {
+            "cale_fisier": "setup_buget.jpg",
+            "titlu": "Calculator Buget",
+            "text_descriere": "Startup perfect pentru gaming light",
+            "anotimp": "vara"
+        }
+    ]
+}

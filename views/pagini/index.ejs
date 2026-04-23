@@ -180,6 +180,10 @@
                 </p>
                 <p><a href="/resurse/imagini/pc_first.jpg" download="primul_pc.png">Primul PC asamblat de noi</a></p>
             </div>
+            
+            <h3>Galeria Noastră de Produse</h3>
+            <%- include('../fragmente/galerie') %>
+            <br><br>
 
             <div id="zona-video" class="stilizare-taburi">
                 <h3>Urmareste ghidurile noastre video:</h3>
@@ -216,25 +220,66 @@
 
             <br><br>
             <h3>Intrebari Frecvente (FAQ)</h3>
-            <details>
-                <summary>Oferiti serviciu de asamblare?</summary>
-                <p>Da, pentru orice comanda ce contine toate <b>piesele pc</b> necesare unui sistem complet, oferim asamblare in valoare de 300 de lei.</p>
-            </details>
-            <details>
-                <summary>Care este politica de retur?</summary>
-                <p>Ai la dispozitie 14 zile calendaristice pentru a returna orice <b>componenta de calculator</b> sigilata.</p>
-            </details>
-            <details>
-                <summary>Cum pot verifica compatibilitatea componentelor?</summary>
-                <p>Pe site-ul nostru ai la dispozitie un ghid de compatibilitate. In plus, echipa noastra de suport iti poate verifica configuratia inainte de comanda, gratuit.</p>
-            </details>
+            
+            <div class="accordion w-100 mt-3" id="acordeonFAQ" data-bs-theme="dark">
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="intrebareUnu">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#raspunsUnu" aria-expanded="true" aria-controls="raspunsUnu">
+                            Oferiti serviciu de asamblare?
+                        </button>
+                    </h2>
+                    <div id="raspunsUnu" class="accordion-collapse collapse show" aria-labelledby="intrebareUnu" data-bs-parent="#acordeonFAQ">
+                        <div class="accordion-body">
+                            Da, pentru orice comanda ce contine toate <b>piesele pc</b> necesare unui sistem complet, oferim asamblare in valoare de 300 de lei.
+                        </div>
+                    </div>
+                </div>
 
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="intrebareDoi">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#raspunsDoi" aria-expanded="false" aria-controls="raspunsDoi">
+                            Care este politica de retur?
+                        </button>
+                    </h2>
+                    <div id="raspunsDoi" class="accordion-collapse collapse" aria-labelledby="intrebareDoi" data-bs-parent="#acordeonFAQ">
+                        <div class="accordion-body">
+                            Ai la dispozitie 14 zile calendaristice pentru a returna orice <b>componenta de calculator</b> sigilata.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="intrebareTrei">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#raspunsTrei" aria-expanded="false" aria-controls="raspunsTrei">
+                            Cum pot verifica compatibilitatea componentelor?
+                        </button>
+                    </h2>
+                    <div id="raspunsTrei" class="accordion-collapse collapse" aria-labelledby="intrebareTrei" data-bs-parent="#acordeonFAQ">
+                        <div class="accordion-body">
+                            Pe site-ul nostru ai la dispozitie un ghid de compatibilitate. In plus, echipa noastra de suport iti poate verifica configuratia inainte de comanda, gratuit.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <br>
             <h3>Ghid de Instalare Detaliat</h3>
             <p>Consultați documentul de mai jos pentru informații suplimentare:</p>
             <embed src="/resurse/ghid.pdf" type="application/pdf" width="100%" height="400px" />
 
         </section>
+
+        <section style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 40px 0 80px 0; gap: 50px; z-index: 10;">
+            
+            <hr class="stil-custom">
+
+            <h2 class="text-reflexie" data-text="Performanță Extremă">Performanță Extremă</h2>
+
+            <div class="efect-duotone"></div>
+
+        </section>
+
     </main>
 
     <%- include('../fragmente/footer') %>

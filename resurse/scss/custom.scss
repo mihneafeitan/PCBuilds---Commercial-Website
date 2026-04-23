@@ -1,0 +1,40 @@
+/* =========================================================
+   CUSTOMIZARE BOOTSTRAP (Cerinta Etapa 5)
+========================================================= */
+
+// 1. Schimbare dimensiuni breakpoint-uri (ecrane)
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 800px, // Modificat de la 768px la 800px pentru ecran mediu
+  lg: 1024px, // Modificat de la 992px la 1024px pentru ecran mare
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// 2. Schimbare font implicit și culori text (pentru butoane/elemente)
+$font-family-base: 'Roboto', sans-serif;
+$body-color: #ffffff; // Un portocaliu din schema ta
+$headings-color: #2b6f97; // Albastrul tău principal
+
+// 3. Schimbare culori de background (2 teme custom: primary si secondary)
+$primary: #22719e; 
+$secondary: #9b59b6; // Movul folosit la linkuri
+$success: #2ecc71; // Verde
+
+// 4. Dimensiune raze de border (mai rotunjit)
+$border-radius: 15px;
+$border-radius-lg: 20px;
+$border-radius-sm: 8px;
+
+// 5. Dimensiunea literelor pentru heading-uri
+$h1-font-size: 3rem;
+$h2-font-size: 2.2rem;
+$h3-font-size: 1.5rem;
+
+// 6. Variabilă suplimentară aleasă (grosimea fontului)
+$font-weight-base: 400;
+$font-weight-bold: 700;
+
+// IMPORTĂM LIBRĂRIA BOOTSTRAP PESTE VARIABILELE NOASTRE
+@import "../../node_modules/bootstrap/scss/bootstrap";
