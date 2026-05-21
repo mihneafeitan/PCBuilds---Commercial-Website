@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Produse - PCBuilds</title>
+    <%- include('../fragmente/head') %>
+    <script src="/resurse/js/produse.js" defer></script>
+</head>
+<body id="top">
+    <%- include('../fragmente/header') %>
+
+    <main style="padding: 2rem var(--page-padding);">
+        <h2 style="text-align:center; color: var(--accent-color); margin-bottom: 2rem;">Produsele Noastre</h2>
+
+        <div class="text-start mb-3">
+            <button id="btn-toggle-filtre" class="btn btn-outline-primary">
+                <i class="fa-solid fa-eye-slash"></i> Ascunde Panoul de Filtre
+            </button>
+        </div>
+
+        <section id="filtre-produse" data-bs-theme="dark" class="container-fluid mb-4 p-4" style="background-color: var(--bg-color-alt); border-radius: 10px; border: 1px solid var(--primary-color);">
+            <h4 class="mb-4" style="color: var(--primary-color);"><i class="fa-solid fa-filter"></i> Filtrează și Sortează</h4>
+            
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <label class="form-label">Nume produs (Cuvânt cheie)</label>
+                    <input type="text" id="inp-nume" class="form-control" placeholder="ex: Intel, RTX...">
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="form-floating h-100">
+                        <textarea class="form-control" id="inp-descriere" placeholder="Cuvânt în descriere" style="height: 100%;"></textarea>
+                        <label for="inp-descriere">Căutare în descriere</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <label class="form-label">Culoare predominantă</label>
+                    <select id="inp-culoare" class="form-select">
+                        <option value="toate" selected>Toate culorile (Oricare)</option>
+                        <option value="Negru">Negru</option>
+                        <option value="Alb">Alb</option>
+                        <option value="Argintiu">Argintiu</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <label class="form-label">Garanție minimă (luni)</label>
+                    <input class="form-control" list="lista-garantie" id="inp-garantie" placeholder="Selectează sau scrie...">
+                    <datalist id="lista-garantie">
+                        <option value="12">12 luni</option>
+                        <option value="24">24 luni</option>
+                        <option value="36">36 luni (Standard PC)</option>
+                        <option value="60">60 luni (Premium)</option>
+                        <option value="120">120 luni (Surse)</option>
+                    </datalist>
+                </div>
+
+                <div class="col-12 mt-4">
+                    <label class="form-label d-block">Categorie Produs:</label>
+                    <div class="btn-group flex-wrap" role="group">
+                        <input type="radio" class="btn-check" name="gr_radio" id="rad-toate" value="toate" checked>
+                        <label class="btn btn-outline-primary" for="rad-toate">Toate</label>
+
+                        <% for (let cat of categoriiMeniu) { %>
+                            <input type="radio" class="btn-check" name="gr_radio" id="rad-<%= cat %>" value="<%= cat %>">
+                            <label class="btn btn-outline-primary" for="rad-<%= cat %>" style="text-transform: capitalize;"><%= cat.replaceAll('_', ' ') %></label>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-4">
+                    <label class="form-label">
+                        Preț Maxim: <span id="infoRange" style="color: var(--accent-color); font-weight: bold;">(Selectați o valoare)</span>
+                    </label>
+                    <div class="d-flex align-items-center">
+                        <span>0</span>
+                        <input type="range" class="form-range flex-grow-1 mx-2" id="inp-pret" min="0" max="<%= pretMaximDB %>" step="50" value="<%= pretMaximDB %>">
+                        <span><%= pretMaximDB %></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mt-4">
+                    <label class="form-label d-block">Stare produs:</label>
+                    <input type="checkbox" class="btn-check" id="inp-nou" autocomplete="off" checked>
+                    <label class="btn btn-outline-secondary w-100" for="inp-nou"><i class="fa-solid fa-box"></i> Doar Produse Noi</label>
+                </div>
+
+                <div class="col-md-3 mt-4">
+                    <label class="form-label">Compatibilitate (Ctrl+Click)</label>
+                    <select id="inp-compatibilitate" class="form-select" multiple size="3">
+                        <option value="DDR5">DDR5</option>
+                        <option value="DDR4">DDR4</option>
+                        <option value="LGA1700">Intel LGA1700</option>
+                        <option value="AM5">AMD AM5</option>
+                        <option value="PCIe5.0">PCIe 5.0</option>
+                    </select>
+                </div>
+            </div>
+
+            <hr class="my-4" style="border-color: var(--primary-color);">
+
+            <div class="row g-2">
+                <div class="col-sm-6 col-md-3">
+                    <button id="btn-filtrare" class="btn btn-primary w-100">
+                        <i class="fa-solid fa-filter"></i><span class="d-none d-sm-inline"> Filtrează</span>
+                    </button>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <button id="btn-reset" class="btn btn-danger w-100">
+                        <i class="fa-solid fa-trash-can"></i><span class="d-none d-sm-inline"> Resetează</span>
+                    </button>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <button id="btn-sort-asc" class="btn btn-secondary w-100">
+                        <i class="fa-solid fa-arrow-down-a-z"></i><span class="d-none d-sm-inline"> Sortează Asc</span>
+                    </button>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <button id="btn-sort-desc" class="btn btn-secondary w-100">
+                        <i class="fa-solid fa-arrow-up-z-a"></i><span class="d-none d-sm-inline"> Sortează Desc</span>
+                    </button>
+                </div>
+                <div class="col-sm-12 mt-3">
+                    <button id="btn-calcul" class="btn btn-success w-100">
+                        <i class="fa-solid fa-calculator"></i><span class="d-none d-sm-inline"> Calculează Suma Prețurilor</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="alert alert-info py-2" style="background-color: var(--bg-color-alt); border-color: var(--primary-color); color: var(--text-color);">
+            <i class="fa-solid fa-circle-info text-primary"></i> <span id="statistici-produse">Se încarcă numărul de produse...</span>
+        </div>
+
+        <div id="container-produse" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+            
+            <% for (let prod of produse) { %>
+                <article class="produs" id="artc-<%= prod.id %>" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color); border-radius: 8px; padding: 15px;">
+                    
+                    <h3 class="nume" style="text-align: center; margin-bottom: 15px;">
+                        <a href="/produs/<%= prod.id %>" style="color: var(--primary-color); text-decoration: none;"><%= prod.nume %></a>
+                    </h3>
+                    
+                    <div class="info-produs">
+                        <picture style="display: block; width: 100%; text-align: center; margin-bottom: 15px;">
+                            <img src="/resurse/imagini/<%= prod.imagine %>" alt="<%= prod.nume %>" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                        </picture>
+                        
+                        <p class="descriere" style="font-size: 0.9em; margin-bottom: 15px; text-align: justify;"><%= prod.descriere %></p>
+
+                        <ul style="list-style-type: none; padding-left: 0; font-size: 0.9em; display: flex; flex-direction: column; gap: 8px;">
+                            <li><span style="color: var(--accent-color); font-weight: bold;">Categorie:</span> <span class="val-categorie"><%= prod.categorie.replace('_', ' ') %></span></li>
+                            
+                            <li>
+                                <span style="color: var(--accent-color); font-weight: bold;">Preț:</span> 
+                                <% if (locals.oferta && locals.oferta.categorie === prod.categorie) { %>
+                                    <% let pretRedus = prod.pret - (prod.pret * locals.oferta.reducere / 100); %>
+                                    <del class="text-secondary"><%= prod.pret %></del> 
+                                    <span class="val-pret" style="color: #27ae60; font-weight: bold; font-size: 1.1em;"><%= pretRedus.toFixed(2) %></span> RON
+                                    <span class="badge bg-danger ms-1"> -<%= locals.oferta.reducere %>%</span>
+                                <% } else { %>
+                                    <span class="val-pret"><%= prod.pret %></span> RON
+                                <% } %>
+                            </li>
+
+                            <li><span style="color: var(--accent-color); font-weight: bold;">Garanție:</span> <span class="val-garantie"><%= prod.garantie_luni %></span> luni</li>
+                            <li><span style="color: var(--accent-color); font-weight: bold;">Culoare:</span> <span class="val-culoare"><%= prod.culoare %></span></li>
+                            <li><span style="color: var(--accent-color); font-weight: bold;">Compatibilitate:</span> <span class="val-compatibilitate"><%= prod.compatibilitate %></span></li>
+                            <li><span style="color: var(--accent-color); font-weight: bold;">Stare:</span> <span class="val-nou"><%= prod.nou ? 'Produs Nou' : 'Resigilat' %></span></li>
+                            
+                            <% 
+                                let dataFormatata = new Intl.DateTimeFormat('ro-RO', { 
+                                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' 
+                                }).format(new Date(prod.data_adaugare));
+                            %>
+                            <li>
+                                <span style="color: var(--accent-color); font-weight: bold;">Adăugat la:</span> 
+                                <time class="val-data" datetime="<%= prod.data_adaugare %>"><%= dataFormatata %></time>
+                            </li>
+                        </ul>
+
+                        <div class="mt-3 text-center">
+                            <button class="btn btn-sm btn-outline-info btn-comparare w-100" data-id="<%= prod.id %>" data-nume="<%= prod.nume %>">
+                                <i class="fa-solid fa-scale-balanced"></i> Compară
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            <% } %>
+
+        </div>
+
+        <div id="container-comparare" class="p-3 shadow-lg" style="display: none; position: fixed; bottom: 20px; right: 20px; background-color: var(--bg-color-alt); border: 2px solid var(--primary-color); border-radius: 10px; z-index: 10000; min-width: 320px;">
+            <h5 style="color: var(--primary-color); margin-bottom: 15px; font-size: 1.1rem;"><i class="fa-solid fa-scale-balanced"></i> Produse de comparat:</h5>
+            <div id="produse-comparare-lista"></div>
+            <button id="btn-afiseaza-comparare" class="btn btn-success w-100 mt-3" style="display: none;">
+                <i class="fa-solid fa-table-columns"></i> Afișează
+            </button>
+        </div>
+    </main>
+
+    <%- include('../fragmente/footer') %>
+</body>
+</html>

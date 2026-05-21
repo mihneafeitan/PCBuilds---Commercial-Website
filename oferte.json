@@ -1,0 +1,46 @@
+{
+    "oferte": [
+        {
+            "categorie": "placa_video",
+            "reducere": 20,
+            "data-incepere": "2026-06-03T16:19:36.086Z",
+            "data-finalizare": "2026-06-03T16:20:36.086Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 20,
+            "data-incepere": "2026-06-03T16:18:36.077Z",
+            "data-finalizare": "2026-06-03T16:19:36.077Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 45,
+            "data-incepere": "2026-06-03T16:17:36.062Z",
+            "data-finalizare": "2026-06-03T16:18:36.062Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 30,
+            "data-incepere": "2026-06-03T16:16:36.048Z",
+            "data-finalizare": "2026-06-03T16:17:36.048Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 45,
+            "data-incepere": "2026-06-03T16:15:36.043Z",
+            "data-finalizare": "2026-06-03T16:16:36.043Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 50,
+            "data-incepere": "2026-06-03T16:14:36.030Z",
+            "data-finalizare": "2026-06-03T16:15:36.030Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 50,
+            "data-incepere": "2026-01-01T00:00:00.000Z",
+            "data-finalizare": "2027-01-01T00:00:00.000Z"
+        }
+    ]
+}

@@ -726,3 +726,44 @@ hr.stil-custom::after {
     0% { -webkit-mask-image: repeating-radial-gradient(ellipse at bottom, transparent 0%, black 2%, transparent 4%); }
     100% { -webkit-mask-image: repeating-radial-gradient(ellipse at bottom, transparent 4%, black 6%, transparent 8%); }
 }
+
+/* ==========================================
+   TEMA LIGHT / DARK (Variabile Globale)
+========================================== */
+
+/* 1. TEMA DARK (Tema ta originală cu Albastru Închis) */
+/* Am pus și :root pentru ca aceasta să fie tema implicită la încărcarea paginii */
+:root, body.dark {
+    --primary-color: #2b6f97;       
+    --secondary-color: #ffffff;     
+    --accent-color: #e67e22;        
+    --bg-color-main: #1e1e50;       
+    --bg-color-alt: #0101029a;        
+    --text-color: #ffffff;          
+    
+    --tabel-c1: #3498db;            
+    --tabel-c2: #9b59b6;  
+}
+
+/* 2. TEMA LIGHT (Modul de zi - Culori Deschise/Alb) */
+body.light {
+    --bg-color-main: #f4f6f9;     /* Fundalul principal (gri extrem de deschis, aproape alb) */
+    --bg-color-alt: #ffffff;      /* Fundalul secțiunilor (alb curat) */
+    --text-color: #1e293b;        /* Text negru/gri foarte închis */
+    --primary-color: #0284c7;     /* Albastru clasic pentru vizibilitate pe alb */
+    --secondary-color: #cbd5e1;   /* Gri deschis pentru borduri */
+    --accent-color: #ea580c;      /* Portocaliu mai închis pentru contrast pe alb */
+    --page-padding: 5%;
+}
+
+/* 3. APLICARE CULORI PE SITE CU EFECT DE TRANZIȚIE */
+body {
+    background-color: var(--bg-color-main);
+    color: var(--text-color);
+    transition: background-color 0.4s ease, color 0.4s ease; /* Efect de tranziție lină */
+}
+
+/* Asigurăm tranziția și pentru secțiunile cu fundal alternativ */
+section, article, .produs, #filtre-produse {
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}

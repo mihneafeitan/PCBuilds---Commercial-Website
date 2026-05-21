@@ -38,3 +38,9 @@ $font-weight-bold: 700;
 
 // IMPORTĂM LIBRĂRIA BOOTSTRAP PESTE VARIABILELE NOASTRE
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+// --- Variabile pentru Input Range (Cerinta 6.f) ---
+$form-range-thumb-bg: #e67e22;          // Culoarea bulinei (un portocaliu)
+$form-range-thumb-width: 1.5rem;        // Facem bulina mai mare (default e 1rem)
+$form-range-thumb-height: 1.5rem;       
+$form-range-track-bg: #555555;          // Culoarea barei pe care gliseaza
