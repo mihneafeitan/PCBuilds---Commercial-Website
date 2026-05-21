@@ -9,6 +9,9 @@
     <%- include('../fragmente/header') %>
 
     <main style="padding: 2rem var(--page-padding);">
+        
+        
+
         <h2 style="text-align:center; color: var(--accent-color); margin-bottom: 2rem;">Produsele Noastre</h2>
 
         <div class="text-start mb-3">
@@ -16,6 +19,16 @@
                 <i class="fa-solid fa-eye-slash"></i> Ascunde Panoul de Filtre
             </button>
         </div>
+
+        <%
+            let culoriUnice = [...new Set(produse.map(p => p.culoare))];
+            let garantiiUnice = [...new Set(produse.map(p => p.garantie_luni))].sort((a,b) => a - b);
+            let compatibilitati = [];
+            produse.forEach(p => {
+                let comp = p.compatibilitate.split(',');
+                comp.forEach(c => { if(!compatibilitati.includes(c.trim())) compatibilitati.push(c.trim()); });
+            });
+        %>
 
         <section id="filtre-produse" data-bs-theme="dark" class="container-fluid mb-4 p-4" style="background-color: var(--bg-color-alt); border-radius: 10px; border: 1px solid var(--primary-color);">
             <h4 class="mb-4" style="color: var(--primary-color);"><i class="fa-solid fa-filter"></i> Filtrează și Sortează</h4>
@@ -37,9 +50,9 @@
                     <label class="form-label">Culoare predominantă</label>
                     <select id="inp-culoare" class="form-select">
                         <option value="toate" selected>Toate culorile (Oricare)</option>
-                        <option value="Negru">Negru</option>
-                        <option value="Alb">Alb</option>
-                        <option value="Argintiu">Argintiu</option>
+                        <% for (let c of culoriUnice) { %>
+                            <option value="<%= c %>"><%= c %></option>
+                        <% } %>
                     </select>
                 </div>
 
@@ -47,11 +60,9 @@
                     <label class="form-label">Garanție minimă (luni)</label>
                     <input class="form-control" list="lista-garantie" id="inp-garantie" placeholder="Selectează sau scrie...">
                     <datalist id="lista-garantie">
-                        <option value="12">12 luni</option>
-                        <option value="24">24 luni</option>
-                        <option value="36">36 luni (Standard PC)</option>
-                        <option value="60">60 luni (Premium)</option>
-                        <option value="120">120 luni (Surse)</option>
+                        <% for (let g of garantiiUnice) { %>
+                            <option value="<%= g %>"><%= g %> luni</option>
+                        <% } %>
                     </datalist>
                 </div>
 
@@ -88,43 +99,42 @@
                 <div class="col-md-3 mt-4">
                     <label class="form-label">Compatibilitate (Ctrl+Click)</label>
                     <select id="inp-compatibilitate" class="form-select" multiple size="3">
-                        <option value="DDR5">DDR5</option>
-                        <option value="DDR4">DDR4</option>
-                        <option value="LGA1700">Intel LGA1700</option>
-                        <option value="AM5">AMD AM5</option>
-                        <option value="PCIe5.0">PCIe 5.0</option>
+                        <% for (let comp of compatibilitati) { %>
+                            <option value="<%= comp %>"><%= comp %></option>
+                        <% } %>
                     </select>
+                </div>
+            </div>
+
+            <div class="row mt-4 g-2 p-3" style="background-color: rgba(255,255,255,0.05); border-radius: 8px; border: 1px dashed var(--secondary-color);">
+                <div class="col-12"><label style="color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-sort"></i> Sortare Avansată (2 Criterii)</label></div>
+                
+                <div class="col-md-3">
+                    <select id="sort-criteriu1" class="form-select">
+                        <option value="nume">Nume Produs</option>
+                        <option value="pret">Preț</option>
+                        <option value="garantie">Garanție</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select id="sort-criteriu2" class="form-select">
+                        <option value="pret">Preț</option>
+                        <option value="nume">Nume Produs</option>
+                        <option value="garantie">Garanție</option>
+                    </select>
+                </div>
+                <div class="col-md-6 d-flex gap-2">
+                    <button id="btn-sort-avansat-asc" class="btn btn-warning w-100"><i class="fa-solid fa-arrow-up-a-z"></i> Crescător</button>
+                    <button id="btn-sort-avansat-desc" class="btn btn-warning w-100"><i class="fa-solid fa-arrow-down-z-a"></i> Descrescător</button>
                 </div>
             </div>
 
             <hr class="my-4" style="border-color: var(--primary-color);">
 
             <div class="row g-2">
-                <div class="col-sm-6 col-md-3">
-                    <button id="btn-filtrare" class="btn btn-primary w-100">
-                        <i class="fa-solid fa-filter"></i><span class="d-none d-sm-inline"> Filtrează</span>
-                    </button>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <button id="btn-reset" class="btn btn-danger w-100">
-                        <i class="fa-solid fa-trash-can"></i><span class="d-none d-sm-inline"> Resetează</span>
-                    </button>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <button id="btn-sort-asc" class="btn btn-secondary w-100">
-                        <i class="fa-solid fa-arrow-down-a-z"></i><span class="d-none d-sm-inline"> Sortează Asc</span>
-                    </button>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <button id="btn-sort-desc" class="btn btn-secondary w-100">
-                        <i class="fa-solid fa-arrow-up-z-a"></i><span class="d-none d-sm-inline"> Sortează Desc</span>
-                    </button>
-                </div>
-                <div class="col-sm-12 mt-3">
-                    <button id="btn-calcul" class="btn btn-success w-100">
-                        <i class="fa-solid fa-calculator"></i><span class="d-none d-sm-inline"> Calculează Suma Prețurilor</span>
-                    </button>
-                </div>
+                <div class="col-sm-6"><button id="btn-filtrare" class="btn btn-primary w-100"><i class="fa-solid fa-filter"></i> Filtrează</button></div>
+                <div class="col-sm-6"><button id="btn-reset" class="btn btn-danger w-100"><i class="fa-solid fa-trash-can"></i> Resetează Filtre</button></div>
+                <div class="col-12 mt-3"><button id="btn-calcul" class="btn btn-success w-100"><i class="fa-solid fa-calculator"></i> Calculează Suma Prețurilor</button></div>
             </div>
         </section>
 
@@ -135,7 +145,7 @@
         <div id="container-produse" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
             
             <% for (let prod of produse) { %>
-                <article class="produs" id="artc-<%= prod.id %>" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color); border-radius: 8px; padding: 15px;">
+                <article class="produs" id="artc-<%= prod.id %>" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color); border-radius: 8px; padding: 15px; position: relative;">
                     
                     <h3 class="nume" style="text-align: center; margin-bottom: 15px;">
                         <a href="/produs/<%= prod.id %>" style="color: var(--primary-color); text-decoration: none;"><%= prod.nume %></a>

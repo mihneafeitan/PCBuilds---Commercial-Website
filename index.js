@@ -276,7 +276,31 @@ app.get('/produse', async (req, res) => {
     }
 });
 
+// =======================================================================
+// ETAPA 6: RUTA DINAMICĂ PENTRU PAGINA FIECĂRUI PRODUS ÎN PARTE (:id)
+// =======================================================================
+app.get('/produs/:id', async (req, res) => {
+    try {
+        const idProdus = req.params.id; // Preluăm ID-ul din link (ex: /produs/3)
+        
+        // Interogăm baza de date pentru a găsi produsul cu ID-ul respectiv
+        const rezultat = await pool.query('SELECT * FROM produse WHERE id = $1', [idProdus]);
+        
+        // Dacă nu există niciun produs cu acest ID în baza de date, afișăm eroare 404
+        if (rezultat.rows.length === 0) {
+            return afisareEroare(res, 404, "Produsul nu a fost găsit", "Ne pare rău, dar piesa solicitată nu mai există în stoc sau a fost retrasă.");
+        }
 
+        // Extragem obiectul produsului gasit
+        let produsGasit = rezultat.rows[0];
+
+        // Randăm pagina "produs.ejs" și îi trimitem obiectul produsului
+        res.render('pagini/produs', { prod: produsGasit });
+    } catch (err) {
+        console.error("Eroare la încărcarea paginii produsului:", err);
+        afisareEroare(res, 500, "Eroare Server", "A apărut o problemă la comunicarea cu baza de date.");
+    }
+});
 // --- Etapa 6, Bonus 20: Ruta backend ce servește pagina de comparare paralelă a două produse selectate ---
 app.get('/compara/:id1/:id2', async (req, res) => {
     try {

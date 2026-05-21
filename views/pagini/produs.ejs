@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title><%= prod.nume %> - PCBuilds</title>
+    <%- include('../fragmente/head') %>
+</head>
+<body id="top" style="background-color: var(--bg-color-main); color: var(--text-color);">
+    <%- include('../fragmente/header') %>
+
+    <main class="container my-5" style="padding: 2rem var(--page-padding);">
+        
+        <div class="mb-4">
+            <a href="/produse" class="btn btn-outline-primary"><i class="fa-solid fa-arrow-left"></i> Înapoi la toate produsele</a>
+        </div>
+
+        <div class="row g-5 p-4 rounded shadow-lg" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color);">
+            
+            <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
+                <img src="/resurse/imagini/<%= prod.imagine %>" alt="<%= prod.nume %>" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+            </div>
+
+            <div class="col-md-6">
+                <h2 style="color: var(--primary-color); font-weight: bold; margin-bottom: 10px;"><%= prod.nume %></h2>
+                
+                <span class="badge <%= prod.nou ? 'bg-primary' : 'bg-secondary' %> mb-4 fs-6">
+                    <%= prod.nou ? 'Produs Nou' : 'Resigilat / Refurbished' %>
+                </span>
+
+                <div class="mb-4 p-3 rounded" style="background-color: rgba(255,255,255,0.02); border-left: 4px solid var(--accent-color);">
+                    <span style="font-size: 1.1rem; color: var(--text-color); opacity: 0.8;">Preț curent:</span>
+                    <br>
+                    <% if (locals.oferta && locals.oferta.categorie === prod.categorie) { %>
+                        <% let pretRedus = prod.pret - (prod.pret * locals.oferta.reducere / 100); %>
+                        <span class="fs-4 text-decoration-line-through text-secondary"><%= prod.pret %> RON</span>
+                        <span class="fs-2 fw-bold text-success ms-2"><%= pretRedus.toFixed(2) %> RON</span>
+                        <span class="badge bg-danger align-middle ms-2">REDUCERE -<%= locals.oferta.reducere %>%</span>
+                    <% } else { %>
+                        <span class="fs-2 fw-bold text-success"><%= prod.pret %> RON</span>
+                    <% } %>
+                </div>
+
+                <h5 style="color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-align-left"></i> Descrierea produsului</h5>
+                <p style="text-align: justify; line-height: 1.6; font-size: 1.05rem;" class="mb-4"><%= prod.descriere %></p>
+
+                <h5 style="color: var(--accent-color); font-weight: bold; margin-bottom: 15px;"><i class="fa-solid fa-circle-info"></i> Specificații Tehnice</h5>
+                
+                <table class="table table-dark table-striped table-bordered align-middle" style="font-size: 0.95rem;">
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-primary" style="width: 35%;">Categorie componentă</td>
+                            <td style="text-transform: capitalize;"><%= prod.categorie.replace('_', ' ') %></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-primary">Garanție comercială</td>
+                            <td><%= prod.garantie_luni %> luni (<%= Math.floor(prod.garantie_luni / 12) %> ani)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-primary">Culoare piesă</td>
+                            <td><%= prod.culoare %></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-primary">Tag-uri Compatibilitate</td>
+                            <td>
+                                <% let pieseComp = prod.compatibilitate.split(','); %>
+                                <% pieseComp.forEach(c => { %>
+                                    <span class="badge bg-outline-info border border-info text-info me-1" style="font-size: 0.85em;"><%= c.trim() %></span>
+                                <% }) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-primary">Dată listare depozit</td>
+                            <td>
+                                <% 
+                                    let dataRo = new Intl.DateTimeFormat('ro-RO', { 
+                                        day: 'numeric', month: 'long', year: 'numeric' 
+                                    }).format(new Date(prod.data_adaugare));
+                                %>
+                                <%= dataRo %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </main>
+
+    <%- include('../fragmente/footer') %>
+</body>
+</html>
