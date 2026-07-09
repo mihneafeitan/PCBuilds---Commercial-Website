@@ -58,6 +58,12 @@
                 </ul>
             </li>
 
+            <li class="nav-item">
+                <a href="/seturi">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span class="nav-text">Seturi Promoționale</span>
+                </a>
+            </li>
             <li class="nav-item d-flex align-items-center ms-lg-4 mt-3 mt-lg-0">
                 <i class="fa-solid fa-sun" style="color: #f1c40f; font-size: 1.2rem; margin-right: 8px;"></i>
                 <div class="form-check form-switch mb-0">
@@ -76,7 +82,7 @@
         </div>
 
         <script>
-            // --- Etapa 6, Bonus 12: Temporizator live care numără secundă cu secundă până expiră oferta ---
+            // --- Etapa 6, Bonus 12: Temporizator live care numara secunda cu secunda pana expira oferta ---
             const timpFinalizare = new Date("<%= oferta['data-finalizare'] %>").getTime();
             const elmTemporizator = document.getElementById("temporizator-oferta");
             const bannerOferta = document.getElementById("banner-oferta");

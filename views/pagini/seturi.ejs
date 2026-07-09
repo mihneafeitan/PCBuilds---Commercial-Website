@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Seturi Promo - PCBuilds</title>
+    <%- include('../fragmente/head') %>
+</head>
+<body id="top" style="background-color: var(--bg-color-main); color: var(--text-color);">
+    <%- include('../fragmente/header') %>
+
+    <main class="container my-5" style="padding: 2rem var(--page-padding); min-height: 70vh;">
+        <h2 class="text-center mb-5" style="color: var(--primary-color);"><i class="fa-solid fa-layer-group"></i> Seturi Promoționale de Componente</h2>
+        
+        <% if (seturi.length === 0) { %>
+            <div class="alert alert-warning text-center">Momentan nu există pachete promoționale active.</div>
+        <% } else { %>
+            <div class="row g-4">
+                <% seturi.forEach(set => { %>
+                    <div class="col-12">
+                        <div class="card shadow-lg h-100" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color);">
+                            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: var(--primary-color); color: white;">
+                                <h4 class="mb-0"><%= set.nume_set %></h4>
+                                <span class="badge bg-danger fs-6">-<%= set.infoPret.procentReducere %>% REDUCERE</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-4"><%= set.descriere_set %></p>
+                                
+                                <div class="mb-4">
+                                    <span class="text-decoration-line-through text-secondary fs-5"><%= set.infoPret.pretIntreg %> RON</span>
+                                    <span class="fs-3 fw-bold mx-2" style="color: #27ae60;"><%= set.infoPret.pretRedus %> RON</span>
+                                </div>
+
+                                <h5>Pachetul conține (<%= set.produse_set.length %> produse):</h5>
+                                <div class="d-flex flex-wrap gap-3 mt-3">
+                                    <% set.produse_set.forEach(p => { %>
+                                        <div class="text-center p-2 rounded" style="width: 140px; background: rgba(0,0,0,0.1); border: 1px solid var(--secondary-color);">
+                                            <a href="/produs/<%= p.id %>" style="text-decoration: none; color: inherit;">
+                                                <img src="/resurse/imagini/<%= p.imagine %>" alt="<%= p.nume %>" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+                                                <div style="font-size: 0.85rem; font-weight: bold; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"><%= p.nume %></div>
+                                            </a>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+
+    <%- include('../fragmente/footer') %>
+</body>
+</html>

@@ -1,40 +1,898 @@
 {
     "oferte": [
         {
-            "categorie": "placa_de_baza",
-            "reducere": 35,
-            "data-incepere": "2026-06-04T16:32:16.084Z",
-            "data-finalizare": "2026-06-04T16:33:16.084Z"
+            "categorie": "sursa",
+            "reducere": 5,
+            "data-incepere": "2026-07-09T00:46:18.806Z",
+            "data-finalizare": "2026-07-09T00:47:18.806Z"
         },
         {
-            "categorie": "sursa",
-            "reducere": 35,
-            "data-incepere": "2026-06-04T16:31:16.074Z",
-            "data-finalizare": "2026-06-04T16:32:16.074Z"
+            "categorie": "memorie",
+            "reducere": 25,
+            "data-incepere": "2026-07-09T00:45:18.794Z",
+            "data-finalizare": "2026-07-09T00:46:18.794Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 30,
+            "data-incepere": "2026-07-09T00:44:18.781Z",
+            "data-finalizare": "2026-07-09T00:45:18.781Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 45,
+            "data-incepere": "2026-07-09T00:43:18.777Z",
+            "data-finalizare": "2026-07-09T00:44:18.777Z"
         },
         {
             "categorie": "placa_de_baza",
             "reducere": 20,
-            "data-incepere": "2026-06-04T16:30:16.073Z",
-            "data-finalizare": "2026-06-04T16:31:16.073Z"
+            "data-incepere": "2026-07-09T00:42:18.778Z",
+            "data-finalizare": "2026-07-09T00:43:18.778Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:41:18.768Z",
+            "data-finalizare": "2026-07-09T00:42:18.768Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 40,
+            "data-incepere": "2026-07-09T00:40:18.764Z",
+            "data-finalizare": "2026-07-09T00:41:18.764Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 5,
+            "data-incepere": "2026-07-09T00:39:18.760Z",
+            "data-finalizare": "2026-07-09T00:40:18.760Z"
         },
         {
             "categorie": "memorie",
-            "reducere": 35,
-            "data-incepere": "2026-06-04T16:29:16.072Z",
-            "data-finalizare": "2026-06-04T16:30:16.072Z"
+            "reducere": 15,
+            "data-incepere": "2026-07-09T00:38:18.748Z",
+            "data-finalizare": "2026-07-09T00:39:18.748Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 40,
+            "data-incepere": "2026-07-09T00:37:18.737Z",
+            "data-finalizare": "2026-07-09T00:38:18.737Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 30,
+            "data-incepere": "2026-07-09T00:36:18.725Z",
+            "data-finalizare": "2026-07-09T00:37:18.725Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-09T00:35:18.714Z",
+            "data-finalizare": "2026-07-09T00:36:18.714Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 5,
+            "data-incepere": "2026-07-09T00:34:18.702Z",
+            "data-finalizare": "2026-07-09T00:35:18.702Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 20,
+            "data-incepere": "2026-07-09T00:33:18.691Z",
+            "data-finalizare": "2026-07-09T00:34:18.691Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 10,
+            "data-incepere": "2026-07-09T00:32:18.689Z",
+            "data-finalizare": "2026-07-09T00:33:18.689Z"
         },
         {
             "categorie": "placa_de_baza",
             "reducere": 10,
-            "data-incepere": "2026-06-04T16:28:16.068Z",
-            "data-finalizare": "2026-06-04T16:29:16.068Z"
+            "data-incepere": "2026-07-09T00:31:18.673Z",
+            "data-finalizare": "2026-07-09T00:32:18.673Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 5,
+            "data-incepere": "2026-07-09T00:30:18.670Z",
+            "data-finalizare": "2026-07-09T00:31:18.670Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 25,
+            "data-incepere": "2026-07-09T00:29:18.667Z",
+            "data-finalizare": "2026-07-09T00:30:18.667Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:28:18.662Z",
+            "data-finalizare": "2026-07-09T00:29:18.662Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 30,
+            "data-incepere": "2026-07-09T00:27:18.652Z",
+            "data-finalizare": "2026-07-09T00:28:18.652Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 15,
+            "data-incepere": "2026-07-09T00:26:18.640Z",
+            "data-finalizare": "2026-07-09T00:27:18.640Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 15,
+            "data-incepere": "2026-07-09T00:25:18.634Z",
+            "data-finalizare": "2026-07-09T00:26:18.634Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:24:18.628Z",
+            "data-finalizare": "2026-07-09T00:25:18.628Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 5,
+            "data-incepere": "2026-07-09T00:23:18.628Z",
+            "data-finalizare": "2026-07-09T00:24:18.628Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 40,
+            "data-incepere": "2026-07-09T00:22:18.613Z",
+            "data-finalizare": "2026-07-09T00:23:18.613Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-09T00:21:18.604Z",
+            "data-finalizare": "2026-07-09T00:22:18.604Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:20:18.599Z",
+            "data-finalizare": "2026-07-09T00:21:18.599Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 45,
+            "data-incepere": "2026-07-09T00:19:18.590Z",
+            "data-finalizare": "2026-07-09T00:20:18.590Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 5,
+            "data-incepere": "2026-07-09T00:18:18.583Z",
+            "data-finalizare": "2026-07-09T00:19:18.583Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:17:18.583Z",
+            "data-finalizare": "2026-07-09T00:18:18.583Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 10,
+            "data-incepere": "2026-07-09T00:16:18.577Z",
+            "data-finalizare": "2026-07-09T00:17:18.577Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 40,
+            "data-incepere": "2026-07-09T00:15:18.565Z",
+            "data-finalizare": "2026-07-09T00:16:18.565Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 25,
+            "data-incepere": "2026-07-09T00:14:18.559Z",
+            "data-finalizare": "2026-07-09T00:15:18.559Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 50,
+            "data-incepere": "2026-07-09T00:13:18.556Z",
+            "data-finalizare": "2026-07-09T00:14:18.556Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:12:18.556Z",
+            "data-finalizare": "2026-07-09T00:13:18.556Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 50,
+            "data-incepere": "2026-07-09T00:11:18.551Z",
+            "data-finalizare": "2026-07-09T00:12:18.551Z"
         },
         {
             "categorie": "sursa",
             "reducere": 45,
-            "data-incepere": "2026-06-04T16:27:16.054Z",
-            "data-finalizare": "2026-06-04T16:28:16.054Z"
+            "data-incepere": "2026-07-09T00:10:18.550Z",
+            "data-finalizare": "2026-07-09T00:11:18.550Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 40,
+            "data-incepere": "2026-07-09T00:09:18.542Z",
+            "data-finalizare": "2026-07-09T00:10:18.542Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 10,
+            "data-incepere": "2026-07-09T00:08:18.536Z",
+            "data-finalizare": "2026-07-09T00:09:18.536Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 45,
+            "data-incepere": "2026-07-09T00:07:18.532Z",
+            "data-finalizare": "2026-07-09T00:08:18.532Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 10,
+            "data-incepere": "2026-07-09T00:06:18.527Z",
+            "data-finalizare": "2026-07-09T00:07:18.527Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 30,
+            "data-incepere": "2026-07-09T00:05:18.520Z",
+            "data-finalizare": "2026-07-09T00:06:18.520Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 25,
+            "data-incepere": "2026-07-09T00:04:18.504Z",
+            "data-finalizare": "2026-07-09T00:05:18.504Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 35,
+            "data-incepere": "2026-07-09T00:03:18.503Z",
+            "data-finalizare": "2026-07-09T00:04:18.503Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 10,
+            "data-incepere": "2026-07-09T00:02:18.500Z",
+            "data-finalizare": "2026-07-09T00:03:18.500Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 25,
+            "data-incepere": "2026-07-09T00:01:18.488Z",
+            "data-finalizare": "2026-07-09T00:02:18.488Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-09T00:00:18.482Z",
+            "data-finalizare": "2026-07-09T00:01:18.482Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:59:18.479Z",
+            "data-finalizare": "2026-07-09T00:00:18.479Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:58:18.472Z",
+            "data-finalizare": "2026-07-08T23:59:18.472Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:57:18.460Z",
+            "data-finalizare": "2026-07-08T23:58:18.460Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:56:18.445Z",
+            "data-finalizare": "2026-07-08T23:57:18.445Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:55:18.431Z",
+            "data-finalizare": "2026-07-08T23:56:18.431Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T23:54:18.420Z",
+            "data-finalizare": "2026-07-08T23:55:18.420Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:53:18.407Z",
+            "data-finalizare": "2026-07-08T23:54:18.407Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:52:18.406Z",
+            "data-finalizare": "2026-07-08T23:53:18.406Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:51:18.398Z",
+            "data-finalizare": "2026-07-08T23:52:18.398Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:50:18.384Z",
+            "data-finalizare": "2026-07-08T23:51:18.384Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T23:49:18.376Z",
+            "data-finalizare": "2026-07-08T23:50:18.376Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:48:18.375Z",
+            "data-finalizare": "2026-07-08T23:49:18.375Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T23:47:18.360Z",
+            "data-finalizare": "2026-07-08T23:48:18.360Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T23:46:18.360Z",
+            "data-finalizare": "2026-07-08T23:47:18.360Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 45,
+            "data-incepere": "2026-07-08T23:45:18.351Z",
+            "data-finalizare": "2026-07-08T23:46:18.351Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T23:44:18.337Z",
+            "data-finalizare": "2026-07-08T23:45:18.337Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:43:18.329Z",
+            "data-finalizare": "2026-07-08T23:44:18.329Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T23:42:18.325Z",
+            "data-finalizare": "2026-07-08T23:43:18.325Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:41:18.315Z",
+            "data-finalizare": "2026-07-08T23:42:18.315Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T23:40:18.305Z",
+            "data-finalizare": "2026-07-08T23:41:18.305Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:39:18.298Z",
+            "data-finalizare": "2026-07-08T23:40:18.298Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:38:18.288Z",
+            "data-finalizare": "2026-07-08T23:39:18.288Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:37:18.280Z",
+            "data-finalizare": "2026-07-08T23:38:18.280Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:36:18.275Z",
+            "data-finalizare": "2026-07-08T23:37:18.275Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:35:18.263Z",
+            "data-finalizare": "2026-07-08T23:36:18.263Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T23:34:18.257Z",
+            "data-finalizare": "2026-07-08T23:35:18.257Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:33:18.247Z",
+            "data-finalizare": "2026-07-08T23:34:18.247Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T23:32:18.234Z",
+            "data-finalizare": "2026-07-08T23:33:18.234Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T23:31:18.230Z",
+            "data-finalizare": "2026-07-08T23:32:18.230Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 45,
+            "data-incepere": "2026-07-08T23:30:18.221Z",
+            "data-finalizare": "2026-07-08T23:31:18.221Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T23:29:18.218Z",
+            "data-finalizare": "2026-07-08T23:30:18.218Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:28:18.207Z",
+            "data-finalizare": "2026-07-08T23:29:18.207Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:27:18.193Z",
+            "data-finalizare": "2026-07-08T23:28:18.193Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T23:26:18.188Z",
+            "data-finalizare": "2026-07-08T23:27:18.188Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:25:18.182Z",
+            "data-finalizare": "2026-07-08T23:26:18.182Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:24:18.180Z",
+            "data-finalizare": "2026-07-08T23:25:18.180Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:23:18.175Z",
+            "data-finalizare": "2026-07-08T23:24:18.175Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T23:22:18.173Z",
+            "data-finalizare": "2026-07-08T23:23:18.173Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:21:18.166Z",
+            "data-finalizare": "2026-07-08T23:22:18.166Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 45,
+            "data-incepere": "2026-07-08T23:20:18.159Z",
+            "data-finalizare": "2026-07-08T23:21:18.159Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T23:19:18.157Z",
+            "data-finalizare": "2026-07-08T23:20:18.157Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T23:18:18.157Z",
+            "data-finalizare": "2026-07-08T23:19:18.157Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T23:17:18.156Z",
+            "data-finalizare": "2026-07-08T23:18:18.156Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:16:18.144Z",
+            "data-finalizare": "2026-07-08T23:17:18.144Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T23:15:18.129Z",
+            "data-finalizare": "2026-07-08T23:16:18.129Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:14:18.116Z",
+            "data-finalizare": "2026-07-08T23:15:18.116Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:13:18.103Z",
+            "data-finalizare": "2026-07-08T23:14:18.103Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:12:18.091Z",
+            "data-finalizare": "2026-07-08T23:13:18.091Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:11:18.083Z",
+            "data-finalizare": "2026-07-08T23:12:18.083Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T23:10:18.072Z",
+            "data-finalizare": "2026-07-08T23:11:18.072Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T23:09:18.064Z",
+            "data-finalizare": "2026-07-08T23:10:18.064Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T23:08:18.059Z",
+            "data-finalizare": "2026-07-08T23:09:18.059Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:07:18.049Z",
+            "data-finalizare": "2026-07-08T23:08:18.049Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T23:06:18.037Z",
+            "data-finalizare": "2026-07-08T23:07:18.037Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 45,
+            "data-incepere": "2026-07-08T23:05:18.027Z",
+            "data-finalizare": "2026-07-08T23:06:18.027Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 45,
+            "data-incepere": "2026-07-08T23:04:18.017Z",
+            "data-finalizare": "2026-07-08T23:05:18.017Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T23:03:18.003Z",
+            "data-finalizare": "2026-07-08T23:04:18.003Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 30,
+            "data-incepere": "2026-07-08T23:02:18.003Z",
+            "data-finalizare": "2026-07-08T23:03:18.003Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T23:01:17.993Z",
+            "data-finalizare": "2026-07-08T23:02:17.993Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 30,
+            "data-incepere": "2026-07-08T23:00:17.993Z",
+            "data-finalizare": "2026-07-08T23:01:17.993Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:59:17.989Z",
+            "data-finalizare": "2026-07-08T23:00:17.989Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:58:17.984Z",
+            "data-finalizare": "2026-07-08T22:59:17.984Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:57:17.977Z",
+            "data-finalizare": "2026-07-08T22:58:17.977Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T22:56:17.969Z",
+            "data-finalizare": "2026-07-08T22:57:17.969Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 30,
+            "data-incepere": "2026-07-08T22:55:17.961Z",
+            "data-finalizare": "2026-07-08T22:56:17.961Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:54:17.949Z",
+            "data-finalizare": "2026-07-08T22:55:17.949Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T22:52:20.389Z",
+            "data-finalizare": "2026-07-08T22:53:20.389Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T22:51:20.381Z",
+            "data-finalizare": "2026-07-08T22:52:20.381Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:50:20.369Z",
+            "data-finalizare": "2026-07-08T22:51:20.369Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:49:20.363Z",
+            "data-finalizare": "2026-07-08T22:50:20.363Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:48:20.357Z",
+            "data-finalizare": "2026-07-08T22:49:20.357Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T22:47:20.351Z",
+            "data-finalizare": "2026-07-08T22:48:20.351Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T22:46:20.339Z",
+            "data-finalizare": "2026-07-08T22:47:20.339Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T22:45:20.323Z",
+            "data-finalizare": "2026-07-08T22:46:20.323Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T22:44:20.320Z",
+            "data-finalizare": "2026-07-08T22:45:20.320Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T22:43:20.319Z",
+            "data-finalizare": "2026-07-08T22:44:20.319Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T22:42:20.312Z",
+            "data-finalizare": "2026-07-08T22:43:20.312Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T22:41:20.298Z",
+            "data-finalizare": "2026-07-08T22:42:20.298Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 30,
+            "data-incepere": "2026-07-08T22:40:20.290Z",
+            "data-finalizare": "2026-07-08T22:41:20.290Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 45,
+            "data-incepere": "2026-07-08T22:39:20.278Z",
+            "data-finalizare": "2026-07-08T22:40:20.278Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:38:20.262Z",
+            "data-finalizare": "2026-07-08T22:39:20.262Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T22:37:20.250Z",
+            "data-finalizare": "2026-07-08T22:38:20.250Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T22:36:20.239Z",
+            "data-finalizare": "2026-07-08T22:37:20.239Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 15,
+            "data-incepere": "2026-07-08T22:35:20.235Z",
+            "data-finalizare": "2026-07-08T22:36:20.235Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 20,
+            "data-incepere": "2026-07-08T22:34:20.231Z",
+            "data-finalizare": "2026-07-08T22:35:20.231Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 30,
+            "data-incepere": "2026-07-08T22:33:20.223Z",
+            "data-finalizare": "2026-07-08T22:34:20.223Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T22:32:20.208Z",
+            "data-finalizare": "2026-07-08T22:33:20.208Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T22:31:20.199Z",
+            "data-finalizare": "2026-07-08T22:32:20.199Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:30:20.193Z",
+            "data-finalizare": "2026-07-08T22:31:20.193Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:29:20.179Z",
+            "data-finalizare": "2026-07-08T22:30:20.179Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T22:28:20.167Z",
+            "data-finalizare": "2026-07-08T22:29:20.167Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:27:20.154Z",
+            "data-finalizare": "2026-07-08T22:28:20.154Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:26:20.142Z",
+            "data-finalizare": "2026-07-08T22:27:20.142Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T22:25:20.134Z",
+            "data-finalizare": "2026-07-08T22:26:20.134Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T22:24:20.126Z",
+            "data-finalizare": "2026-07-08T22:25:20.126Z"
+        },
+        {
+            "categorie": "placa_video",
+            "reducere": 40,
+            "data-incepere": "2026-07-08T22:23:20.118Z",
+            "data-finalizare": "2026-07-08T22:24:20.118Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T22:21:56.356Z",
+            "data-finalizare": "2026-07-08T22:22:56.356Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 25,
+            "data-incepere": "2026-07-08T22:20:56.348Z",
+            "data-finalizare": "2026-07-08T22:21:56.348Z"
+        },
+        {
+            "categorie": "sursa",
+            "reducere": 50,
+            "data-incepere": "2026-07-08T22:19:56.355Z",
+            "data-finalizare": "2026-07-08T22:20:56.355Z"
+        },
+        {
+            "categorie": "placa_de_baza",
+            "reducere": 5,
+            "data-incepere": "2026-07-08T22:18:56.343Z",
+            "data-finalizare": "2026-07-08T22:19:56.343Z"
+        },
+        {
+            "categorie": "memorie",
+            "reducere": 35,
+            "data-incepere": "2026-07-08T22:17:56.334Z",
+            "data-finalizare": "2026-07-08T22:18:56.334Z"
+        },
+        {
+            "categorie": "procesor",
+            "reducere": 10,
+            "data-incepere": "2026-07-08T22:16:56.323Z",
+            "data-finalizare": "2026-07-08T22:17:56.323Z"
         },
         {
             "categorie": "procesor",

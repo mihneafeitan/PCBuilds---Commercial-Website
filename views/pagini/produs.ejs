@@ -83,6 +83,40 @@
 
             </div>
         </div>
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 style="color: var(--accent-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-bottom: 30px;">
+                <i class="fa-solid fa-boxes-stacked"></i> Acest produs este disponibil și în pachetele:
+            </h3>
+                
+            <% if (!seturi || seturi.length === 0) { %>
+                <p class="text-muted">Produsul nu face parte din niciun set promoțional în acest moment.</p>
+            <% } else { %>
+                <div class="d-flex flex-wrap gap-4">
+                    <% seturi.forEach(set => { %>
+                        <div class="p-3 rounded shadow" style="background-color: var(--bg-color-alt); border: 1px dashed var(--primary-color); flex: 1; min-width: 300px;">
+                            <h4 class="text-primary"><%= set.nume_set %></h4>
+                            <p style="font-size: 0.9rem;"><%= set.descriere_set %></p>
+                                
+                            <div class="mb-3">
+                                <span class="fs-4 fw-bold" style="color: #27ae60;"><%= set.infoPret.pretRedus %> RON</span>
+                                <del class="text-secondary mx-2"><%= set.infoPret.pretIntreg %> RON</del>
+                            </div>
+
+                            <h6>Alte produse din set:</h6>
+                            <div class="d-flex gap-2 overflow-auto py-2">
+                                <% set.produse_set.forEach(p => { %>
+                                    <a href="/produs/<%= p.id %>" title="<%= p.nume %>">
+                                        <img src="/resurse/imagini/<%= p.imagine %>" alt="<%= p.nume %>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px; border: 1px solid #ccc;">
+                                    </a>
+                                <% }) %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+        </div>
+    </div>
     </main>
 
     <%- include('../fragmente/footer') %>

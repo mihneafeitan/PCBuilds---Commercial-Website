@@ -110,10 +110,7 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-
-// =======================================================================
-// --- Etapa 6, Bonus 12: Motor generare și gestionare oferte automate în JSON ---
-// =======================================================================
+// --- Etapa 6, Bonus 12: Motor generare si gestionare oferte automate în JSON ---
 const ofertePath = path.join(__dirname, 'oferte.json');
 
 let categoriiOfertare = [];
@@ -123,7 +120,7 @@ pool.query("SELECT unnest(enum_range(NULL::categorie_produs))::text AS categorie
 
 const T_OFERTA = 60 * 1000;      
 const T_CURATARE = 5 * 60 * 1000; 
-
+//generarea ofertelor BONUS 12
 setInterval(() => {
     if (categoriiOfertare.length === 0) return;
     
@@ -154,7 +151,7 @@ setInterval(() => {
         oferte.unshift(ofertaNoua);
         
         let acum = new Date().getTime();
-        oferte = oferte.filter(o => {
+        ofere = oferte.filter(o => {
             let timpFinalizare = new Date(o["data-finalizare"]).getTime();
             return (acum - timpFinalizare) < T_CURATARE;
         });
@@ -166,7 +163,6 @@ setInterval(() => {
     }
 }, T_OFERTA);
 
-// --- Etapa 6, Bonus 12: Middleware atașare ofertă activă în obiectul local local res.locals ---
 app.use((req, res, next) => {
     try {
         let rawData = fs.readFileSync(ofertePath, 'utf-8');
@@ -180,15 +176,12 @@ app.use((req, res, next) => {
     }
     next();
 });
-// =======================================================================
 
-
-// --- Etapa 6: Middleware pentru interogarea bazei de date și popularea meniului de categorii dinamic ---
 app.use(async (req, res, next) => {
     try {
         const query = "SELECT unnest(enum_range(NULL::categorie_produs))::text AS categorie";
-        const rezultat = await pool.query(query);
-        let categorii = rezultat.rows.map(rand => rand.categorie);
+        const resultado = await pool.query(query);
+        let categorii = resultado.rows.map(rand => rand.categorie);
         res.locals.categoriiMeniu = categorii;
     } catch (err) {
         console.error("Eroare la extragerea categoriilor pentru meniu:", err);
@@ -253,20 +246,66 @@ app.get(['/', '/index', '/home'], (req, res) => {
     res.render('pagini/index', { ip: req.ip });
 });
 
+// --- FUNCȚIE HELPER PENTRU BONUS 17 (Calcul pret set) ---
+function calculeazaPretSet(produseSet) {
+    let suma = produseSet.reduce((acc, p) => acc + parseFloat(p.pret), 0);
+    let n = produseSet.length;
+    // reducere de min(5,n)*5%
+    let procentReducere = Math.min(5, n) * 5; 
+    let pretRedus = suma * (1 - procentReducere / 100);
+    
+    return {
+        pretIntreg: suma.toFixed(2),
+        pretRedus: pretRedus.toFixed(2),
+        procentReducere: procentReducere
+    };
+}
 
-// --- Etapa 6: Generarea dinamică a paginii de listare produse din PostgreSQL ---
+// --- RUTA BONUS 17: Pagina principală cu toate seturile ---
+app.get('/seturi', async (req, res) => {
+    try {
+        const query = `
+            SELECT s.id, s.nume_set, s.descriere_set,
+                   json_agg(p.*) as produse_set
+            FROM seturi s
+            JOIN asociere_set asoc ON s.id = asoc.id_set
+            JOIN produse p ON asoc.id_produs = p.id
+            GROUP BY s.id;
+        `;
+        const rezultat = await pool.query(query);
+        
+        // Aplicăm calculul de reducere pentru fiecare set
+        let seturi = rezultat.rows.map(set => {
+            set.infoPret = calculeazaPretSet(set.produse_set);
+            return set;
+        });
+
+        res.render('pagini/seturi', { seturi: seturi, ip: req.ip });
+    } catch (err) {
+        console.error("Eroare la extragerea seturilor:", err);
+        afisareEroare(res, 500, "Eroare Seturi", "Nu s-au putut încărca pachetele promotionale.");
+    }
+});
+
+// --- Pagina de produse si BONUSUL 14  ---
 app.get('/produse', async (req, res) => {
     try {
-        const rezultat = await pool.query('SELECT * FROM produse');
+        const querySQL = `
+            SELECT *, 
+                   CASE 
+                       WHEN pret = MIN(pret) OVER(PARTITION BY categorie) THEN TRUE 
+                       ELSE FALSE 
+                   END AS cel_mai_ieftin 
+            FROM produse;
+        `;
+        const rezultat = await pool.query(querySQL);
         
-        // --- Etapa 6, Bonus 1: Citirea dinamică a celui mai scump produs pentru setare automată atribute slider ---
         let preturi = rezultat.rows.map(p => parseFloat(p.pret));
         let pretMaximDB = preturi.length > 0 ? Math.max(...preturi) : 10000;
-        
         pretMaximDB = Math.ceil(pretMaximDB / 100) * 100;
 
         res.render('pagini/produse', { 
-            produse: resultado = rezultat.rows, 
+            produse: rezultat.rows, 
             pretMaximDB: pretMaximDB, 
             ip: req.ip 
         });
@@ -276,32 +315,50 @@ app.get('/produse', async (req, res) => {
     }
 });
 
-// =======================================================================
-// ETAPA 6: RUTA DINAMICĂ PENTRU PAGINA FIECĂRUI PRODUS ÎN PARTE (:id)
-// =======================================================================
+// --- RUTA COMPLEMENTARĂ PENTRU PAGINA FIECĂRUI PRODUS (LIPSEA COMPLET!) ---
+// --- RUTA PENTRU PAGINA FIECĂRUI PRODUS (ACTUALIZATĂ PENTRU BONUS 17) ---
 app.get('/produs/:id', async (req, res) => {
     try {
-        const idProdus = req.params.id; // Preluăm ID-ul din link (ex: /produs/3)
+        const idProdus = req.params.id;
         
-        // Interogăm baza de date pentru a găsi produsul cu ID-ul respectiv
-        const rezultat = await pool.query('SELECT * FROM produse WHERE id = $1', [idProdus]);
-        
-        // Dacă nu există niciun produs cu acest ID în baza de date, afișăm eroare 404
-        if (rezultat.rows.length === 0) {
-            return afisareEroare(res, 404, "Produsul nu a fost găsit", "Ne pare rău, dar piesa solicitată nu mai există în stoc sau a fost retrasă.");
+        // 1. Aducem produsul curent
+        const rezultatProdus = await pool.query('SELECT * FROM produse WHERE id = $1', [idProdus]);
+        if (rezultatProdus.rows.length === 0) {
+            return afisareEroare(res, 404, "Produsul nu există", "Piesa solicitată nu a putut fi găsită.");
         }
+        let produsGasit = rezultatProdus.rows[0];
 
-        // Extragem obiectul produsului gasit
-        let produsGasit = rezultat.rows[0];
+        // 2. Aducem toate seturile în care se află acest produs, cu tot cu restul componentelor din set
+        const querySeturi = `
+            SELECT s.id, s.nume_set, s.descriere_set,
+                   json_agg(p.*) as produse_set
+            FROM seturi s
+            JOIN asociere_set asoc1 ON s.id = asoc1.id_set
+            JOIN asociere_set asoc2 ON s.id = asoc2.id_set
+            JOIN produse p ON asoc2.id_produs = p.id
+            WHERE asoc1.id_produs = $1
+            GROUP BY s.id;
+        `;
+        const rezultatSeturi = await pool.query(querySeturi, [idProdus]);
+        
+        // Calculăm prețurile seturilor
+        let seturiAsociate = rezultatSeturi.rows.map(set => {
+            set.infoPret = calculeazaPretSet(set.produse_set);
+            return set;
+        });
 
-        // Randăm pagina "produs.ejs" și îi trimitem obiectul produsului
-        res.render('pagini/produs', { prod: produsGasit });
+        res.render('pagini/produs', { 
+            prod: produsGasit, 
+            seturi: seturiAsociate, // Trimitem seturile către EJS
+            ip: req.ip 
+        });
     } catch (err) {
-        console.error("Eroare la încărcarea paginii produsului:", err);
-        afisareEroare(res, 500, "Eroare Server", "A apărut o problemă la comunicarea cu baza de date.");
+        console.error("Eroare la randarea paginii produsului:", err);
+        afisareEroare(res, 500, "Eroare Server", "Nu s-a putut genera pagina produsului.");
     }
 });
-// --- Etapa 6, Bonus 20: Ruta backend ce servește pagina de comparare paralelă a două produse selectate ---
+
+//  Comparare produse ---
 app.get('/compara/:id1/:id2', async (req, res) => {
     try {
         const id1 = req.params.id1;

@@ -9,8 +9,6 @@
     <%- include('../fragmente/header') %>
 
     <main style="padding: 2rem var(--page-padding);">
-        
-        
 
         <h2 style="text-align:center; color: var(--accent-color); margin-bottom: 2rem;">Produsele Noastre</h2>
 
@@ -72,9 +70,11 @@
                         <input type="radio" class="btn-check" name="gr_radio" id="rad-toate" value="toate" checked>
                         <label class="btn btn-outline-primary" for="rad-toate">Toate</label>
 
-                        <% for (let cat of categoriiMeniu) { %>
-                            <input type="radio" class="btn-check" name="gr_radio" id="rad-<%= cat %>" value="<%= cat %>">
-                            <label class="btn btn-outline-primary" for="rad-<%= cat %>" style="text-transform: capitalize;"><%= cat.replaceAll('_', ' ') %></label>
+                        <% if (locals.categoriiMeniu) { %>
+                            <% for (let cat of categoriiMeniu) { %>
+                                <input type="radio" class="btn-check" name="gr_radio" id="rad-<%- cat %>" value="<%- cat %>">
+                                <label class="btn btn-outline-primary" style="text-transform: capitalize;" for="rad-<%- cat %>"><%- cat.replace('_', ' ') %></label>
+                            <% } %>
                         <% } %>
                     </div>
                 </div>
@@ -146,6 +146,12 @@
             
             <% for (let prod of produse) { %>
                 <article class="produs" id="artc-<%= prod.id %>" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color); border-radius: 8px; padding: 15px; position: relative;">
+                    
+                    <% if (prod.cel_mai_ieftin) { %>
+                        <div class="insigna-ieftin" style="background: linear-gradient(45deg, #2ecc71, #27ae60); color: white; padding: 5px; border-radius: 4px; text-align: center; margin-bottom: 10px; font-weight: bold; text-transform: uppercase;">
+                            <i class="fa-solid fa-fire-flame-curved"></i> Cel mai ieftin din categorie!
+                        </div>
+                    <% } %>
                     
                     <h3 class="nume" style="text-align: center; margin-bottom: 15px;">
                         <a href="/produs/<%= prod.id %>" style="color: var(--primary-color); text-decoration: none;"><%= prod.nume %></a>
