@@ -270,8 +270,34 @@
 
         </section>
 
+        <!-- BONUS 18 (Etapa 6): Sectiune speciala cu cele mai noi produse, in ordine invers cronologica -->
+        <section style="grid-column: 1 / -1; padding: 20px var(--page-padding);">
+            <h2 style="color: var(--primary-color); text-align: center; margin-bottom: 1.5rem;">
+                <i class="fa-solid fa-star"></i> Cele mai noi produse
+            </h2>
+
+            <% if (!locals.produseNoi || produseNoi.length === 0) { %>
+                <p class="text-center text-muted">Momentan nu avem produse noi de afișat.</p>
+            <% } else { %>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+                    <% produseNoi.forEach(function(prod) { %>
+                        <a href="/produs/<%= prod.id %>" class="text-decoration-none" style="color: inherit;">
+                            <div class="p-3 rounded text-center h-100" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color); position: relative;">
+                                <span class="badge bg-primary" style="position: absolute; top: -8px; right: -8px; transform: rotate(8deg);">
+                                    <i class="fa-solid fa-star"></i> NOU
+                                </span>
+                                <img src="/resurse/imagini/<%= prod.imagine %>" alt="<%= prod.nume %>" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
+                                <div style="font-weight: bold; font-size: 0.95rem;"><%= prod.nume %></div>
+                                <div style="color: var(--accent-color); font-weight: bold; margin-top: 5px;"><%= prod.pret %> RON</div>
+                            </div>
+                        </a>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+
         <section style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 40px 0 80px 0; gap: 50px; z-index: 10;">
-            
+
             <hr class="stil-custom">
 
             <h2 class="text-reflexie" data-text="Performanță Extremă">Performanță Extremă</h2>

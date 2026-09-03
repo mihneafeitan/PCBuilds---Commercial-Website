@@ -1,31 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const btnTema = document.getElementById("btn-tema");
-    
-    // 1. Verificăm dacă există o temă salvată anterior în localStorage
-    let temaSalvata = localStorage.getItem("tema");
+    // BONUS 2 (Etapa 6): Utilizatorul poate alege dintre 4 teme (dark, light, ocean, sepia),
+    // nu doar light/dark. Tema aleasa se memoreaza in localStorage, ca si pana acum.
+    const selTema = document.getElementById("sel-tema");
+    if (!selTema) return;
 
-    // Dacă există, o aplicăm pe <body>
-    if (temaSalvata) {
-        document.body.classList.add(temaSalvata);
-        
-        // Dacă tema salvată este 'dark', bifăm switch-ul ca să arate corect
-        if (temaSalvata === "dark") {
-            btnTema.checked = true;
-        }
+    const temeDisponibile = ["dark", "light", "ocean", "sepia"];
+
+    function aplicaTema(tema) {
+        if (!temeDisponibile.includes(tema)) tema = "dark";
+        document.body.classList.remove(...temeDisponibile);
+        document.body.classList.add(tema);
+        localStorage.setItem("tema", tema);
+        selTema.value = tema;
     }
 
-    // 2. Ce se întâmplă când dăm click pe switch
-    btnTema.addEventListener("change", function () {
-        if (this.checked) {
-            // S-a bifat -> Trecem pe Dark Mode
-            document.body.classList.remove("light"); // Scoatem clasa light (dacă ai)
-            document.body.classList.add("dark");     // Adăugăm clasa dark
-            localStorage.setItem("tema", "dark");    // Salvăm în browser
-        } else {
-            // S-a debifat -> Trecem pe Light Mode
-            document.body.classList.remove("dark");
-            document.body.classList.add("light");
-            localStorage.setItem("tema", "light");
-        }
+    // 1. La incarcare, aplicam tema salvata anterior (sau dark, implicit)
+    let temaSalvata = localStorage.getItem("tema") || "dark";
+    aplicaTema(temaSalvata);
+
+    // 2. La schimbarea selectului, aplicam noua tema aleasa
+    selTema.addEventListener("change", function () {
+        aplicaTema(this.value);
     });
 });

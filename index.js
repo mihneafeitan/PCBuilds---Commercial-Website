@@ -40,6 +40,47 @@ global.obGlobal = {
     folderCss: path.join(__dirname, 'resurse/css')
 };
 
+// --- Etapa 6, Bonus 13: Curățare periodică a folderului de backup ---
+// Fișierele din folderul de backup mai vechi decât T_CURATARE_BACKUP vor fi șterse automat.
+const T_CURATARE_BACKUP = 60 * 60 * 1000; // 60 minute
+// *** La prezentare, poți scădea valoarea (ex: 60 * 1000 = 1 minut) ca să arăți efectul rapid. ***
+
+function curataBackupuriVechi() {
+    let folderBackup = path.join(__dirname, 'backup');
+    if (!fs.existsSync(folderBackup)) return;
+
+    function parcurgeRecursiv(cale) {
+        let elemente = fs.readdirSync(cale, { withFileTypes: true });
+        for (let el of elemente) {
+            let caleCompleta = path.join(cale, el.name);
+            if (el.isDirectory()) {
+                parcurgeRecursiv(caleCompleta);
+            } else {
+                try {
+                    let stats = fs.statSync(caleCompleta);
+                    let varsta = new Date().getTime() - stats.mtimeMs;
+                    if (varsta > T_CURATARE_BACKUP) {
+                        fs.unlinkSync(caleCompleta);
+                        console.log(`[BACKUP CURĂȚARE] Șters fișierul vechi: ${caleCompleta}`);
+                    }
+                } catch (e) {
+                    console.error(`[BACKUP CURĂȚARE EROARE] ${caleCompleta}: ${e.message}`);
+                }
+            }
+        }
+    }
+
+    try {
+        parcurgeRecursiv(folderBackup);
+    } catch (e) {
+        console.error("[BACKUP CURĂȚARE EROARE]", e.message);
+    }
+}
+
+curataBackupuriVechi(); // o verificare și la pornirea serverului
+setInterval(curataBackupuriVechi, 5 * 60 * 1000); // apoi verificăm periodic, la fiecare 5 minute
+// -------------------------------------------------------------------
+
 function compileazaScss(caleScss, caleCss) {
     try {
         if (!caleCss) {
@@ -109,6 +150,14 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// --- Etapa 6, Bonus 18: interval de timp in care un produs e considerat "nou pe site" ---
+const T_PRODUS_NOU_MS = 14 * 24 * 60 * 60 * 1000; // 14 zile
+// *** La prezentare, poți scădea valoarea (ex: 5 * 60 * 1000 = 5 minute) ca să arăți efectul rapid. ***
+app.use((req, res, next) => {
+    res.locals.T_PRODUS_NOU_MS = T_PRODUS_NOU_MS;
+    next();
+});
 
 // --- Etapa 6, Bonus 12: Motor generare si gestionare oferte automate în JSON ---
 const ofertePath = path.join(__dirname, 'oferte.json');
@@ -242,8 +291,17 @@ app.use('/resurse', (req, res, next) => {
 });
 app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
 
-app.get(['/', '/index', '/home'], (req, res) => {
-    res.render('pagini/index', { ip: req.ip });
+app.get(['/', '/index', '/home'], async (req, res) => {
+    // --- Etapa 6, Bonus 18: cele mai noi produse, in ordine invers cronologica ---
+    let produseNoi = [];
+    try {
+        const rezultatNoi = await pool.query('SELECT * FROM produse ORDER BY data_adaugare DESC LIMIT 6');
+        produseNoi = rezultatNoi.rows;
+    } catch (err) {
+        console.error("Eroare la extragerea celor mai noi produse:", err);
+    }
+
+    res.render('pagini/index', { ip: req.ip, produseNoi: produseNoi });
 });
 
 // --- FUNCȚIE HELPER PENTRU BONUS 17 (Calcul pret set) ---
@@ -284,6 +342,58 @@ app.get('/seturi', async (req, res) => {
     } catch (err) {
         console.error("Eroare la extragerea seturilor:", err);
         afisareEroare(res, 500, "Eroare Seturi", "Nu s-au putut încărca pachetele promotionale.");
+    }
+});
+
+// --- Etapa 6, Bonus 10a+10b: Filtrare si sortare la nivel de server, prin fetch() ---
+// Primeste toate cele 8 filtre + 2 chei de sortare (cu directie) ca query params si
+// intoarce JSON cu produsele filtrate si sortate. Punctat doar impreuna cu filtrarea/
+// sortarea client existenta (Bonus 4, 7, 8), care raman neschimbate.
+const COLOANE_SORTARE_PERMISE = { nume: 'nume', pret: 'pret', garantie: 'garantie_luni' };
+
+app.get('/api/produse/filtreaza', async (req, res) => {
+    try {
+        const {
+            nume = '', descriere = '', culoare = 'toate', garantie = '', pretMax = '',
+            nou = 'false', categorie = 'toate', compatibilitate = '',
+            sort1 = '', sort2 = '', directie = 'asc'
+        } = req.query;
+
+        let conditii = [];
+        let valori = [];
+        let idx = 1;
+
+        if (nume.trim() !== '') { conditii.push(`nume ILIKE $${idx++}`); valori.push(`%${nume.trim()}%`); }
+        if (descriere.trim() !== '') { conditii.push(`descriere ILIKE $${idx++}`); valori.push(`%${descriere.trim()}%`); }
+        if (culoare && culoare !== 'toate') { conditii.push(`culoare = $${idx++}`); valori.push(culoare); }
+        if (garantie.trim() !== '' && !isNaN(parseInt(garantie))) { conditii.push(`garantie_luni >= $${idx++}`); valori.push(parseInt(garantie)); }
+        if (pretMax.trim() !== '' && !isNaN(parseFloat(pretMax))) { conditii.push(`pret <= $${idx++}`); valori.push(parseFloat(pretMax)); }
+        if (nou === 'true') { conditii.push(`nou = TRUE`); }
+        if (categorie && categorie !== 'toate') { conditii.push(`categorie::text = $${idx++}`); valori.push(categorie); }
+
+        // compatibilitate: produsul trebuie sa contina CEL PUTIN unul din tag-urile selectate (OR)
+        let tagsCompat = compatibilitate.split(',').map(t => t.trim()).filter(t => t !== '');
+        if (tagsCompat.length > 0) {
+            let bucatiOr = tagsCompat.map(tag => { valori.push(`%${tag}%`); return `compatibilitate ILIKE $${idx++}`; });
+            conditii.push('(' + bucatiOr.join(' OR ') + ')');
+        }
+
+        let whereSQL = conditii.length > 0 ? 'WHERE ' + conditii.join(' AND ') : '';
+
+        // sortare pe 2 chei - whitelist obligatoriu pe numele coloanelor (nu vin niciodata direct din input in query)
+        let ordSQL = '';
+        let c1 = COLOANE_SORTARE_PERMISE[sort1];
+        let c2 = COLOANE_SORTARE_PERMISE[sort2];
+        let dirSQL = (directie === 'desc') ? 'DESC' : 'ASC';
+        if (c1 && c2) ordSQL = `ORDER BY ${c1} ${dirSQL}, ${c2} ${dirSQL}`;
+        else if (c1) ordSQL = `ORDER BY ${c1} ${dirSQL}`;
+
+        const querySQL = `SELECT * FROM produse ${whereSQL} ${ordSQL}`;
+        const rezultat = await pool.query(querySQL, valori);
+        res.json({ produse: rezultat.rows, total: rezultat.rows.length });
+    } catch (err) {
+        console.error("Eroare la filtrarea server-side a produselor:", err);
+        res.status(500).json({ eroare: "Nu s-au putut filtra produsele pe server." });
     }
 });
 
@@ -328,6 +438,28 @@ app.get('/produs/:id', async (req, res) => {
         }
         let produsGasit = rezultatProdus.rows[0];
 
+        // --- Etapa 6, Bonus 9: Imagini multiple per produs ---
+        // In baza de date, coloana "folder_imagini" (optionala) contine numele unui subfolder
+        // din resurse/imagini/produse/ cu toate imaginile acelui produs (1.jpg, 2.jpg, ...).
+        // Daca nu exista coloana/folderul, cadem inapoi pe imaginea unica "prod.imagine".
+        let imaginiProdus = [];
+        if (produsGasit.folder_imagini) {
+            try {
+                let caleFolder = path.join(__dirname, 'resurse/imagini/produse', produsGasit.folder_imagini);
+                if (fs.existsSync(caleFolder)) {
+                    let fisiere = fs.readdirSync(caleFolder)
+                        .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f))
+                        .sort();
+                    imaginiProdus = fisiere.map(f => '/resurse/imagini/produse/' + produsGasit.folder_imagini + '/' + f);
+                }
+            } catch (errGalerie) {
+                console.error("Eroare la citirea galeriei de imagini:", errGalerie.message);
+            }
+        }
+        if (imaginiProdus.length === 0) {
+            imaginiProdus = ['/resurse/imagini/' + produsGasit.imagine]; // fallback: imaginea unica existenta
+        }
+
         // 2. Aducem toate seturile în care se află acest produs, cu tot cu restul componentelor din set
         const querySeturi = `
             SELECT s.id, s.nume_set, s.descriere_set,
@@ -347,9 +479,23 @@ app.get('/produs/:id', async (req, res) => {
             return set;
         });
 
+        // --- Etapa 6, Bonus 16: Produse similare (aceeași categorie, excludem produsul curent) ---
+        let produseSimilare = [];
+        try {
+            const rezultatSimilare = await pool.query(
+                'SELECT * FROM produse WHERE categorie = $1 AND id != $2 ORDER BY RANDOM() LIMIT 4',
+                [produsGasit.categorie, idProdus]
+            );
+            produseSimilare = rezultatSimilare.rows;
+        } catch (errSimilare) {
+            console.error("Eroare la extragerea produselor similare:", errSimilare);
+        }
+
         res.render('pagini/produs', { 
             prod: produsGasit, 
             seturi: seturiAsociate, // Trimitem seturile către EJS
+            produseSimilare: produseSimilare, // Bonus 16
+            imaginiProdus: imaginiProdus, // Bonus 9
             ip: req.ip 
         });
     } catch (err) {

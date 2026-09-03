@@ -756,6 +756,26 @@ body.light {
     --page-padding: 5%;
 }
 
+/* 3. TEMA OCEAN (Bonus 2 - Etapa 6: a treia temă, tonuri de turcoaz/petrol) */
+body.ocean {
+    --bg-color-main: #062f3d;
+    --bg-color-alt: #0a4358cc;
+    --text-color: #e0fbfc;
+    --primary-color: #17a2b8;
+    --secondary-color: #6fd3e0;
+    --accent-color: #f4a261;
+}
+
+/* 4. TEMA SEPIA (Bonus 2 - Etapa 6: a patra temă, tonuri calde de maro/hârtie veche) */
+body.sepia {
+    --bg-color-main: #f1e7d0;
+    --bg-color-alt: #e6d8b8ee;
+    --text-color: #4a3624;
+    --primary-color: #8b5e34;
+    --secondary-color: #c9b896;
+    --accent-color: #a4462a;
+}
+
 /* 3. APLICARE CULORI PE SITE CU EFECT DE TRANZIȚIE */
 body {
     background-color: var(--bg-color-main);

@@ -1,0 +1,109 @@
+<!-- ================================================================
+     BONUS 19 (Etapa 6): Orar de funcționare al magazinului.
+     Fragment EJS separat, inclus în header -> vizibil pe orice pagină
+     a site-ului, fără a schimba pagina curentă (se deschide un popup).
+================================================================= -->
+<div id="popup-orar" class="shadow-lg" style="display:none; position: fixed; top: 90px; right: 20px; z-index: 10500; background-color: var(--bg-color-alt); border: 2px solid var(--primary-color); border-radius: 10px; padding: 1.25rem; min-width: 300px; max-width: 92vw;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0" style="color: var(--primary-color);"><i class="fa-solid fa-clock"></i> Orar de funcționare</h5>
+        <button id="btn-inchide-orar" type="button" class="btn-close" aria-label="Închide"></button>
+    </div>
+
+    <table class="table table-sm mb-3" style="color: var(--text-color);">
+        <tbody>
+            <!-- data-zi urmează convenția JS Date.getDay(): 0=Duminică ... 6=Sâmbătă -->
+            <tr data-zi="1"><td>Luni</td><td>09:00 - 18:00</td></tr>
+            <tr data-zi="2"><td>Marți</td><td>09:00 - 18:00</td></tr>
+            <tr data-zi="3"><td>Miercuri</td><td>09:00 - 18:00</td></tr>
+            <tr data-zi="4"><td>Joi</td><td>09:00 - 18:00</td></tr>
+            <tr data-zi="5"><td>Vineri</td><td>09:00 - 19:00</td></tr>
+            <tr data-zi="6"><td>Sâmbătă</td><td>10:00 - 14:00</td></tr>
+            <tr data-zi="0"><td>Duminică</td><td>Închis</td></tr>
+        </tbody>
+    </table>
+
+    <div id="stare-magazin" class="text-center fw-bold p-2 rounded">Se calculează...</div>
+</div>
+
+<script>
+// BONUS 19: date orar (usor de modificat la prezentare) + calcul live deschis/inchis + evidentiere zi curenta
+(function () {
+    // Pentru fiecare zi (0=Duminica...6=Sambata): [oraDeschidere, oraInchidere] sau null daca e inchis toata ziua.
+    // *** La prezentare, modifică valorile de mai jos ca să arăți schimbarea live a stării deschis/închis. ***
+    const ORAR = {
+        1: [9, 18], 2: [9, 18], 3: [9, 18], 4: [9, 18], 5: [9, 19], 6: [10, 14], 0: null
+    };
+
+    function actualizeazaOrar() {
+        const acum = new Date();
+        const ziCurenta = acum.getDay();
+        const oraCurenta = acum.getHours() + acum.getMinutes() / 60;
+
+        document.querySelectorAll("#popup-orar tr[data-zi]").forEach(function (tr) {
+            let ziTr = parseInt(tr.getAttribute("data-zi"));
+            if (ziTr === ziCurenta) {
+                tr.style.backgroundColor = "var(--primary-color)";
+                tr.style.color = "#fff";
+                tr.style.fontWeight = "bold";
+            } else {
+                tr.style.backgroundColor = "";
+                tr.style.color = "";
+                tr.style.fontWeight = "";
+            }
+        });
+
+        const interval = ORAR[ziCurenta];
+        const stareDiv = document.getElementById("stare-magazin");
+        if (!stareDiv) return;
+
+        let deschis = interval && oraCurenta >= interval[0] && oraCurenta < interval[1];
+        if (deschis) {
+            stareDiv.textContent = "🟢 Suntem deschiși acum";
+            stareDiv.style.backgroundColor = "#2ecc71";
+            stareDiv.style.color = "#fff";
+        } else {
+            stareDiv.textContent = "🔴 Suntem închiși acum";
+            stareDiv.style.backgroundColor = "#e74c3c";
+            stareDiv.style.color = "#fff";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const popup = document.getElementById("popup-orar");
+        const btnDeschide = document.getElementById("btn-orar");
+        const btnInchide = document.getElementById("btn-inchide-orar");
+        if (!popup) return;
+        let timerAutoAscundere = null;
+
+        actualizeazaOrar();
+        setInterval(actualizeazaOrar, 60000);
+
+        function deschidePopup() {
+            actualizeazaOrar();
+            popup.style.display = "block";
+            if (timerAutoAscundere) clearTimeout(timerAutoAscundere);
+            // Dispare automat dacă utilizatorul nu mai interacționează cu el
+            timerAutoAscundere = setTimeout(function () { popup.style.display = "none"; }, 15000);
+        }
+        function inchidePopup() {
+            popup.style.display = "none";
+            if (timerAutoAscundere) clearTimeout(timerAutoAscundere);
+        }
+
+        if (btnDeschide) {
+            btnDeschide.addEventListener("click", function () {
+                if (popup.style.display === "block") inchidePopup(); else deschidePopup();
+            });
+        }
+        if (btnInchide) btnInchide.addEventListener("click", inchidePopup);
+
+        // Nu se închide dacă utilizatorul e cu mouse-ul pe el
+        popup.addEventListener("mouseenter", function () {
+            if (timerAutoAscundere) clearTimeout(timerAutoAscundere);
+        });
+        popup.addEventListener("mouseleave", function () {
+            timerAutoAscundere = setTimeout(function () { popup.style.display = "none"; }, 15000);
+        });
+    });
+})();
+</script>

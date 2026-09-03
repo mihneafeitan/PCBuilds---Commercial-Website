@@ -1,0 +1,33 @@
+-- =====================================================================
+-- Migrare pentru BONUS 9 (Etapa 6): Imagini multiple per produs
+-- =====================================================================
+-- Ruleaza acest script o singura data pe baza ta de date PostgreSQL,
+-- de exemplu: psql -U postgres -d postgres -f migrare_bonus9_imagini.sql
+--
+-- Ce face:
+--   Adauga coloana optionala "folder_imagini" in tabelul "produse".
+--   Daca e completata cu numele unui subfolder (ex: 'rtx4070'), serverul
+--   va cauta toate imaginile din resurse/imagini/produse/rtx4070/ si le
+--   va afisa intr-un carusel pe pagina produsului.
+--   Daca ramane NULL, produsul foloseste in continuare imaginea unica
+--   existenta (coloana "imagine") - nimic nu se strica pentru produsele
+--   care nu au inca o galerie.
+-- =====================================================================
+
+ALTER TABLE produse ADD COLUMN IF NOT EXISTS folder_imagini VARCHAR(255) DEFAULT NULL;
+
+
+UPDATE produse SET folder_imagini = '1' WHERE id = 1; UPDATE produse SET folder_imagini = '2' WHERE id = 2;
+-- --------------------------------------------------------------------
+-- Exemplu de completare pentru un produs (inlocuieste ID-ul si numele
+-- folderului cu valorile tale reale):
+--
+--   UPDATE produse SET folder_imagini = 'rtx4070' WHERE id = 1;
+--
+-- Apoi trebuie sa creezi manual folderul cu imaginile produsului:
+--   resurse/imagini/produse/rtx4070/1.jpg
+--   resurse/imagini/produse/rtx4070/2.jpg
+--   resurse/imagini/produse/rtx4070/3.jpg
+--   (orice extensie din: .jpg, .jpeg, .png, .webp; numele fisierelor nu
+--    conteaza pentru ordine, sunt sortate alfabetic)
+-- --------------------------------------------------------------------

@@ -18,6 +18,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const regexCaractereInterzise = /[<>\/\\*]/g;
 
+    // =======================================================================
+    // BONUS 6 (Etapa 6): stare pentru cele 3 butoane per produs
+    // - produsePastrate: id-uri "pinned", raman vizibile mereu, indiferent de filtrare
+    // - produseAscunseSesiune: id-uri ascunse definitiv pt tab-ul curent (sessionStorage)
+    // (ascunderea temporara - buton 2 - nu are nevoie de stare: se aplica direct pe DOM
+    //  si dispare de la sine la urmatoarea filtrare/sortare/resetare)
+    // =======================================================================
+    let produsePastrate = new Set();
+    let produseAscunseSesiune = new Set(JSON.parse(sessionStorage.getItem("produse-ascunse-sesiune") || "[]"));
+
+    // BONUS 5 (Etapa 6): Paginare - K produse fixe pe pagina
+    const K_PRODUSE_PAGINA = 9;
+    let paginaCurenta = 1;
+
+    function salveazaAscunseSesiune() {
+        sessionStorage.setItem("produse-ascunse-sesiune", JSON.stringify(Array.from(produseAscunseSesiune)));
+    }
+
     // Gestiune Vizibilitate Panou Filtre (LocalStorage)
     if (panouFiltre && btnToggleFiltre) {
         let starePanou = localStorage.getItem("panou-filtre-vizibil");
@@ -118,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // FUNCȚIA PRINCIPALĂ DE FILTRARE
     // =======================================================================
     function filtreaza() {
+        paginaCurenta = 1; // BONUS 5: la orice filtrare noua, revenim la prima pagina
         let numeValid = valideazaNume();
         let textareaValida = valideazaTextarea();
 
@@ -148,6 +167,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         for (let art of articole) {
             art.style.display = "none"; 
+            art.classList.remove("filtru-ok"); // BONUS 5: resetam marcajul de "trece de filtru" inainte de reevaluare
+
+            // BONUS 6, buton 3: produsele ascunse pe sesiune nu se mai afiseaza niciodata
+            // (pana la inchiderea tab-ului), indiferent de filtrare
+            let idArt = art.getAttribute("data-id");
+            if (produseAscunseSesiune.has(idArt)) {
+                continue;
+            }
             
             // 1. Nume
             let elementNume = art.querySelector(".val-nume") || art.querySelector(".nume");
@@ -204,8 +231,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            if (condNume && condDesc && condCuloare && condGarantie && condPret && condNou && condCateg && condCompat) {
-                art.style.display = "block";
+            // BONUS 6, buton 1: produsele "pastrate" raman vizibile chiar daca nu s-ar potrivi filtrarii
+            let estePastrat = produsePastrate.has(idArt);
+
+            // BONUS 5: aici doar marcam ca produsul "trece" de filtrare; afisarea efectiva
+            // (display block/none) e decisa de aplicaPaginare(), in functie de pagina curenta
+            if (estePastrat || (condNume && condDesc && condCuloare && condGarantie && condPret && condNou && condCateg && condCompat)) {
+                art.classList.add("filtru-ok");
                 produseVizibile++;
             }
         }
@@ -228,7 +260,49 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (mesaj) { mesaj.remove(); }
         }
         
+        aplicaPaginare(); // BONUS 5: aplica taierea pe pagini peste rezultatul filtrarii
         marcheazaCelMaiIeftin();
+    }
+
+    // =======================================================================
+    // BONUS 5 (Etapa 6): PAGINARE
+    // =======================================================================
+    function aplicaPaginare() {
+        let containerPaginare = document.getElementById("paginare-produse");
+        let produseFiltrate = Array.from(document.querySelectorAll(".produs.filtru-ok"));
+        let N = produseFiltrate.length;
+        let NRL = Math.max(1, Math.ceil(N / K_PRODUSE_PAGINA));
+
+        if (paginaCurenta > NRL) paginaCurenta = NRL;
+        if (paginaCurenta < 1) paginaCurenta = 1;
+
+        // Afisam doar produsele din intervalul [(P-1)*K, P*K - 1]
+        produseFiltrate.forEach(function (art, index) {
+            let inPaginaCurenta = index >= (paginaCurenta - 1) * K_PRODUSE_PAGINA && index < paginaCurenta * K_PRODUSE_PAGINA;
+            art.style.display = inPaginaCurenta ? "block" : "none";
+        });
+
+        if (!containerPaginare) return;
+        containerPaginare.innerHTML = "";
+
+        if (NRL <= 1) return; // nu afisam paginarea daca incape totul pe o singura pagina
+
+        for (let p = 1; p <= NRL; p++) {
+            let li = document.createElement("li");
+            li.className = "page-item" + (p === paginaCurenta ? " active" : "");
+            let btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "page-link";
+            btn.textContent = p;
+            btn.onclick = function () {
+                paginaCurenta = p;
+                aplicaPaginare();
+                marcheazaCelMaiIeftin();
+                document.getElementById("filtre-produse")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            };
+            li.appendChild(btn);
+            containerPaginare.appendChild(li);
+        }
     }
 
     if(inpNume) inpNume.addEventListener("input", filtreaza);
@@ -260,6 +334,10 @@ document.addEventListener("DOMContentLoaded", function () {
         
         let container = document.getElementById("container-produse") || document.querySelector(".grid-produse");
         if(!container) return;
+
+        // BONUS 6, buton 2: la o noua sortare, produsele ascunse temporar reapar
+        // (recalculam vizibilitatea completa pe baza filtrelor curente, apoi sortam)
+        filtreaza();
 
         let articole = Array.from(document.getElementsByClassName("produs"));
         
@@ -299,7 +377,8 @@ document.addEventListener("DOMContentLoaded", function () {
         categorii.forEach(cat => {
             let produseCat = Array.from(document.getElementsByClassName("produs")).filter(p => {
                 let catEl = p.querySelector(".val-categorie");
-                return p.style.display !== "none" && catEl && catEl.textContent.toLowerCase() == cat.replace('_', ' ');
+                // BONUS 5: folosim "filtru-ok" (tot ce a trecut de filtrare), nu doar pagina curenta afisata
+                return p.classList.contains("filtru-ok") && catEl && catEl.textContent.toLowerCase() == cat.replace('_', ' ');
             });
             
             if(produseCat.length > 0) {
@@ -319,6 +398,62 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    // =======================================================================
+    // BONUS 6 (Etapa 6): handler-ele pentru cele 3 butoane per produs
+    // Functie reutilizabila: se aplica si pe cardurile initiale (SSR), si pe cele
+    // generate dinamic de Bonus 10 (filtrare server-side + fetch), primind un scope.
+    // =======================================================================
+    function initButoaneBonus6(scopeEl) {
+        (scopeEl || document).querySelectorAll(".butoane-bonus6").forEach(function (grup) {
+            let idProd = grup.getAttribute("data-id");
+            let art = document.getElementById("artc-" + idProd);
+            let btnPastreaza = grup.querySelector(".btn-pastreaza");
+            let btnAscundeTemp = grup.querySelector(".btn-ascunde-temp");
+            let btnAscundeSesiune = grup.querySelector(".btn-ascunde-sesiune");
+
+            // Buton 1: pastreaza produsul mereu vizibil (toggle)
+            if (btnPastreaza) {
+                btnPastreaza.onclick = function () {
+                    if (produsePastrate.has(idProd)) {
+                        produsePastrate.delete(idProd);
+                        btnPastreaza.classList.remove("btn-warning");
+                        btnPastreaza.classList.add("btn-outline-warning");
+                        if (art) art.style.outline = "";
+                    } else {
+                        produsePastrate.add(idProd);
+                        btnPastreaza.classList.remove("btn-outline-warning");
+                        btnPastreaza.classList.add("btn-warning");
+                        if (art) art.style.outline = "3px solid var(--accent-color)";
+                    }
+                    filtreaza();
+                };
+            }
+
+            // Buton 2: ascunde produsul din afisarea curenta (reapare la noua filtrare/sortare/resetare)
+            if (btnAscundeTemp) {
+                btnAscundeTemp.onclick = function () {
+                    if (art) art.style.display = "none";
+                };
+            }
+
+            // Buton 3: ascunde produsul definitiv pt sesiunea curenta (sessionStorage, per tab)
+            if (btnAscundeSesiune) {
+                btnAscundeSesiune.onclick = function () {
+                    produseAscunseSesiune.add(idProd);
+                    salveazaAscunseSesiune();
+                    if (art) art.style.display = "none";
+                };
+            }
+
+            // Reflecta in UI starea "pastrat" daca a fost setata anterior in aceasta sesiune de vizionare
+            if (produsePastrate.has(idProd) && btnPastreaza) {
+                btnPastreaza.classList.remove("btn-outline-warning");
+                btnPastreaza.classList.add("btn-warning");
+            }
+        });
+    }
+    initButoaneBonus6(document);
 
     let btnCalcul = document.getElementById("btn-calcul");
     if(btnCalcul) {
@@ -364,16 +499,58 @@ document.addEventListener("DOMContentLoaded", function () {
                 if(selectCompat) {
                     for (let opt of selectCompat.options) opt.selected = false;
                 }
+                // Resetam doar filtrele din sesiune; produsele ascunse pe sesiune (Bonus 6, buton 3)
+                // trebuie sa ramana ascunse pana la inchiderea tab-ului, nu la resetarea filtrelor.
+                let ascunseSalvate = sessionStorage.getItem("produse-ascunse-sesiune");
                 sessionStorage.clear();
+                if (ascunseSalvate) sessionStorage.setItem("produse-ascunse-sesiune", ascunseSalvate);
                 filtreaza();
             }
         };
     }
 
     // =======================================================================
-    // BONUS 20: COMPARARE (Stocare Locală)
+    // BONUS 11 (Etapa 6): Modal box la click pe containerul produsului
+    // Functie reutilizabila, aplicata si pe cardurile generate de Bonus 10.
     // =======================================================================
-    const btnComparareList = document.querySelectorAll(".btn-comparare");
+    const modalProdusEl = document.getElementById("modalProdus");
+    const instantaModal = (modalProdusEl && window.bootstrap) ? new bootstrap.Modal(modalProdusEl) : null;
+
+    function initModalProduse(scopeEl) {
+        if (!instantaModal) return;
+        (scopeEl || document).querySelectorAll(".produs").forEach(function (art) {
+            art.style.cursor = "pointer";
+            art.addEventListener("click", function (e) {
+                // Nu deschidem modalul daca s-a dat click pe un buton sau link din interiorul cardului
+                if (e.target.closest("button, a")) return;
+
+                let idProd = art.getAttribute("data-id");
+                let getTxt = (sel) => art.querySelector(sel) ? art.querySelector(sel).textContent.trim() : "";
+                let img = art.querySelector("img");
+
+                document.getElementById("modalProdusLabel").textContent = getTxt(".nume");
+                document.getElementById("modal-img").src = img ? img.src : "";
+                document.getElementById("modal-img").alt = getTxt(".nume");
+                document.getElementById("modal-descriere").textContent = getTxt(".descriere");
+                document.getElementById("modal-categorie").textContent = getTxt(".val-categorie");
+                document.getElementById("modal-pret").textContent = getTxt(".val-pret");
+                document.getElementById("modal-garantie").textContent = getTxt(".val-garantie");
+                document.getElementById("modal-culoare").textContent = getTxt(".val-culoare");
+                document.getElementById("modal-compatibilitate").textContent = getTxt(".val-compatibilitate");
+                document.getElementById("modal-nou").textContent = getTxt(".val-nou");
+                document.getElementById("modal-link-produs").href = "/produs/" + idProd;
+
+                instantaModal.show();
+            });
+        });
+    }
+    initModalProduse(document);
+
+    // =======================================================================
+    // BONUS 20: COMPARARE (Stocare Locală)
+    // Butoanele "Compară" sunt interogate live (nu un snapshot static), ca sa
+    // functioneze si pt cardurile generate dinamic de Bonus 10.
+    // =======================================================================
     const containerComparare = document.getElementById("container-comparare");
     const listaComparare = document.getElementById("produse-comparare-lista");
     const btnAfiseaza = document.getElementById("btn-afiseaza-comparare");
@@ -394,6 +571,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function randeazaComparare() {
+            let btnComparareList = document.querySelectorAll(".btn-comparare"); // interogare live
             listaComparare.innerHTML = "";
             
             if (comparare.length === 0) {
@@ -437,19 +615,149 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        btnComparareList.forEach(btn => {
-            btn.onclick = function() {
-                if (comparare.length < 2) {
-                    comparare.push({ id: this.getAttribute("data-id"), nume: this.getAttribute("data-nume") });
-                    salveazaComparare();
-                }
-            };
-        });
+        function initBtnComparare(scopeEl) {
+            (scopeEl || document).querySelectorAll(".btn-comparare").forEach(btn => {
+                btn.onclick = function() {
+                    if (comparare.length < 2) {
+                        comparare.push({ id: this.getAttribute("data-id"), nume: this.getAttribute("data-nume") });
+                        salveazaComparare();
+                    }
+                };
+            });
+            randeazaComparare(); // sincronizeaza starea disabled/selectat pt butoanele noi
+        }
 
         btnAfiseaza.onclick = function() {
             if (comparare.length === 2) window.open('/compara/' + comparare[0].id + '/' + comparare[1].id, '_blank');
         };
 
-        randeazaComparare();
+        initBtnComparare(document);
+
+        // Expunem functiile de re-initializare, folosite de Bonus 10 dupa fetch()
+        window.__pcbuilds = window.__pcbuilds || {};
+        window.__pcbuilds.reinitCarduri = function (scopeEl) {
+            initButoaneBonus6(scopeEl);
+            initModalProduse(scopeEl);
+            initBtnComparare(scopeEl);
+        };
     }
+
+    // =======================================================================
+    // BONUS 10a + 10b (Etapa 6): Filtrare si sortare pe server, prin fetch()
+    // Refoloseste aceleasi campuri de filtrare din formular; construieste cardurile
+    // din raspunsul JSON si reataseaza comportamentele Bonus 6 / 11 / 20.
+    // =======================================================================
+    function construiesteCardProdus(p) {
+        let dataFormatata = new Intl.DateTimeFormat('ro-RO', {
+            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+        }).format(new Date(p.data_adaugare));
+        let categorieAfisata = (p.categorie || "").replace('_', ' ');
+
+        return `
+        <article class="produs" id="artc-${p.id}" data-id="${p.id}" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color); border-radius: 8px; padding: 15px; position: relative;">
+            <h3 class="nume" style="text-align: center; margin-bottom: 15px;">
+                <a href="/produs/${p.id}" style="color: var(--primary-color); text-decoration: none;">${p.nume}</a>
+            </h3>
+            <div class="info-produs">
+                <picture style="display: block; width: 100%; text-align: center; margin-bottom: 15px;">
+                    <img src="/resurse/imagini/${p.imagine}" alt="${p.nume}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                </picture>
+                <p class="descriere" style="font-size: 0.9em; margin-bottom: 15px; text-align: justify;">${p.descriere}</p>
+                <ul style="list-style-type: none; padding-left: 0; font-size: 0.9em; display: flex; flex-direction: column; gap: 8px;">
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Categorie:</span> <span class="val-categorie">${categorieAfisata}</span></li>
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Preț:</span> <span class="val-pret">${p.pret}</span> RON</li>
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Garanție:</span> <span class="val-garantie">${p.garantie_luni}</span> luni</li>
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Culoare:</span> <span class="val-culoare">${p.culoare}</span></li>
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Compatibilitate:</span> <span class="val-compatibilitate">${p.compatibilitate}</span></li>
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Stare:</span> <span class="val-nou">${p.nou ? 'Produs Nou' : 'Resigilat'}</span></li>
+                    <li><span style="color: var(--accent-color); font-weight: bold;">Adăugat la:</span> <time class="val-data" datetime="${p.data_adaugare}">${dataFormatata}</time></li>
+                </ul>
+                <div class="mt-3 text-center">
+                    <button class="btn btn-sm btn-outline-info btn-comparare w-100" data-id="${p.id}" data-nume="${p.nume}">
+                        <i class="fa-solid fa-scale-balanced"></i> Compară
+                    </button>
+                </div>
+                <div class="mt-2 d-flex justify-content-center gap-2 butoane-bonus6" data-id="${p.id}">
+                    <button type="button" class="btn btn-sm btn-outline-warning btn-pastreaza" title="Păstrează acest produs mereu vizibil"><i class="fa-solid fa-thumbtack"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary btn-ascunde-temp" title="Ascunde temporar produsul"><i class="fa-solid fa-eye-slash"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-ascunde-sesiune" title="Ascunde produsul pe durata sesiunii curente"><i class="fa-solid fa-ban"></i></button>
+                </div>
+            </div>
+        </article>`;
+    }
+
+    function filtreazaPeServer(directie) {
+        let statusServer = document.getElementById("status-server");
+        let container = document.getElementById("container-produse");
+        if (!container) return;
+        if (!valideazaNume() || !valideazaTextarea()) {
+            if (statusServer) statusServer.textContent = "Caractere invalide detectate în casetele de text.";
+            return;
+        }
+
+        let radioChecked = document.querySelector('input[name="gr_radio"]:checked');
+        let optiuniSelectateCompat = selectCompat ? Array.from(selectCompat.selectedOptions).map(o => o.value) : [];
+        let sel1 = document.getElementById("sort-criteriu1");
+        let sel2 = document.getElementById("sort-criteriu2");
+
+        let parametri = new URLSearchParams({
+            nume: inpNume ? inpNume.value : '',
+            descriere: txtDescriere ? txtDescriere.value : '',
+            culoare: inpCuloare ? inpCuloare.value : 'toate',
+            garantie: inpGarantie ? inpGarantie.value : '',
+            pretMax: rngPret ? rngPret.value : '',
+            nou: (inpNou && inpNou.checked) ? 'true' : 'false',
+            categorie: radioChecked ? radioChecked.value : 'toate',
+            compatibilitate: optiuniSelectateCompat.join(','),
+            sort1: sel1 ? sel1.value : '',
+            sort2: sel2 ? sel2.value : '',
+            directie: directie
+        });
+
+        if (statusServer) statusServer.textContent = "Se încarcă de pe server...";
+
+        fetch('/api/produse/filtreaza?' + parametri.toString())
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (data.eroare) { throw new Error(data.eroare); }
+
+                container.innerHTML = data.produse.map(construiesteCardProdus).join('');
+                container.querySelectorAll(".produs").forEach(function (art) { art.classList.add("filtru-ok"); });
+
+                if (labelStatistici) {
+                    labelStatistici.textContent = `[Server] Afișăm ${data.total} produse filtrate și sortate de baza de date.`;
+                }
+
+                let mesaj = document.getElementById("mesaj-lipsa");
+                if (mesaj) mesaj.remove();
+                if (data.total === 0) {
+                    let m = document.createElement("p");
+                    m.id = "mesaj-lipsa";
+                    m.textContent = "Nu există produse conform filtrării curente.";
+                    m.style.gridColumn = "1 / -1"; m.style.textAlign = "center";
+                    m.style.color = "var(--accent-color)"; m.style.fontWeight = "bold";
+                    container.appendChild(m);
+                }
+
+                paginaCurenta = 1;
+                aplicaPaginare();
+                marcheazaCelMaiIeftin();
+
+                if (window.__pcbuilds && window.__pcbuilds.reinitCarduri) {
+                    window.__pcbuilds.reinitCarduri(container);
+                }
+
+                if (statusServer) statusServer.textContent = `Rezultat primit de la server: ${data.total} produse.`;
+            })
+            .catch(function (err) {
+                console.error("Eroare la filtrarea pe server:", err);
+                if (statusServer) statusServer.textContent = "Eroare la comunicarea cu serverul.";
+            });
+    }
+
+    let btnServerAsc = document.getElementById("btn-filtrare-server-asc");
+    if (btnServerAsc) btnServerAsc.onclick = () => filtreazaPeServer("asc");
+
+    let btnServerDesc = document.getElementById("btn-filtrare-server-desc");
+    if (btnServerDesc) btnServerDesc.onclick = () => filtreazaPeServer("desc");
 });
