@@ -16,8 +16,6 @@
 
 ALTER TABLE produse ADD COLUMN IF NOT EXISTS folder_imagini VARCHAR(255) DEFAULT NULL;
 
-
-UPDATE produse SET folder_imagini = '1' WHERE id = 1; UPDATE produse SET folder_imagini = '2' WHERE id = 2;
 -- --------------------------------------------------------------------
 -- Exemplu de completare pentru un produs (inlocuieste ID-ul si numele
 -- folderului cu valorile tale reale):

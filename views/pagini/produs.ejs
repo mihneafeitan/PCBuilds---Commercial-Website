@@ -3,6 +3,7 @@
 <head>
     <title><%= prod.nume %> - PCBuilds</title>
     <%- include('../fragmente/head') %>
+    <script src="/resurse/js/produs.js" defer></script>
 </head>
 <body id="top" style="background-color: var(--bg-color-main); color: var(--text-color);">
     <%- include('../fragmente/header') %>
@@ -74,49 +75,95 @@
                     <% } %>
                 </div>
 
-                <h5 style="color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-align-left"></i> Descrierea produsului</h5>
-                <p style="text-align: justify; line-height: 1.6; font-size: 1.05rem;" class="mb-4"><%= prod.descriere %></p>
+                <!-- BONUS 20 (Etapa 6): buton "Compara" - enuntul cere sa existe si pe pagina
+                     fiecarui produs, nu doar in tabelul de produse. Logica JS e in
+                     resurse/js/comparare.js, incarcat global din head.ejs. -->
+                <button class="btn btn-outline-info btn-comparare mb-3 w-100" data-id="<%= prod.id %>" data-nume="<%= prod.nume %>">
+                    <i class="fa-solid fa-scale-balanced"></i> Compară
+                </button>
 
-                <h5 style="color: var(--accent-color); font-weight: bold; margin-bottom: 15px;"><i class="fa-solid fa-circle-info"></i> Specificații Tehnice</h5>
-                
-                <table class="table table-dark table-striped table-bordered align-middle" style="font-size: 0.95rem;">
-                    <tbody>
-                        <tr>
-                            <td class="fw-bold text-primary" style="width: 35%;">Categorie componentă</td>
-                            <td style="text-transform: capitalize;"><%= prod.categorie.replace('_', ' ') %></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-primary">Garanție comercială</td>
-                            <td><%= prod.garantie_luni %> luni (<%= Math.floor(prod.garantie_luni / 12) %> ani)</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-primary">Culoare piesă</td>
-                            <td><%= prod.culoare %></td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-primary">Tag-uri Compatibilitate</td>
-                            <td>
+                <!-- ETAPA 7 (animatie-banner): buton DEMO pentru cookie-ul "data ultimei cumparaturi".
+                     Proiectul nu are inca un cos/checkout real - butonul asta doar demonstreaza
+                     ca functionalitatea de cookie e implementata corect si poate fi inlocuit cu
+                     apelul real catre un sistem de comenzi cand va exista. -->
+                <button id="btn-simuleaza-cumparare" type="button" class="btn btn-outline-success mb-4 w-100">
+                    <i class="fa-solid fa-cart-shopping"></i> Simulează cumpărare (demo, pt. cookie)
+                </button>
+
+                <!-- ETAPA 7 (bootstrap_js): Accordion pentru descriere si detalii, initial inchis -->
+                <!-- Starea deschis/inchis a fiecarui panou se memoreaza in localStorage, in resurse/js/produs.js -->
+                <div class="accordion" id="accordionProdus">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-descriere" aria-expanded="false" aria-controls="acc-descriere">
+                                <i class="fa-solid fa-align-left me-2"></i> Descrierea produsului
+                            </button>
+                        </h2>
+                        <div id="acc-descriere" class="accordion-collapse collapse" data-bs-parent="#accordionProdus">
+                            <div class="accordion-body" style="text-align: justify; line-height: 1.6;">
+                                <%= prod.descriere %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-specificatii" aria-expanded="false" aria-controls="acc-specificatii">
+                                <i class="fa-solid fa-circle-info me-2"></i> Specificații tehnice
+                            </button>
+                        </h2>
+                        <div id="acc-specificatii" class="accordion-collapse collapse" data-bs-parent="#accordionProdus">
+                            <div class="accordion-body">
+                                <table class="table table-dark table-striped table-bordered align-middle mb-0" style="font-size: 0.95rem;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-bold text-primary" style="width: 35%;">Categorie componentă</td>
+                                            <td style="text-transform: capitalize;"><%= prod.categorie.replace('_', ' ') %></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-primary">Garanție comercială</td>
+                                            <td><%= prod.garantie_luni %> luni (<%= Math.floor(prod.garantie_luni / 12) %> ani)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-primary">Culoare piesă</td>
+                                            <td><%= prod.culoare %></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold text-primary">Dată listare depozit</td>
+                                            <td>
+                                                <%
+                                                    let dataRo = new Intl.DateTimeFormat('ro-RO', {
+                                                        day: 'numeric', month: 'long', year: 'numeric'
+                                                    }).format(new Date(prod.data_adaugare));
+                                                %>
+                                                <%= dataRo %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-compatibilitate" aria-expanded="false" aria-controls="acc-compatibilitate">
+                                <i class="fa-solid fa-puzzle-piece me-2"></i> Compatibilitate
+                            </button>
+                        </h2>
+                        <div id="acc-compatibilitate" class="accordion-collapse collapse" data-bs-parent="#accordionProdus">
+                            <div class="accordion-body">
                                 <% let pieseComp = prod.compatibilitate.split(','); %>
                                 <% pieseComp.forEach(c => { %>
-                                    <span class="badge bg-outline-info border border-info text-info me-1" style="font-size: 0.85em;"><%= c.trim() %></span>
+                                    <span class="badge bg-outline-info border border-info text-info me-1" style="font-size: 0.9em;"><%= c.trim() %></span>
                                 <% }) %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold text-primary">Dată listare depozit</td>
-                            <td>
-                                <% 
-                                    let dataRo = new Intl.DateTimeFormat('ro-RO', { 
-                                        day: 'numeric', month: 'long', year: 'numeric' 
-                                    }).format(new Date(prod.data_adaugare));
-                                %>
-                                <%= dataRo %>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
 
-            </div>
+                </div>
+        </div>
         </div>
     <div class="row mt-5">
         <div class="col-12">
@@ -165,7 +212,7 @@
             <% } else { %>
                 <div class="d-flex flex-wrap gap-4">
                     <% produseSimilare.forEach(function(p) { %>
-                        <a href="/produs/<%= p.id %>" class="text-decoration-none" style="color: inherit; width: 180px;">
+                        <a href="/produs/<%= p.id %>" class="text-decoration-none" style="color: inherit; width: 180px;"> <!-- <- -->
                             <div class="p-3 rounded text-center h-100" style="background-color: var(--bg-color-alt); border: 1px solid var(--secondary-color);">
                                 <img src="/resurse/imagini/<%= p.imagine %>" alt="<%= p.nume %>" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">
                                 <div style="font-weight: bold; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"><%= p.nume %></div>

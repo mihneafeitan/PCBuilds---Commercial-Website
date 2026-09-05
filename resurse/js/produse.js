@@ -113,17 +113,25 @@ document.addEventListener("DOMContentLoaded", function () {
         if (radElement) radElement.checked = true;
     }
 
-    // RESTAURARE FILTRE DIN SESIUNE
-    if (inpNume && sessionStorage.getItem("filtru_nume")) inpNume.value = sessionStorage.getItem("filtru_nume");
-    if (txtDescriere && sessionStorage.getItem("filtru_descriere")) txtDescriere.value = sessionStorage.getItem("filtru_descriere");
-    if (inpCuloare && sessionStorage.getItem("filtru_culoare")) inpCuloare.value = sessionStorage.getItem("filtru_culoare");
-    if (inpGarantie && sessionStorage.getItem("filtru_garantie")) inpGarantie.value = sessionStorage.getItem("filtru_garantie");
-    if (rngPret && sessionStorage.getItem("filtru_pret")) {
-        rngPret.value = sessionStorage.getItem("filtru_pret");
+    // RESTAURARE FILTRE DIN SESIUNE (sessionStorage), cu fallback pe COOKIE-ul de la Etapa 7
+    // ("ultimele filtre setate") daca sessionStorage e gol (ex: tab nou, browser repornit)
+    let filtreDinCookie = {};
+    if (typeof getCookie === "function") {
+        try { filtreDinCookie = JSON.parse(getCookie("ultimele_filtre_setate") || "null") || {}; }
+        catch (e) { filtreDinCookie = {}; }
+    }
+
+    if (inpNume) inpNume.value = sessionStorage.getItem("filtru_nume") ?? filtreDinCookie.nume ?? inpNume.value;
+    if (txtDescriere) txtDescriere.value = sessionStorage.getItem("filtru_descriere") ?? filtreDinCookie.descriere ?? txtDescriere.value;
+    if (inpCuloare) inpCuloare.value = sessionStorage.getItem("filtru_culoare") ?? filtreDinCookie.culoare ?? inpCuloare.value;
+    if (inpGarantie) inpGarantie.value = sessionStorage.getItem("filtru_garantie") ?? filtreDinCookie.garantie ?? inpGarantie.value;
+    if (rngPret) {
+        rngPret.value = sessionStorage.getItem("filtru_pret") ?? filtreDinCookie.pretMax ?? rngPret.value;
         if(infoRange) infoRange.textContent = `(0 - ${rngPret.value} RON)`;
     }
-    if (inpNou && sessionStorage.getItem("filtru_nou")) {
-        inpNou.checked = sessionStorage.getItem("filtru_nou") === "true";
+    if (inpNou) {
+        let valNou = sessionStorage.getItem("filtru_nou") ?? (filtreDinCookie.nou !== undefined ? String(filtreDinCookie.nou) : null);
+        if (valNou !== null) inpNou.checked = valNou === "true";
     }
     if (selectCompat && sessionStorage.getItem("filtru_compatibilitate")) {
         let vectorCompat = JSON.parse(sessionStorage.getItem("filtru_compatibilitate"));
@@ -159,6 +167,20 @@ document.addEventListener("DOMContentLoaded", function () {
         
         let optiuniSelectateCompat = selectCompat ? Array.from(selectCompat.selectedOptions).map(opt => opt.value) : [];
         sessionStorage.setItem("filtru_compatibilitate", JSON.stringify(optiuniSelectateCompat));
+
+        // ETAPA 7: salvam si intr-un COOKIE ultimele filtre setate (spre deosebire de
+        // sessionStorage, cookie-ul supravietuieste si dupa ce inchizi tot browserul)
+        if (typeof setCookie === "function") {
+            setCookie("ultimele_filtre_setate", JSON.stringify({
+                nume: inpNume ? inpNume.value : "",
+                descriere: txtDescriere ? txtDescriere.value : "",
+                culoare: inpCuloare ? inpCuloare.value : "",
+                garantie: inpGarantie ? inpGarantie.value : "",
+                pretMax: rngPret ? rngPret.value : "",
+                nou: inpNou ? inpNou.checked : false,
+                categorie: radCategorieSelected
+            }), 30 * 24 * 60 * 60); // 30 de zile
+        }
 
         let valNume = inpNume ? eliminaDiacritice(inpNume.value.toLowerCase()) : "";
         let valDescriere = txtDescriere ? eliminaDiacritice(txtDescriere.value.toLowerCase()) : "";
@@ -547,100 +569,19 @@ document.addEventListener("DOMContentLoaded", function () {
     initModalProduse(document);
 
     // =======================================================================
-    // BONUS 20: COMPARARE (Stocare Locală)
-    // Butoanele "Compară" sunt interogate live (nu un snapshot static), ca sa
-    // functioneze si pt cardurile generate dinamic de Bonus 10.
+    // BONUS 20: COMPARARE — mutată în resurse/js/comparare.js (fișier global, încărcat pe
+    // orice pagină din head.ejs), pentru că butonul "Compară" trebuie să existe și pe pagina
+    // fiecărui produs individual, nu doar în tabelul de produse.
+    // Aici doar expunem un "reinitCarduri" pentru cardurile noi generate de Bonus 10, care
+    // cheamă mai departe initButoaneBonus6 + initModalProduse (locale acestui fisier) și
+    // window.__pcbuilds.initBtnComparare (functia globala din comparare.js).
     // =======================================================================
-    const containerComparare = document.getElementById("container-comparare");
-    const listaComparare = document.getElementById("produse-comparare-lista");
-    const btnAfiseaza = document.getElementById("btn-afiseaza-comparare");
-
-    if(containerComparare && listaComparare && btnAfiseaza) {
-        let lastAction = localStorage.getItem("comparare-timestamp");
-        if (lastAction && (new Date().getTime() - parseInt(lastAction) > 24 * 60 * 60 * 1000)) {
-            localStorage.removeItem("produse-comparare");
-            localStorage.removeItem("comparare-timestamp");
-        }
-
-        let comparare = JSON.parse(localStorage.getItem("produse-comparare")) || [];
-
-        function salveazaComparare() {
-            localStorage.setItem("produse-comparare", JSON.stringify(comparare));
-            localStorage.setItem("comparare-timestamp", new Date().getTime().toString());
-            randeazaComparare();
-        }
-
-        function randeazaComparare() {
-            let btnComparareList = document.querySelectorAll(".btn-comparare"); // interogare live
-            listaComparare.innerHTML = "";
-            
-            if (comparare.length === 0) {
-                containerComparare.style.display = "none";
-                btnComparareList.forEach(btn => {
-                    btn.disabled = false; btn.title = ""; btn.innerHTML = '<i class="fa-solid fa-scale-balanced"></i> Compară';
-                });
-                return;
-            }
-
-            containerComparare.style.display = "block";
-
-            comparare.forEach((prod, index) => {
-                let div = document.createElement("div");
-                div.className = "d-flex justify-content-between align-items-center mb-2 p-2";
-                div.style.border = "1px solid var(--secondary-color, #ccc)"; div.style.borderRadius = "5px";
-                div.innerHTML = `<span style="font-size: 0.9em; font-weight: bold; color: var(--text-color);">${prod.nume}</span>
-                    <button class="btn btn-sm btn-danger btn-sterge-comp" data-index="${index}" title="Șterge produsul"><i class="fa-solid fa-trash"></i></button>`;
-                listaComparare.appendChild(div);
-            });
-
-            document.querySelectorAll(".btn-sterge-comp").forEach(btn => {
-                btn.onclick = function() {
-                    comparare.splice(parseInt(this.getAttribute("data-index")), 1);
-                    salveazaComparare();
-                };
-            });
-
-            if (comparare.length === 2) {
-                btnAfiseaza.style.display = "block"; 
-                btnComparareList.forEach(btn => { btn.disabled = true; btn.title = "ștergeți un produs din lista de comparare"; });
-            } else {
-                btnAfiseaza.style.display = "none"; 
-                btnComparareList.forEach(btn => {
-                    if (comparare.find(p => p.id === btn.getAttribute("data-id"))) {
-                        btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-check"></i> Selectat'; btn.title = "Acest produs este deja în lista de comparare.";
-                    } else {
-                        btn.disabled = false; btn.title = ""; btn.innerHTML = '<i class="fa-solid fa-scale-balanced"></i> Compară';
-                    }
-                });
-            }
-        }
-
-        function initBtnComparare(scopeEl) {
-            (scopeEl || document).querySelectorAll(".btn-comparare").forEach(btn => {
-                btn.onclick = function() {
-                    if (comparare.length < 2) {
-                        comparare.push({ id: this.getAttribute("data-id"), nume: this.getAttribute("data-nume") });
-                        salveazaComparare();
-                    }
-                };
-            });
-            randeazaComparare(); // sincronizeaza starea disabled/selectat pt butoanele noi
-        }
-
-        btnAfiseaza.onclick = function() {
-            if (comparare.length === 2) window.open('/compara/' + comparare[0].id + '/' + comparare[1].id, '_blank');
-        };
-
-        initBtnComparare(document);
-
-        // Expunem functiile de re-initializare, folosite de Bonus 10 dupa fetch()
-        window.__pcbuilds = window.__pcbuilds || {};
-        window.__pcbuilds.reinitCarduri = function (scopeEl) {
-            initButoaneBonus6(scopeEl);
-            initModalProduse(scopeEl);
-            initBtnComparare(scopeEl);
-        };
-    }
+    window.__pcbuilds = window.__pcbuilds || {};
+    window.__pcbuilds.reinitCarduri = function (scopeEl) {
+        initButoaneBonus6(scopeEl);
+        initModalProduse(scopeEl);
+        if (window.__pcbuilds.initBtnComparare) window.__pcbuilds.initBtnComparare(scopeEl);
+    };
 
     // =======================================================================
     // BONUS 10a + 10b (Etapa 6): Filtrare si sortare pe server, prin fetch()

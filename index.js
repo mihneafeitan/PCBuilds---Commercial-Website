@@ -123,7 +123,7 @@ if (fs.existsSync(obGlobal.folderScss)) {
 }
 
 function initErori() {
-    let caleFisier = path.join(__dirname, 'erori.json');
+    let caleFisier = path.join(__dirname, 'resurse/json/erori.json');
     if (!fs.existsSync(caleFisier)) {
         console.error("Eroare CRITICA: Nu există fișierul erori.json!");
         process.exit();
@@ -151,16 +151,16 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// --- Etapa 6, Bonus 18: interval de timp in care un produs e considerat "nou pe site" ---
+//  Etapa 6, Bonus 18: interval de timp in care un produs e considerat "nou pe site" ---
 const T_PRODUS_NOU_MS = 14 * 24 * 60 * 60 * 1000; // 14 zile
-// *** La prezentare, poți scădea valoarea (ex: 5 * 60 * 1000 = 5 minute) ca să arăți efectul rapid. ***
+//  (ex: 5 * 60 * 1000 = 5 minute)  ***
 app.use((req, res, next) => {
     res.locals.T_PRODUS_NOU_MS = T_PRODUS_NOU_MS;
     next();
 });
 
 // --- Etapa 6, Bonus 12: Motor generare si gestionare oferte automate în JSON ---
-const ofertePath = path.join(__dirname, 'oferte.json');
+const ofertePath = path.join(__dirname, 'resurse/json/oferte.json');
 
 let categoriiOfertare = [];
 pool.query("SELECT unnest(enum_range(NULL::categorie_produs))::text AS categorie").then(res => {
@@ -248,7 +248,7 @@ function getAnotimp() {
 }
 
 app.use(async (req, res, next) => {
-    let galeriePath = path.join(__dirname, 'galerie.json');
+    let galeriePath = path.join(__dirname, 'resurse/json/galerie.json');
     if (fs.existsSync(galeriePath)) {
         try {
             let dateGalerie = JSON.parse(fs.readFileSync(galeriePath, 'utf-8'));
@@ -425,7 +425,7 @@ app.get('/produse', async (req, res) => {
     }
 });
 
-// --- RUTA COMPLEMENTARĂ PENTRU PAGINA FIECĂRUI PRODUS (LIPSEA COMPLET!) ---
+// --- RUTA COMPLEMENTARĂ PENTRU PAGINA FIECĂRUI PRODUS  ---
 // --- RUTA PENTRU PAGINA FIECĂRUI PRODUS (ACTUALIZATĂ PENTRU BONUS 17) ---
 app.get('/produs/:id', async (req, res) => {
     try {

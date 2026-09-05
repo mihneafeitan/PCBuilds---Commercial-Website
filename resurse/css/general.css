@@ -681,6 +681,104 @@ footer p small {
 }
 
 /* ====================================================
+   ETAPA 7: BANNER COOKIES CU ANIMATIE (animatie-banner)
+==================================================== */
+#banner {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 20vw;              /* patrat cu latura = 1/5 din latimea ecranului */
+    height: 20vw;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: auto;
+    font-size: 1vw;           /* dimensiunea literelor depinde si ea de latimea ecranului */
+    color: #ffffff;
+    z-index: 10600;
+    border-top-right-radius: 12px;
+    transform-origin: bottom left;   /* animatia porneste din coltul stanga-jos */
+    animation: aparitieBanner 5s ease-out forwards;
+}
+
+@keyframes aparitieBanner {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        background-color: var(--bg-color-main);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.75;
+        background-color: var(--primary-color);
+    }
+}
+
+#banner.ascuns {
+    display: none !important;
+}
+
+#ok_cookies {
+    display: block;
+    margin: 8px auto 0 auto;
+    font-size: 0.85em;
+    padding: 3px 14px;
+    border-radius: 6px;
+    border: none;
+    background-color: var(--accent-color);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* Pe ecran mediu si mic: bannerul e static, fara animatie (stare finala direct) */
+@media (max-width: 1023.98px) {
+    #banner {
+        animation: none;
+        transform: scale(1);
+        opacity: 0.75;
+        background-color: var(--primary-color);
+    }
+}
+
+/* ====================================================
+   ETAPA 7: FIX culori accordion (bootstrap_js)
+   Bootstrap ia implicit --bs-accordion-bg / --bs-accordion-color din
+   --bs-body-bg / --bs-body-color, care in custom.scss sunt fortate la alb
+   (#fff), deci fara asta accordionul era alb pe alb pe orice tema.
+==================================================== */
+#accordionProdus {
+    --bs-accordion-color: var(--text-color);
+    --bs-accordion-bg: var(--bg-color-alt);
+    --bs-accordion-border-color: var(--secondary-color);
+    --bs-accordion-btn-color: var(--text-color);
+    --bs-accordion-btn-bg: var(--bg-color-alt);
+    --bs-accordion-active-color: var(--primary-color);
+    --bs-accordion-active-bg: var(--bg-color-main);
+}
+
+/* Iconita sageata implicita din Bootstrap e un SVG cu contur alb fix in cod -
+   ar ramane invizibila pe temele cu fundal deschis (light, sepia). O inlocuim
+   cu o sageata desenata din CSS, colorata cu var(--text-color), ca sa se vada
+   pe orice tema. */
+#accordionProdus .accordion-button::after {
+    background-image: none !important;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid var(--text-color);
+    border-bottom: 2px solid var(--text-color);
+    transform: rotate(45deg);
+    transition: transform 0.2s ease-in-out;
+    margin-right: 6px;
+}
+#accordionProdus .accordion-button:not(.collapsed)::after {
+    transform: rotate(-135deg);
+}
+
+/* ====================================================
    ETAPA 5: EFECTE CSS SPECIALE
 ==================================================== */
 

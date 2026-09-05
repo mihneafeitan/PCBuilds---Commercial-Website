@@ -1,5 +1,18 @@
 <footer>
     <p id="print-banner" style="display:none;">Acesta este un proiect școlar!</p>
+
+    <!-- ETAPA 7 (animatie-banner): banner cu disclaimer + acceptare cookie-uri -->
+    <p id="banner">Acesta este un proiect scolar. <span id="mesaj-cookies">Acceptati cookie-urile de pe site? <button id="ok_cookies">Ok</button></span></p>
+
+    <!-- ETAPA 6 (Bonus 20): widget flotant de comparare produse, prezent pe orice pagina -->
+    <div id="container-comparare" class="p-3 shadow-lg" style="display: none; position: fixed; bottom: 20px; right: 20px; background-color: var(--bg-color-alt); border: 2px solid var(--primary-color); border-radius: 10px; z-index: 10000; min-width: 320px;">
+        <h5 style="color: var(--primary-color); margin-bottom: 15px; font-size: 1.1rem;"><i class="fa-solid fa-scale-balanced"></i> Produse de comparat:</h5>
+        <div id="produse-comparare-lista"></div>
+        <button id="btn-afiseaza-comparare" class="btn btn-success w-100 mt-3" style="display: none;">
+            <i class="fa-solid fa-table-columns"></i> Afișează
+        </button>
+    </div>
+
     <address>
         <div id="contact" class="footer-contact">Contact</div>
 
@@ -11,8 +24,10 @@
         <br>
         Scrie-ne pe email la: <a href="mailto:contact@pcbuilds.ro">contact@pcbuilds.ro</a><br>
         <a href="https://wa.me/40722888999" target="_blank">Vorbeste cu noi pe WhatsApp</a><br><br>
-        
-        
+
+        <!-- ETAPA 7: afisare info cookie-uri, completata de JS din resurse/js/cookies.js -->
+        <small id="info-cookies" style="display: block; opacity: 0.75; margin-top: 10px;"></small>
+
     </address>
 <p>
         <small>
